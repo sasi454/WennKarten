@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Guten Flug ✈️</title>
+
+  <style>
+    :root{
+      --bg:#0f172a;
+      --card:#ffffff10;
+      --text:#ffffff;
+      --muted:#cbd5e1;
+      --btn:#ffffff;
+      --btnText:#0f172a;
+      --radius:22px;
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1000px 700px at 20% 10%, #26307a 0%, transparent 60%),
+                  radial-gradient(800px 600px at 90% 30%, #7a2650 0%, transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      overflow:hidden; /* damit das Flugzeug schön „durchfliegt“ */
+      padding: 18px;
+    }
+
+    .card{
+      width:min(560px, 100%);
+      background: var(--card);
+      border: 1px solid #ffffff1a;
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px 20px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    h1{
+      font-size: 2rem;
+      margin: 0 0 8px;
+      letter-spacing: .2px;
+    }
+
+    p{
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 1.05rem;
+    }
+
+    /* Herz */
+    .heart{
+      font-size: 54px;
+      margin: 10px 0 6px;
+      animation: beat 1s infinite;
+      filter: drop-shadow(0 10px 25px rgba(255,0,90,.22));
+    }
+
+    @keyframes beat{
+      0%{ transform: scale(1); }
+      50%{ transform: scale(1.25); }
+      100%{ transform: scale(1); }
+    }
+
+    /* Button */
+    button{
+      padding: 12px 18px;
+      font-size: 16px;
+      margin-top: 14px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      background: var(--btn);
+      color: var(--btnText);
+      font-weight: 800;
+      transition: transform .08s ease, filter .2s ease;
+    }
+    button:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    button:active{ transform: translateY(0px); }
+
+    /* versteckte Nachricht */
+    #hidden{
+      display:none;
+      margin-top: 16px;
+      font-size: 1.06rem;
+      color: #fff;
+      animation: fadeIn .45s ease forwards;
+    }
+    @keyframes fadeIn{
+      from{ opacity:0; transform: translateY(6px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+
+    /* Flugzeug Animation */
+    .plane{
+      position: absolute;
+      top: 14px;
+      left: -80px;
+      font-size: 34px;
+      opacity: .95;
+      animation: fly 8s linear infinite;
+      transform: translateZ(0);
+      pointer-events:none;
+    }
+    @keyframes fly{
+      0%{ transform: translateX(-120px) translateY(0) rotate(8deg); }
+      30%{ transform: translateX(220px) translateY(12px) rotate(10deg); }
+      60%{ transform: translateX(520px) translateY(-6px) rotate(7deg); }
+      100%{ transform: translateX(900px) translateY(8px) rotate(9deg); }
+    }
+
+    /* Wolken */
+    .cloud{
+      position:absolute;
+      font-size: 26px;
+      opacity: .16;
+      animation: drift 14s linear infinite;
+      pointer-events:none;
+      filter: blur(.2px);
+    }
+    .cloud.c1{ top: 70px; left:-120px; animation-duration: 18s; }
+    .cloud.c2{ top: 120px; left:-220px; font-size: 34px; animation-duration: 22s; opacity:.12;}
+    .cloud.c3{ top: 180px; left:-160px; font-size: 22px; animation-duration: 16s; opacity:.14;}
+
+    @keyframes drift{
+      from{ transform: translateX(-140px); }
+      to{ transform: translateX(900px); }
+    }
+
+    .footer{
+      margin-top: 18px;
+      font-size: .92rem;
+      color: #ffffffaa;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    a.next{
+      color:#fff;
+      text-decoration:none;
+      font-weight:800;
+      padding: 10px 12px;
+      border:1px solid #ffffff22;
+      border-radius: 14px;
+      background: #ffffff12;
+      transition: transform .08s ease, border-color .2s ease;
+    }
+    a.next:hover{ transform: translateY(-1px); border-color:#ffffff40; }
+  </style>
+</head>
+
+<body>
+  <!-- „Deko“-Animationen -->
+  <div class="plane" aria-hidden="true">✈️</div>
+  <div class="cloud c1" aria-hidden="true">☁️</div>
+  <div class="cloud c2" aria-hidden="true">☁️</div>
+  <div class="cloud c3" aria-hidden="true">☁️</div>
+
+  <main class="card">
+    <h1>Guten Flug ✈️</h1>
+    <p>Ich vermisse dich jetzt schon…</p>
+
+    <div class="heart">❤️</div>
+
+    <button onclick="showMessage()">Klick mich</button>
+
+    <p id="hidden">
+      Komm gut an und denk an mich 🥺💖
+    </p>
+
+    <div class="footer">
+      <span>💛 Karte 1 von 12</span>
+      <a class="next" href="karte2_angekommen.html">Weiter ›</a>
+    </div>
+  </main>
+
+  <script>
+    function showMessage() {
+      const el = document.getElementById("hidden");
+      el.style.display = "block";
+
+      // Optional: beim Klick kurz ein paar „Herz-Funken“ (klein & süß)
+      for (let i = 0; i < 10; i++) {
+        const s = document.createElement("span");
+        s.textContent = ["💛","💗","💞","✨"][Math.floor(Math.random()*4)];
+        s.style.position = "fixed";
+        s.style.left = (50 + (Math.random()*120 - 60)) + "vw";
+        s.style.top  = (55 + (Math.random()*80 - 40)) + "vh";
+        s.style.fontSize = (14 + Math.random()*14) + "px";
+        s.style.opacity = "0.9";
+        s.style.transition = "transform 1.2s ease, opacity 1.2s ease";
+        document.body.appendChild(s);
+
+        requestAnimationFrame(() => {
+          s.style.transform = `translate(${(Math.random()*160-80)}px, ${-(80+Math.random()*120)}px)`;
+          s.style.opacity = "0";
+        });
+
+        setTimeout(() => s.remove(), 1300);
+      }
+    }
+  </script>
+</body>
+</html>
