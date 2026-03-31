@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Öffne mich, wenn… 💛</title>
+  <style>
+    :root{
+      --bg1:#0f172a;
+      --bg2:#111b3a;
+      --card:#ffffff10;
+      --text:#f6f7ff;
+      --muted:#cfd3ffcc;
+      --accent:#ff4d88;
+      --accent2:#7c4dff;
+      --btn:#ffffff18;
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --radius: 22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 650px at 20% 10%, #2b2d6a 0%, transparent 60%),
+        radial-gradient(900px 600px at 90% 30%, #6a2b50 0%, transparent 55%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .card{
+      width:min(720px, 100%);
+      background:var(--card);
+      backdrop-filter: blur(10px);
+      border:1px solid #ffffff1a;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+    h1{margin:0 0 8px; font-size:1.6rem;}
+    p{margin:0 0 14px; color:var(--muted); line-height:1.5;}
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid #ffffff22;
+      background:#ffffff10;
+      font-size:.92rem;
+      margin-bottom:12px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    a.btn{
+      text-decoration:none;
+      color:var(--text);
+      background:var(--btn);
+      border:1px solid #ffffff22;
+      border-radius:16px;
+      padding:12px 14px;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      transition: transform .08s ease, border-color .2s ease, background .2s ease;
+    }
+    a.btn:hover{ transform: translateY(-1px); border-color:#ffffff40; }
+    .tag{ font-size:.9rem; opacity:.92; }
+    .num{
+      width:28px; height:28px;
+      border-radius:10px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      font-size:.9rem;
+    }
+    .footer{
+      margin-top:14px;
+      font-size:.92rem;
+      color:#ffffffaa;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:space-between;
+    }
+    code{background:#00000026; padding:2px 6px; border-radius:8px;}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="badge">💌 Öffne mich, wenn… • Start</div>
+    <h1>Dein kleines Reise‑Kartenset (12 Karten)</h1>
+    <p>Jede Karte ist eine eigene Webseite (HTML). Für jeden QR‑Code nimmst du einfach den Link zur passenden Datei.</p>
+
+    <div class="grid">
+      <a class="btn" href="karte1_flug.html"><span><span class="num">1</span> <span class="tag">Im Flieger ✈️</span></span><span>›</span></a>
+      <a class="btn" href="karte2_angekommen.html"><span><span class="num">2</span> <span class="tag">Angekommen 🌍</span></span><span>›</span></a>
+      <a class="btn" href="karte3_vermissen.html"><span><span class="num">3</span> <span class="tag">Vermissen 💭</span></span><span>›</span></a>
+      <a class="btn" href="karte4_kuss.html"><span><span class="num">4</span> <span class="tag">Kuss 😘</span></span><span>›</span></a>
+      <a class="btn" href="karte5_schlafen.html"><span><span class="num">5</span> <span class="tag">Nicht schlafen 🌙</span></span><span>›</span></a>
+      <a class="btn" href="karte6_motivation.html"><span><span class="num">6</span> <span class="tag">Motivation 🔥</span></span><span>›</span></a>
+      <a class="btn" href="karte7_lachen.html"><span><span class="num">7</span> <span class="tag">Lachen 😂</span></span><span>›</span></a>
+      <a class="btn" href="karte8_heimweh.html"><span><span class="num">8</span> <span class="tag">Heimweh 🫶</span></span><span>›</span></a>
+      <a class="btn" href="karte9_stimmung.html"><span><span class="num">9</span> <span class="tag">Stimmung 🎛️</span></span><span>›</span></a>
+      <a class="btn" href="karte10_wir.html"><span><span class="num">10</span> <span class="tag">Wir 🧡</span></span><span>›</span></a>
+      <a class="btn" href="karte11_playlist.html"><span><span class="num">11</span> <span class="tag">Playlist 🎧</span></span><span>›</span></a>
+      <a class="btn" href="karte12_finale.html"><span><span class="num">12</span> <span class="tag">Finale ✨</span></span><span>›</span></a>
+    </div>
+
+    <div class="footer">
+      <span>🔗 Beispiel-Link für QR: <code>…/karte1_flug.html</code></span>
+      <span>✅ Mobilfreundlich • ✅ Ohne Login</span>
+    </div>
+  </main>
+</body>
+</html>
