@@ -30,7 +30,7 @@
                   radial-gradient(800px 600px at 90% 30%, #7a2650 0%, transparent 55%),
                   var(--bg);
       color: var(--text);
-      overflow:hidden; /* damit das Flugzeug schön „durchfliegt“ */
+      overflow:hidden; /* damit die Deko durchfliegen kann */
       padding: 18px;
     }
 
@@ -103,22 +103,36 @@
       to{ opacity:1; transform: translateY(0); }
     }
 
-    /* Flugzeug Animation */
+    /* ===== Natürlichere Flugzeug-Animation =====
+       Trick: Wir kombinieren 2 Animationen:
+       - flyPath: bewegt das Flugzeug von links nach rechts
+       - bob: kleine Wellenbewegung + minimaler Neigungswechsel
+    */
     .plane{
       position: absolute;
-      top: 14px;
-      left: -80px;
+      top: 40px;
+      left: -120px;
       font-size: 34px;
       opacity: .95;
-      animation: fly 8s linear infinite;
-      transform: translateZ(0);
       pointer-events:none;
+      transform: translateZ(0);
+      animation:
+        flyPath 10.5s linear infinite,
+        bob 2.8s ease-in-out infinite;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
     }
-    @keyframes fly{
-      0%{ transform: translateX(-120px) translateY(0) rotate(8deg); }
-      30%{ transform: translateX(220px) translateY(12px) rotate(10deg); }
-      60%{ transform: translateX(520px) translateY(-6px) rotate(7deg); }
-      100%{ transform: translateX(900px) translateY(8px) rotate(9deg); }
+
+    @keyframes flyPath{
+      0%   { left: -140px; }
+      100% { left: calc(100vw + 160px); }
+    }
+
+    @keyframes bob{
+      0%   { transform: translateY(0) rotate(8deg); }
+      25%  { transform: translateY(6px) rotate(10deg); }
+      50%  { transform: translateY(0) rotate(7deg); }
+      75%  { transform: translateY(-6px) rotate(9deg); }
+      100% { transform: translateY(0) rotate(8deg); }
     }
 
     /* Wolken */
@@ -126,46 +140,23 @@
       position:absolute;
       font-size: 26px;
       opacity: .16;
-      animation: drift 14s linear infinite;
       pointer-events:none;
       filter: blur(.2px);
+      animation: drift 18s linear infinite;
     }
-    .cloud.c1{ top: 70px; left:-120px; animation-duration: 18s; }
-    .cloud.c2{ top: 120px; left:-220px; font-size: 34px; animation-duration: 22s; opacity:.12;}
-    .cloud.c3{ top: 180px; left:-160px; font-size: 22px; animation-duration: 16s; opacity:.14;}
+    .cloud.c1{ top: 90px; left:-240px; animation-duration: 22s; }
+    .cloud.c2{ top: 150px; left:-380px; font-size: 34px; opacity:.12; animation-duration: 26s; }
+    .cloud.c3{ top: 210px; left:-300px; font-size: 22px; opacity:.14; animation-duration: 20s; }
 
     @keyframes drift{
-      from{ transform: translateX(-140px); }
-      to{ transform: translateX(900px); }
+      from{ transform: translateX(-260px); }
+      to{ transform: translateX(calc(100vw + 260px)); }
     }
-
-    .footer{
-      margin-top: 18px;
-      font-size: .92rem;
-      color: #ffffffaa;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-
-    a.next{
-      color:#fff;
-      text-decoration:none;
-      font-weight:800;
-      padding: 10px 12px;
-      border:1px solid #ffffff22;
-      border-radius: 14px;
-      background: #ffffff12;
-      transition: transform .08s ease, border-color .2s ease;
-    }
-    a.next:hover{ transform: translateY(-1px); border-color:#ffffff40; }
   </style>
 </head>
 
 <body>
-  <!-- „Deko“-Animationen -->
+  <!-- Deko -->
   <div class="plane" aria-hidden="true">✈️</div>
   <div class="cloud c1" aria-hidden="true">☁️</div>
   <div class="cloud c2" aria-hidden="true">☁️</div>
@@ -179,14 +170,7 @@
 
     <button onclick="showMessage()">Klick mich</button>
 
-    <p id="hidden">
-      Komm gut an und denk an mich 🥺💖
-    </p>
-
-    <div class="footer">
-      <span>💛 Karte 1 von 12</span>
-      <a class="next" href="karte2_angekommen.html">Weiter ›</a>
-    </div>
+    <p id="hidden">Komm gut an und denk an mich 🥺💖</p>
   </main>
 
   <script>
@@ -194,7 +178,7 @@
       const el = document.getElementById("hidden");
       el.style.display = "block";
 
-      // Optional: beim Klick kurz ein paar „Herz-Funken“ (klein & süß)
+      // kleine Herz-Funken beim Klick
       for (let i = 0; i < 10; i++) {
         const s = document.createElement("span");
         s.textContent = ["💛","💗","💞","✨"][Math.floor(Math.random()*4)];
@@ -204,6 +188,7 @@
         s.style.fontSize = (14 + Math.random()*14) + "px";
         s.style.opacity = "0.9";
         s.style.transition = "transform 1.2s ease, opacity 1.2s ease";
+        s.style.pointerEvents = "none";
         document.body.appendChild(s);
 
         requestAnimationFrame(() => {
