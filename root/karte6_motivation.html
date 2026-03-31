@@ -1,1 +1,80 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Du schaffst das</title>
+  <style>
+    body{
+      margin:0; min-height:100vh; display:grid; place-items:center;
+      background: linear-gradient(135deg, #0b1320, #1c2541);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:#fff;
+    }
+    .wrap{
+      width:min(680px, 92vw);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 24px;
+      padding: 22px 18px;
+      box-shadow: 0 14px 44px rgba(0,0,0,.35);
+    }
+    h1{ margin:0 0 10px; font-size:1.45rem; }
+    .typing{
+      font-size:1.1rem; line-height:1.55;
+      min-height: 5.2em;
+      white-space: pre-wrap;
+    }
+    .cursor{
+      display:inline-block; width:10px; margin-left:3px;
+      background:#fff; height:1.1em; transform: translateY(2px);
+      animation: blink .9s infinite;
+    }
+    @keyframes blink{ 50% { opacity:0; } }
+    button{
+      margin-top:14px;
+      border:0; border-radius:14px;
+      padding:10px 14px;
+      background: rgba(255,255,255,.12);
+      color:#fff; cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Wenn du Motivation brauchst…</h1>
+    <div class="typing"><span id="text"></span><span class="cursor"></span></div>
+    <button id="restart">Nochmal abspielen</button>
+  </div>
 
+  <script>
+    const lines = [
+      "Hey du ❤️",
+      "Du machst das richtig gut.",
+      "Egal, wie anstrengend es gerade ist:",
+      "Ich glaube an dich. Immer.",
+      "",
+      "Und wenn du zweifelst:",
+      "Denk an uns. Denk an zuhause.",
+      "Ich bin da. 🫶"
+    ];
+
+    const target = document.getElementById("text");
+    const full = lines.join("\n");
+    let idx = 0, timer;
+
+    function type(){
+      clearInterval(timer);
+      target.textContent = "";
+      idx = 0;
+      timer = setInterval(() => {
+        target.textContent = full.slice(0, idx++);
+        if(idx > full.length) clearInterval(timer);
+      }, 28); // Geschwindigkeit
+    }
+
+    document.getElementById("restart").addEventListener("click", type);
+    type();
+  </script>
+</body>
+</html>
