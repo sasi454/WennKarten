@@ -1,1 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Heimweh 🫶</title>
+  <style>
 
+:root{
+  --bg:#0f172a;
+  --card:#ffffff10;
+  --text:#ffffff;
+  --muted:#cbd5e1;
+  --btn:#ffffff;
+  --btnText:#0f172a;
+  --radius:22px;
+  --shadow: 0 18px 50px rgba(0,0,0,.35);
+  --accent:#f472b6;
+  --accent2:#60a5fa;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(1000px 700px at 20% 10%, #26307a 0%, transparent 60%),
+    radial-gradient(900px 600px at 90% 30%, #7a2650 0%, transparent 55%),
+    var(--bg);
+  overflow:hidden;
+  padding:18px;
+}
+main.card{
+  width:min(560px, 100%);
+  background:var(--card);
+  border:1px solid #ffffff1a;
+  backdrop-filter: blur(10px);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:24px 20px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  z-index:1;
+}
+h1{font-size:2rem;margin:0 0 8px;letter-spacing:.2px;}
+p{margin:0 0 14px;color:var(--muted);line-height:1.5;font-size:1.05rem;}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:999px;
+  border:1px solid #ffffff22;background:#ffffff10;
+  font-size:.92rem;margin-bottom:12px;
+}
+.dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:0 0 0 4px rgba(244,114,182,.18);
+}
+button{
+  padding:12px 18px;font-size:16px;margin-top:12px;
+  border:none;border-radius:14px;cursor:pointer;
+  background:var(--btn);color:var(--btnText);font-weight:900;
+  transition:transform .08s ease, filter .2s ease;
+}
+button:hover{transform:translateY(-1px);filter:brightness(1.05);}
+button:active{transform:translateY(0px);}
+.hidden{display:none;}
+.fade-in{animation:fadeIn .45s ease forwards;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+.float-emoji{
+  position:fixed;left:50vw;top:60vh;transform:translate(-50%,-50%);
+  opacity:.95;pointer-events:none;z-index:9999;
+  transition: transform 1.2s ease, opacity 1.2s ease;
+  will-change: transform, opacity;
+}
+
+:root{--accent:#fb7185;--accent2:#fbbf24;}
+.warm{font-size:58px;animation:warm 2.6s ease-in-out infinite;filter:drop-shadow(0 14px 24px rgba(0,0,0,.35));}
+@keyframes warm{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.paper{position:fixed;left:-120px;top:30vh;font-size:30px;opacity:.9;pointer-events:none;
+  offset-path: path("M -140 260 C 160 120, 360 420, 660 260 S 1060 180, 1380 280");
+  offset-distance:0%; offset-rotate:auto 18deg;animation: paperFly 9.5s linear infinite;filter:drop-shadow(0 10px 18px rgba(0,0,0,.25));}
+@keyframes paperFly{from{offset-distance:0%}to{offset-distance:100%}}
+@supports not (offset-path: path("M 0 0 L 1 1")){
+  .paper{left:-140px;offset-path:none;offset-rotate:0deg;animation: paperFallback 10s linear infinite;}
+  @keyframes paperFallback{0%{transform:translateX(-140px) translateY(0) rotate(10deg)}50%{transform:translateX(50vw) translateY(-10px) rotate(6deg)}100%{transform:translateX(calc(100vw + 260px)) translateY(6px) rotate(9deg)}}
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="paper" aria-hidden="true">🛩️💛</div>
+  <main class="card">
+    <div class="badge"><span class="dot"></span> Öffne mich, wenn du Heimweh hast</div>
+    <h1>Ich schick dir ein Stück Zuhause 🫶</h1>
+    <p>Heimweh heißt nur, dass du lieben kannst. Und das ist was Gutes.</p>
+    <div class="warm">🏠🤍</div>
+    <button id="btn">Lies das</button>
+    <p id="hidden" class="hidden">Wenn es schwer ist: Leg eine Hand auf die Brust. Genau da bin ich in Gedanken. 💛<br /><strong>Du bist mutig.</strong> Und wir haben uns.</p>
+  </main>
+
+  <script>
+
+function sparkles({amount=12, emojis=["💛","💗","💞","✨","🤍"], x=window.innerWidth/2, y=window.innerHeight*0.58}={}){
+  for(let i=0;i<amount;i++){
+    const s=document.createElement('span');
+    s.className='float-emoji';
+    s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    const size = 14 + Math.random()*16;
+    s.style.fontSize = size+'px';
+    s.style.left = x+'px';
+    s.style.top  = y+'px';
+    document.body.appendChild(s);
+    requestAnimationFrame(()=>{
+      const dx = (Math.random()*180-90);
+      const dy = -(90+Math.random()*140);
+      s.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+      s.style.opacity='0';
+    });
+    setTimeout(()=>s.remove(), 1300);
+  }
+}
+
+const btn=document.getElementById('btn');
+const hidden=document.getElementById('hidden');
+btn.addEventListener('click', ()=>{
+  hidden.classList.remove('hidden');
+  hidden.classList.add('fade-in');
+  sparkles({amount:14, emojis:['🏠','🤍','💛','✨']});
+});
+
+  </script>
+</body>
+</html>
