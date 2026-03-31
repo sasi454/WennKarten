@@ -6,135 +6,243 @@
   <title>Wenn du mich vermisst 🌙</title>
 
   <style>
-    body {
-      margin:0;
-      height:100vh;
-      background: radial-gradient(circle at 50% 30%, #1e293b, #020617);
-      overflow:hidden;
-      font-family: system-ui, sans-serif;
-      color:white;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-    }
+:root{
+  --bg:#020617;
+  --card:#ffffff10;
+  --text:#ffffff;
+  --muted:#cbd5e1;
+  --btn:#ffffff;
+  --btnText:#0f172a;
+  --radius:22px;
+  --shadow: 0 18px 50px rgba(0,0,0,.45);
+  --accent:#a78bfa;
+  --accent2:#60a5fa;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 600px at 20% 15%, #1a1060 0%, transparent 60%),
+    radial-gradient(700px 500px at 85% 25%, #0e2045 0%, transparent 55%),
+    var(--bg);
+  overflow:hidden;
+  padding:18px;
+}
+main.card{
+  width:min(560px, 100%);
+  background:var(--card);
+  border:1px solid #ffffff1a;
+  backdrop-filter: blur(10px);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:24px 20px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  z-index:1;
+}
+h1{font-size:2rem;margin:0 0 8px;letter-spacing:.2px;}
+p{margin:0 0 14px;color:var(--muted);line-height:1.5;font-size:1.05rem;}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:999px;
+  border:1px solid #ffffff22;background:#ffffff10;
+  font-size:.92rem;margin-bottom:12px;
+}
+.dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:0 0 0 4px rgba(167,139,250,.22);
+}
+button{
+  padding:12px 18px;font-size:16px;margin-top:12px;
+  border:none;border-radius:14px;cursor:pointer;
+  background:var(--btn);color:var(--btnText);font-weight:900;
+  transition:transform .08s ease, filter .2s ease;
+}
+button:hover{transform:translateY(-1px);filter:brightness(1.05);}
+button:active{transform:translateY(0px);}
+.hidden{display:none;}
+.fade-in{animation:fadeIn .55s ease forwards;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
-    .container {
-      position:relative;
-      z-index:2;
-      padding:20px;
-    }
+/* ----- Countdown ----- */
+.countdown{
+  font-size:.95rem;
+  color:#ffffffbb;
+  margin:4px 0 10px;
+  letter-spacing:.2px;
+}
 
-    h1 {
-      font-size:2rem;
-      margin-bottom:10px;
-    }
+/* ----- Animierter Mond ----- */
+.moon{font-size:52px;filter:drop-shadow(0 12px 28px rgba(167,139,250,.35));animation:moonFloat 3s ease-in-out infinite;}
+@keyframes moonFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 
-    p {
-      color:#cbd5e1;
-      line-height:1.5;
-    }
+/* ----- Nachrichtenbox ----- */
+.msgbox{
+  border:1px solid #ffffff1a;
+  background:#ffffff10;
+  border-radius:18px;
+  padding:14px;
+  text-align:left;
+  color:#ffffffdd;
+  margin-top:12px;
+  font-size:1.04rem;
+  line-height:1.6;
+}
 
-    #message {
-      margin-top:20px;
-      display:none;
-      animation: fadeIn 1s ease forwards;
-    }
+/* ----- Floating-Emojis (Funken) ----- */
+.float-emoji{
+  position:fixed;left:50vw;top:60vh;transform:translate(-50%,-50%);
+  opacity:.95;pointer-events:none;z-index:9999;
+  transition: transform 1.2s ease, opacity 1.2s ease;
+  will-change: transform, opacity;
+}
 
-    @keyframes fadeIn {
-      from {opacity:0; transform:translateY(10px);}
-      to {opacity:1; transform:translateY(0);}
-    }
-
-    /* Sterne */
-    .star {
-      position:absolute;
-      width:2px;
-      height:2px;
-      background:white;
-      opacity:0.8;
-      animation: twinkle 2s infinite alternate;
-    }
-
-    @keyframes twinkle {
-      from {opacity:0.2;}
-      to {opacity:1;}
-    }
-
-    /* Sternschnuppe */
-    .shooting-star {
-      position:absolute;
-      width:2px;
-      height:80px;
-      background: linear-gradient(white, transparent);
-      opacity:0;
-      transform: rotate(45deg);
-    }
-
-    .show {
-      animation: shoot 1s ease-out;
-    }
-
-    @keyframes shoot {
-      0% {
-        opacity:1;
-        transform: translate(0,0) rotate(45deg);
-      }
-      100% {
-        opacity:0;
-        transform: translate(300px,300px) rotate(45deg);
-      }
-    }
-
-    .hint {
-      font-size:0.9rem;
-      margin-top:10px;
-      opacity:0.7;
-    }
+/* ----- Sterne (Canvas) ----- */
+canvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+}
   </style>
 </head>
-
 <body>
 
-  <div class="container">
-    <h1>Wenn du mich vermisst 🌙</h1>
-    <p>Schau kurz in den Himmel…</p>
-    <p class="hint">(Tipp irgendwo hin ✨)</p>
+  <!-- Sternenhimmel -->
+  <canvas id="sky"></canvas>
 
-    <div id="message">
-      <p>
-        Egal wo du bist… wir schauen gerade in den gleichen Himmel 🌌<br><br>
-        Und irgendwo da oben ist ein kleiner Gedanke von mir bei dir 💗
-      </p>
+  <main class="card">
+    <div class="badge"><span class="dot"></span> Öffne mich, wenn du mich vermisst</div>
+    <h1>Ich vermisse dich auch 🌙</h1>
+    <p>Schau kurz hoch – irgendwo da oben schicke ich dir gerade einen Gedanken. ✨</p>
+
+    <div class="moon">🌙</div>
+
+    <!-- Optionaler Countdown: Datum eintragen → z. B. "2026-05-01" -->
+    <div class="countdown" id="countdown"></div>
+
+    <button id="btn">Ich vermisse dich 💭</button>
+    <div id="msgbox" class="msgbox hidden">
+      Egal wie weit weg du gerade bist –<br />
+      wir schauen in den gleichen Himmel. 🌌<br /><br />
+      Und irgendwo da oben ist ein kleiner Gedanke von mir genau bei dir.<br /><br />
+      <strong>Ich vermisse dich. Und ich bin so froh, dass es uns gibt. 💗</strong>
     </div>
-  </div>
+  </main>
 
   <script>
-    const message = document.getElementById("message");
-
-    // Sterne generieren
-    for (let i = 0; i < 120; i++) {
-      const star = document.createElement("div");
-      star.className = "star";
-      star.style.top = Math.random() * window.innerHeight + "px";
-      star.style.left = Math.random() * window.innerWidth + "px";
-      star.style.animationDuration = (1 + Math.random()*2) + "s";
-      document.body.appendChild(star);
+    /* ---- optionaler Countdown ---- */
+    const reunionDate = ""; // z. B. "2026-05-01"
+    const countEl = document.getElementById("countdown");
+    if (reunionDate) {
+      const target = new Date(reunionDate + "T12:00:00Z");
+      const diff = target - new Date();
+      const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+      countEl.textContent = days > 0
+        ? `Noch ${days} Tag${days === 1 ? "" : "e"} bis zum Wiedersehen 🤍`
+        : "Heute sehen wir uns wieder. 🤍";
     }
 
-    // Klick zeigt Nachricht + Sternschnuppe
-    document.body.addEventListener("click", () => {
-      message.style.display = "block";
+    /* ---- Funken ---- */
+    function sparkles({ amount = 12, emojis = ["💛", "💗", "💞", "✨", "🌙"], x = window.innerWidth / 2, y = window.innerHeight * 0.55 } = {}) {
+      for (let i = 0; i < amount; i++) {
+        const s = document.createElement("span");
+        s.className = "float-emoji";
+        s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        s.style.fontSize = (14 + Math.random() * 16) + "px";
+        s.style.left = x + "px";
+        s.style.top  = y + "px";
+        document.body.appendChild(s);
+        requestAnimationFrame(() => {
+          const dx = Math.random() * 180 - 90;
+          const dy = -(90 + Math.random() * 140);
+          s.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+          s.style.opacity = "0";
+        });
+        setTimeout(() => s.remove(), 1350);
+      }
+    }
 
-      const star = document.createElement("div");
-      star.className = "shooting-star show";
-      star.style.top = Math.random()*200 + "px";
-      star.style.left = Math.random()*200 + "px";
-      document.body.appendChild(star);
-
-      setTimeout(() => star.remove(), 1000);
+    /* ---- Button ---- */
+    const btn    = document.getElementById("btn");
+    const msgbox = document.getElementById("msgbox");
+    btn.addEventListener("click", () => {
+      msgbox.classList.remove("hidden");
+      msgbox.classList.add("fade-in");
+      shootingStar();
+      sparkles({ amount: 16, emojis: ["🌙", "✨", "💗", "💞", "⭐"] });
     });
-  </script>
 
+    /* ---- Sternschnuppe ---- */
+    function shootingStar() {
+      const canvas = document.getElementById("sky");
+      const ctx = canvas.getContext("2d");
+      const x0 = Math.random() * canvas.width * 0.6;
+      const y0 = Math.random() * canvas.height * 0.3;
+      const len = 120 + Math.random() * 80;
+      let t = 0;
+      function frame() {
+        if (t > 1) return;
+        t += 0.03;
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, 1 - t * 1.6);
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x0 + t * len * 1.2, y0 + t * len * 0.7);
+        ctx.lineTo(x0 + t * len * 1.2 - len * 0.45, y0 + t * len * 0.7 - len * 0.26);
+        ctx.stroke();
+        ctx.restore();
+        requestAnimationFrame(frame);
+      }
+      frame();
+    }
+
+    /* ---- Sternenhimmel (Canvas) ---- */
+    const canvas = document.getElementById("sky");
+    const ctx = canvas.getContext("2d");
+    let w, h, stars;
+
+    function resize() {
+      w = canvas.width  = window.innerWidth  * (window.devicePixelRatio || 1);
+      h = canvas.height = window.innerHeight * (window.devicePixelRatio || 1);
+      canvas.style.width  = window.innerWidth  + "px";
+      canvas.style.height = window.innerHeight + "px";
+      stars = Array.from({ length: 160 }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: (Math.random() * 1.1 + 0.3) * (window.devicePixelRatio || 1),
+        a: Math.random() * 0.7 + 0.2,
+        da: (Math.random() * 0.022 + 0.006) * (Math.random() < .5 ? 1 : -1)
+      }));
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (const st of stars) {
+        st.a += st.da;
+        if (st.a > 1 || st.a < 0.1) st.da *= -1;
+        ctx.globalAlpha = Math.max(0.1, Math.min(1, st.a));
+        ctx.beginPath();
+        ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+        ctx.fillStyle = "#ffffff";
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    /* ---- Automatische Sternschnuppe alle 7 s ---- */
+    setInterval(shootingStar, 7000);
+  </script>
 </body>
 </html>
