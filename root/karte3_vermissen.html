@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wenn du mich vermisst 🌙</title>
+
+  <style>
+    body {
+      margin:0;
+      height:100vh;
+      background: radial-gradient(circle at 50% 30%, #1e293b, #020617);
+      overflow:hidden;
+      font-family: system-ui, sans-serif;
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+    }
+
+    .container {
+      position:relative;
+      z-index:2;
+      padding:20px;
+    }
+
+    h1 {
+      font-size:2rem;
+      margin-bottom:10px;
+    }
+
+    p {
+      color:#cbd5e1;
+      line-height:1.5;
+    }
+
+    #message {
+      margin-top:20px;
+      display:none;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {opacity:0; transform:translateY(10px);}
+      to {opacity:1; transform:translateY(0);}
+    }
+
+    /* Sterne */
+    .star {
+      position:absolute;
+      width:2px;
+      height:2px;
+      background:white;
+      opacity:0.8;
+      animation: twinkle 2s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from {opacity:0.2;}
+      to {opacity:1;}
+    }
+
+    /* Sternschnuppe */
+    .shooting-star {
+      position:absolute;
+      width:2px;
+      height:80px;
+      background: linear-gradient(white, transparent);
+      opacity:0;
+      transform: rotate(45deg);
+    }
+
+    .show {
+      animation: shoot 1s ease-out;
+    }
+
+    @keyframes shoot {
+      0% {
+        opacity:1;
+        transform: translate(0,0) rotate(45deg);
+      }
+      100% {
+        opacity:0;
+        transform: translate(300px,300px) rotate(45deg);
+      }
+    }
+
+    .hint {
+      font-size:0.9rem;
+      margin-top:10px;
+      opacity:0.7;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Wenn du mich vermisst 🌙</h1>
+    <p>Schau kurz in den Himmel…</p>
+    <p class="hint">(Tipp irgendwo hin ✨)</p>
+
+    <div id="message">
+      <p>
+        Egal wo du bist… wir schauen gerade in den gleichen Himmel 🌌<br><br>
+        Und irgendwo da oben ist ein kleiner Gedanke von mir bei dir 💗
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const message = document.getElementById("message");
+
+    // Sterne generieren
+    for (let i = 0; i < 120; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+      star.style.top = Math.random() * window.innerHeight + "px";
+      star.style.left = Math.random() * window.innerWidth + "px";
+      star.style.animationDuration = (1 + Math.random()*2) + "s";
+      document.body.appendChild(star);
+    }
+
+    // Klick zeigt Nachricht + Sternschnuppe
+    document.body.addEventListener("click", () => {
+      message.style.display = "block";
+
+      const star = document.createElement("div");
+      star.className = "shooting-star show";
+      star.style.top = Math.random()*200 + "px";
+      star.style.left = Math.random()*200 + "px";
+      document.body.appendChild(star);
+
+      setTimeout(() => star.remove(), 1000);
+    });
+  </script>
+
+</body>
+</html>
