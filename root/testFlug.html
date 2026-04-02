@@ -30,48 +30,55 @@
     body {
       font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
       color: var(--text-main);
       background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
-      overflow: hidden;
       position: relative;
+      padding: 18px 16px 32px;
+      overflow-x: hidden; /* nur horizontal verhindern, vertikal darf gescrollt werden */
     }
 
-    /* Schwebende "Wolken" im Hintergrund */
+    /* Wrapper für den Inhalt, damit er mittig und breiter ist */
+    .page-wrapper {
+      width: 100%;
+      max-width: 520px; /* etwas breiter als vorher */
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Schwebende Wolken im Hintergrund */
     .cloud {
-      position: absolute;
+      position: fixed;
       background: rgba(255, 255, 255, 0.85);
       border-radius: 999px;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
       filter: blur(0.3px);
       animation: floatClouds 40s linear infinite;
       opacity: 0.9;
+      z-index: 0;
     }
 
     .cloud:nth-child(1) {
-      width: 220px;
-      height: 80px;
-      top: 8%;
+      width: 240px;
+      height: 85px;
+      top: 6%;
       left: -30%;
       animation-duration: 55s;
     }
 
     .cloud:nth-child(2) {
-      width: 160px;
-      height: 60px;
-      top: 28%;
+      width: 180px;
+      height: 65px;
+      top: 30%;
       left: -40%;
       animation-duration: 40s;
       animation-delay: 5s;
     }
 
     .cloud:nth-child(3) {
-      width: 260px;
-      height: 90px;
-      top: 60%;
+      width: 280px;
+      height: 95px;
+      top: 65%;
       left: -35%;
       animation-duration: 65s;
       animation-delay: 10s;
@@ -85,13 +92,14 @@
     .card {
       position: relative;
       width: 100%;
-      max-width: 420px;
       background: var(--card-bg);
       border-radius: var(--radius-card);
       padding: 22px 20px 24px;
       box-shadow: var(--shadow-soft);
       backdrop-filter: blur(10px);
       overflow: hidden;
+      margin-top: 8px;
+      margin-bottom: 18px;
       animation: fadeInUp 0.9s ease-out forwards;
     }
 
@@ -110,15 +118,15 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-soft);
-      background: rgba(255, 255, 255, 0.8);
-      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 5px 11px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.7);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .tag-dot {
@@ -154,13 +162,13 @@
     }
 
     h1 {
-      font-size: 1.5rem;
-      margin-bottom: 4px;
+      font-size: 1.6rem;
+      margin-bottom: 6px;
       padding-right: 40px;
     }
 
     .subtitle {
-      font-size: 0.9rem;
+      font-size: 0.96rem;
       color: var(--text-soft);
       margin-bottom: 18px;
     }
@@ -168,43 +176,47 @@
     .divider {
       height: 1px;
       background: linear-gradient(to right, rgba(255, 255, 255, 0.3), rgba(27, 39, 51, 0.12), rgba(255, 255, 255, 0.0));
-      margin: 8px 0 16px;
+      margin: 8px 0 18px;
     }
 
     .message-block {
-      font-size: 0.95rem;
-      line-height: 1.55;
+      font-size: 0.98rem;
+      line-height: 1.6;
       color: var(--text-main);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+    }
+
+    .message-block p + p {
+      margin-top: 10px;
     }
 
     .message-highlight {
       display: inline-block;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 999px;
-      padding: 3px 10px;
-      font-size: 0.8rem;
-      margin-top: 6px;
+      padding: 5px 12px;
+      font-size: 0.82rem;
+      margin-top: 10px;
       color: var(--text-soft);
     }
 
     .hint {
-      margin-top: 4px;
-      font-size: 0.8rem;
+      margin-top: 8px;
+      font-size: 0.86rem;
       color: var(--text-soft);
       opacity: 0.95;
     }
 
     .btn-primary {
-      margin-top: 18px;
+      margin-top: 20px;
       width: 100%;
       border: none;
       border-radius: 999px;
-      padding: 12px 16px;
+      padding: 13px 16px;
       background: linear-gradient(135deg, #ffb74d, #ff9800);
       color: #2d1600;
       font-weight: 600;
-      font-size: 0.96rem;
+      font-size: 0.98rem;
       letter-spacing: 0.02em;
       box-shadow: 0 12px 25px rgba(255, 152, 0, 0.42);
       cursor: pointer;
@@ -226,14 +238,14 @@
     }
 
     .btn-secondary {
-      margin-top: 10px;
+      margin-top: 12px;
       width: 100%;
       border-radius: 999px;
-      padding: 10px 16px;
+      padding: 11px 16px;
       border: 1px dashed rgba(27, 39, 51, 0.3);
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.9);
       color: var(--text-soft);
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -273,7 +285,7 @@
     }
 
     .surprise-label {
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: var(--accent-strong);
@@ -281,13 +293,13 @@
     }
 
     .surprise-main {
-      font-size: 0.98rem;
+      font-size: 1rem;
       line-height: 1.6;
       margin-bottom: 6px;
     }
 
     .surprise-extra {
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       color: var(--text-soft);
     }
 
@@ -302,15 +314,26 @@
     }
 
     footer {
-      margin-top: 14px;
-      font-size: 0.7rem;
-      color: rgba(74, 85, 104, 0.9);
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: rgba(74, 85, 104, 0.95);
       text-align: center;
     }
 
-    @media (min-height: 750px) {
+    /* ein bisschen mehr „Luft“ auf größeren Bildschirmen */
+    @media (min-width: 768px) {
       body {
-        padding: 32px 18px;
+        padding-top: 32px;
+        padding-bottom: 40px;
+      }
+      .card {
+        padding: 26px 26px 26px;
+      }
+    }
+
+    @media (min-height: 780px) {
+      body {
+        padding-bottom: 48px;
       }
     }
   </style>
@@ -322,71 +345,73 @@
   <div class="cloud"></div>
   <div class="cloud"></div>
 
-  <main class="card" aria-label="Guten Flug Karte">
-    <div class="plane-icon-wrapper" aria-hidden="true">
-      <div class="plane-icon">✈️</div>
-    </div>
-
-    <div class="tag">
-      <span class="tag-dot"></span>
-      <span>Öffne mich, wenn du im Flugzeug sitzt</span>
-    </div>
-
-    <h1>Guten Flug, mein Lieblingsmensch ✈️</h1>
-    <p class="subtitle">
-      Gerade bist du über den Wolken – aber in meinem Kopf und Herzen bist du ganz nah bei mir.
-    </p>
-
-    <div class="divider"></div>
-
-    <section class="message-block">
-      <p>
-        Vielleicht bist du ein bisschen aufgeregt, ein bisschen müde oder einfach neugierig auf das, was vor dir liegt.  
-        Egal wie du dich gerade fühlst: Ich sitze in Gedanken neben dir, mit Kopfhörern, Snacks und viel zu vielen Fragen.
-      </p>
-      <p class="hint">
-        Atme einmal tief ein und aus. Halte für einen Moment inne und schau kurz aus dem Fenster.  
-        Alles, was jetzt vor dir liegt, ist ein kleines Abenteuer – und ich freue mich so darauf, mir später alles erzählen zu lassen.
-      </p>
-      <div class="message-highlight">
-        P.S.: Wenn du nervös bist – klick unbedingt auf den Button unten. 💛
+  <div class="page-wrapper">
+    <main class="card" aria-label="Guten Flug Karte">
+      <div class="plane-icon-wrapper" aria-hidden="true">
+        <div class="plane-icon">✈️</div>
       </div>
-    </section>
 
-    <button id="btnSurprise" class="btn-primary pulse" type="button">
-      <span class="icon">💛</span>
-      <span>Brauchst du gerade ein bisschen Extra-Liebe?</span>
-    </button>
+      <div class="tag">
+        <span class="tag-dot"></span>
+        <span>Öffne mich, wenn du im Flugzeug sitzt</span>
+      </div>
 
-    <button id="btnFact" class="btn-secondary" type="button">
-      <span>✈️</span>
-      <span>Zeig mir einen zufälligen „Über-den-Wolken“-Spruch</span>
-    </button>
-
-    <section id="surpriseBox" class="surprise hidden" aria-live="polite">
-      <div class="surprise-label">Für genau diesen Moment</div>
-      <p class="surprise-main" id="surpriseText">
-        Auch wenn du gerade hunderte Kilometer von mir entfernt bist, bist du trotzdem mein Lieblingsplatz.  
-        Stell dir vor, meine Hand liegt jetzt ganz ruhig in deiner – so lange, bis du dich wieder sicher fühlst. 🤍
+      <h1>Guten Flug, mein Lieblingsmensch ✈️</h1>
+      <p class="subtitle">
+        Gerade bist du über den Wolken – aber in meinem Kopf und Herzen bist du ganz nah bei mir.
       </p>
-      <p class="surprise-extra">
-        (Wenn dein Herz ganz kurz schneller schlägt, ist das okay. Meines tut es auch, jedes Mal, wenn ich an dich denke.)
-      </p>
-    </section>
 
-    <section id="factBox" class="surprise hidden" aria-live="polite" style="margin-top: 10px;">
-      <div class="surprise-label">Mini-Spruch über den Wolken</div>
-      <p class="surprise-main" id="factText"></p>
-      <p class="surprise-extra">
-        Tipp: Lies den Spruch, schließ kurz die Augen und stell dir vor, ich flüstere ihn dir ins Ohr.
-      </p>
-    </section>
+      <div class="divider"></div>
 
-    <footer>
-      Diese kleine Seite gibt es nur für dich.  
-      Du darfst sie so oft öffnen, wie du möchtest. 💫
-    </footer>
-  </main>
+      <section class="message-block">
+        <p>
+          Vielleicht bist du ein bisschen aufgeregt, ein bisschen müde oder einfach neugierig auf das, was vor dir liegt.  
+          Egal wie du dich gerade fühlst: Ich sitze in Gedanken neben dir, mit Kopfhörern, Snacks und viel zu vielen Fragen.
+        </p>
+        <p class="hint">
+          Atme einmal tief ein und aus. Halte für einen Moment inne und schau kurz aus dem Fenster.  
+          Alles, was jetzt vor dir liegt, ist ein kleines Abenteuer – und ich freue mich so darauf, mir später alles erzählen zu lassen.
+        </p>
+        <div class="message-highlight">
+          P.S.: Wenn du nervös bist – klick unbedingt auf den Button unten. 💛
+        </div>
+      </section>
+
+      <button id="btnSurprise" class="btn-primary pulse" type="button">
+        <span class="icon">💛</span>
+        <span>Brauchst du gerade ein bisschen Extra-Liebe?</span>
+      </button>
+
+      <button id="btnFact" class="btn-secondary" type="button">
+        <span>✈️</span>
+        <span>Zeig mir einen zufälligen „Über-den-Wolken“-Spruch</span>
+      </button>
+
+      <section id="surpriseBox" class="surprise hidden" aria-live="polite">
+        <div class="surprise-label">Für genau diesen Moment</div>
+        <p class="surprise-main" id="surpriseText">
+          Auch wenn du gerade hunderte Kilometer von mir entfernt bist, bist du trotzdem mein Lieblingsplatz.  
+          Stell dir vor, meine Hand liegt jetzt ganz ruhig in deiner – so lange, bis du dich wieder sicher fühlst. 🤍
+        </p>
+        <p class="surprise-extra">
+          (Wenn dein Herz ganz kurz schneller schlägt, ist das okay. Meines tut es auch, jedes Mal, wenn ich an dich denke.)
+        </p>
+      </section>
+
+      <section id="factBox" class="surprise hidden" aria-live="polite" style="margin-top: 10px;">
+        <div class="surprise-label">Mini-Spruch über den Wolken</div>
+        <p class="surprise-main" id="factText"></p>
+        <p class="surprise-extra">
+          Tipp: Lies den Spruch, schließ kurz die Augen und stell dir vor, ich flüstere ihn dir ins Ohr.
+        </p>
+      </section>
+
+      <footer>
+        Diese kleine Seite gibt es nur für dich.  
+        Du darfst sie so oft öffnen, wie du möchtest. 💫
+      </footer>
+    </main>
+  </div>
 
   <script>
     (function () {
@@ -405,9 +430,7 @@
       ];
 
       btnSurprise.addEventListener("click", function () {
-        // Box einblenden
         surpriseBox.classList.remove("hidden");
-        // Puls-Animation nach erstem Klick wegnehmen
         btnSurprise.classList.remove("pulse");
         btnSurprise.textContent = "Du kannst mich jederzeit wieder anklicken 💛";
       });
