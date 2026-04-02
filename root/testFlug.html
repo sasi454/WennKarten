@@ -108,18 +108,22 @@
       text-align: center;
     }
 
-    .ps-inline{
-      text-align: center;
-      font-size: .86rem;
-      color: #334155;
-      margin-top: 4px;
-      margin-bottom: 10px;
+    .ps-tag{
+      display:inline-block;
+      margin: 4px auto 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      font-size: .8rem;
+      color:#334155;
+      background: #ffffff;
+      text-align:center;
     }
 
     .divider{
       height:1px;
       background: linear-gradient(to right, #94a3b833, #64748b40, #ffffff00);
-      margin: 10px 0 16px;
+      margin: 14px 0 16px;
     }
 
     .text-block{
@@ -178,7 +182,7 @@
 
     #quoteBox{
       display:none;
-      margin-top: 14px;
+      margin-top: 10px;
       font-size: .9rem;
       color: #334155;
       border-left: 3px solid #0f172a33;
@@ -224,13 +228,14 @@
         Ich vermisse dich jetzt schon… aber jetzt darfst du erstmal ein kleines Abenteuer erleben. ✨
       </p>
 
-      <!-- P.S.-Text über den Buttons -->
-      <p class="ps-inline">
+      <!-- eingerahmter P.S. Text -->
+      <p class="ps-tag">
         P.S.: Wenn du nervös bist – klick ruhig auf die Buttons.
       </p>
 
-      <!-- Wolkenspruch-Button direkt unter diesem Text -->
+      <!-- Wolkenspruch-Button + Spruch direkt darunter -->
       <button class="btn btn-secondary" onclick="showQuote()">Über-den-Wolken-Spruch ✈️</button>
+      <div id="quoteBox"></div>
 
       <div class="divider"></div>
 
@@ -247,15 +252,13 @@
 
       <div class="heart">❤️</div>
 
-      <!-- Liebesbotschaft-Button bleibt weiter unten -->
+      <!-- Liebesbotschaft-Button weiter unten -->
       <button class="btn" onclick="showMessage()">Mach mich auf 💌</button>
 
       <p id="hidden">
         Komm gut an und fühl dich einmal ganz fest gedrückt.  
         Egal wie weit du fliegst – aus meinem Herzen kommst du nie raus. 💖
       </p>
-
-      <div id="quoteBox"></div>
     </main>
 
     <footer>
@@ -274,14 +277,13 @@
       // Konfetti/Herz-Funken, leicht nach unten verschoben und breiter verteilt
       const card = document.querySelector('.card');
       const rect = card.getBoundingClientRect();
-      const baseY = rect.bottom - rect.height * 0.25 + window.scrollY; // eher im unteren Viertel der Karte
+      const baseY = rect.bottom - rect.height * 0.25 + window.scrollY;
 
       for (let i = 0; i < 10; i++) {
         const s = document.createElement("span");
         s.textContent = ["💛","💗","💞","✨"][Math.floor(Math.random()*4)];
         s.style.position = "fixed";
 
-        // Start eher im unteren Bereich, horizontal über große Breite der Karte
         const startX = rect.left + Math.random() * rect.width;
         const startY = baseY - window.scrollY + (Math.random() * 30 - 15);
 
@@ -317,8 +319,8 @@
       box.textContent = "„" + random + "“";
       box.style.display = "block";
 
-      // smooth scroll zum Spruch
-      box.scrollIntoView({ behavior: "smooth", block: "start" });
+      // smooth scroll zum Spruch (falls auf kleineren Displays nötig)
+      box.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   </script>
 </body>
