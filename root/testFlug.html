@@ -32,7 +32,7 @@
       position: relative;
     }
 
-    /* Wolken wie im ersten Beispiel */
+    /* Wolken-Hintergrund */
     .cloud {
       position: fixed;
       background: rgba(255, 255, 255, 0.9);
@@ -69,34 +69,6 @@
     @keyframes floatClouds {
       0% { transform: translateX(0); }
       100% { transform: translateX(160vw); }
-    }
-
-    /* Flugzeug */
-    .plane{
-      position: fixed;
-      top: 40px;
-      left: -120px;
-      font-size: 34px;
-      opacity: .9;
-      pointer-events:none;
-      transform: translateZ(0);
-      animation:
-        flyPath 11s linear infinite,
-        bob 2.8s ease-in-out infinite;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
-      z-index: 0;
-    }
-    @keyframes flyPath {
-      0%   { left: -140px; top: 60px; }
-      50%  { left: 50vw;   top: 30px; }
-      100% { left: calc(100vw + 160px); top: 55px; }
-    }
-    @keyframes bob{
-      0%   { transform: translateY(0) rotate(8deg); }
-      25%  { transform: translateY(6px) rotate(10deg); }
-      50%  { transform: translateY(0) rotate(7deg); }
-      75%  { transform: translateY(-6px) rotate(9deg); }
-      100% { transform: translateY(0) rotate(8deg); }
     }
 
     .page{
@@ -193,7 +165,7 @@
     .btn:active{ transform: translateY(0px); }
 
     .btn-secondary{
-      margin-top:8px;
+      margin-top:10px;
       background: transparent;
       border: 1px dashed #0f172a55;
       color: var(--muted);
@@ -202,7 +174,7 @@
 
     #hidden{
       display:none;
-      margin-top: 14px;
+      margin-top: 16px;
       font-size: .98rem;
       color: #0f172a;
       animation: fadeIn .45s ease forwards;
@@ -210,7 +182,7 @@
 
     #quoteBox{
       display:none;
-      margin-top: 10px;
+      margin-top: 14px;
       font-size: .9rem;
       color: #334155;
       border-left: 3px solid #0f172a33;
@@ -243,11 +215,10 @@
 </head>
 
 <body>
-  <!-- Wolken + Flugzeug -->
+  <!-- Wolken -->
   <div class="cloud"></div>
   <div class="cloud"></div>
   <div class="cloud"></div>
-  <div class="plane" aria-hidden="true">✈️</div>
 
   <div class="page">
     <main class="card">
@@ -264,8 +235,8 @@
           Egal wie du dich fühlst: In Gedanken sitze ich neben dir und halte deine Hand. ✨
         </p>
         <p>
-          Wenn du kurz aus dem Fenster schaust, stell dir vor, dass irgendwo da unten jemand jetzt genau in
-          diesem Moment an dich denkt.
+          Wenn du kurz aus dem Fenster schaust, stell dir vor, dass irgendwo da unten jemand jetzt
+          genau in diesem Moment an dich denkt.
         </p>
         <span class="ps-tag">P.S.: Wenn dein Bauch kribbelt – das liegt nicht nur am Flugzeug.</span>
       </section>
@@ -293,7 +264,11 @@
       const el = document.getElementById("hidden");
       el.style.display = "block";
 
-      for (let i = 0; i < 8; i++) {
+      // smooth scroll zu diesem Text
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      // Konfetti / Herz-Funken aus deinem Code
+      for (let i = 0; i < 10; i++) {
         const s = document.createElement("span");
         s.textContent = ["💛","💗","💞","✨"][Math.floor(Math.random()*4)];
         s.style.position = "fixed";
@@ -326,6 +301,9 @@
       const random = quotes[Math.floor(Math.random()*quotes.length)];
       box.textContent = "„" + random + "“";
       box.style.display = "block";
+
+      // smooth scroll zum Spruch
+      box.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   </script>
 </body>
