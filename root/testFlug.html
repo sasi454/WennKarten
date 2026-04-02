@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Guten Flug ✈️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Font (optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-gradient-start: #0b7cd5;
+      --bg-gradient-end: #4fc3f7;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --accent: #ffcc80;
+      --accent-strong: #ff9800;
+      --text-main: #1b2733;
+      --text-soft: #4a5568;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.18);
+      --radius-card: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      color: var(--text-main);
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Schwebende "Wolken" im Hintergrund */
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 999px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      filter: blur(0.3px);
+      animation: floatClouds 40s linear infinite;
+      opacity: 0.9;
+    }
+
+    .cloud:nth-child(1) {
+      width: 220px;
+      height: 80px;
+      top: 8%;
+      left: -30%;
+      animation-duration: 55s;
+    }
+
+    .cloud:nth-child(2) {
+      width: 160px;
+      height: 60px;
+      top: 28%;
+      left: -40%;
+      animation-duration: 40s;
+      animation-delay: 5s;
+    }
+
+    .cloud:nth-child(3) {
+      width: 260px;
+      height: 90px;
+      top: 60%;
+      left: -35%;
+      animation-duration: 65s;
+      animation-delay: 10s;
+    }
+
+    @keyframes floatClouds {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(160vw); }
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      background: var(--card-bg);
+      border-radius: var(--radius-card);
+      padding: 22px 20px 24px;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+      animation: fadeInUp 0.9s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+      background: rgba(255, 255, 255, 0.8);
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      margin-bottom: 10px;
+    }
+
+    .tag-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-strong);
+    }
+
+    .plane-icon-wrapper {
+      position: absolute;
+      right: -24px;
+      top: -18px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle at 30% 30%, #ffffff, rgba(255, 255, 255, 0));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .plane-icon {
+      font-size: 2.6rem;
+      transform: rotate(12deg);
+      animation: wigglePlane 4.5s ease-in-out infinite;
+    }
+
+    @keyframes wigglePlane {
+      0%, 100%   { transform: translateY(0) rotate(12deg); }
+      50%        { transform: translateY(-5px) rotate(16deg); }
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 4px;
+      padding-right: 40px;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin-bottom: 18px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.3), rgba(27, 39, 51, 0.12), rgba(255, 255, 255, 0.0));
+      margin: 8px 0 16px;
+    }
+
+    .message-block {
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .message-highlight {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      color: var(--text-soft);
+    }
+
+    .hint {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      opacity: 0.95;
+    }
+
+    .btn-primary {
+      margin-top: 18px;
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 16px;
+      background: linear-gradient(135deg, #ffb74d, #ff9800);
+      color: #2d1600;
+      font-weight: 600;
+      font-size: 0.96rem;
+      letter-spacing: 0.02em;
+      box-shadow: 0 12px 25px rgba(255, 152, 0, 0.42);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, filter 0.12s ease-out;
+    }
+
+    .btn-primary:active {
+      transform: translateY(1.5px) scale(0.99);
+      box-shadow: 0 5px 16px rgba(255, 152, 0, 0.35);
+      filter: brightness(0.96);
+    }
+
+    .btn-primary span.icon {
+      font-size: 1.2rem;
+    }
+
+    .btn-secondary {
+      margin-top: 10px;
+      width: 100%;
+      border-radius: 999px;
+      padding: 10px 16px;
+      border: 1px dashed rgba(27, 39, 51, 0.3);
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--text-soft);
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 0.12s ease-out, transform 0.12s ease-out;
+    }
+
+    .btn-secondary:active {
+      transform: translateY(1px);
+      background: rgba(255, 255, 255, 1);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .surprise {
+      margin-top: 18px;
+      padding: 14px 12px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .surprise-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-strong);
+      margin-bottom: 4px;
+    }
+
+    .surprise-main {
+      font-size: 0.98rem;
+      line-height: 1.6;
+      margin-bottom: 6px;
+    }
+
+    .surprise-extra {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+    }
+
+    .pulse {
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 12px 25px rgba(255, 152, 0, 0.42); }
+      50% { transform: scale(1.02); box-shadow: 0 16px 32px rgba(255, 152, 0, 0.55); }
+      100% { transform: scale(1); box-shadow: 0 12px 25px rgba(255, 152, 0, 0.42); }
+    }
+
+    footer {
+      margin-top: 14px;
+      font-size: 0.7rem;
+      color: rgba(74, 85, 104, 0.9);
+      text-align: center;
+    }
+
+    @media (min-height: 750px) {
+      body {
+        padding: 32px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Wolken im Hintergrund -->
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+
+  <main class="card" aria-label="Guten Flug Karte">
+    <div class="plane-icon-wrapper" aria-hidden="true">
+      <div class="plane-icon">✈️</div>
+    </div>
+
+    <div class="tag">
+      <span class="tag-dot"></span>
+      <span>Öffne mich, wenn du im Flugzeug sitzt</span>
+    </div>
+
+    <h1>Guten Flug, mein Lieblingsmensch ✈️</h1>
+    <p class="subtitle">
+      Gerade bist du über den Wolken – aber in meinem Kopf und Herzen bist du ganz nah bei mir.
+    </p>
+
+    <div class="divider"></div>
+
+    <section class="message-block">
+      <p>
+        Vielleicht bist du ein bisschen aufgeregt, ein bisschen müde oder einfach neugierig auf das, was vor dir liegt.  
+        Egal wie du dich gerade fühlst: Ich sitze in Gedanken neben dir, mit Kopfhörern, Snacks und viel zu vielen Fragen.
+      </p>
+      <p class="hint">
+        Atme einmal tief ein und aus. Halte für einen Moment inne und schau kurz aus dem Fenster.  
+        Alles, was jetzt vor dir liegt, ist ein kleines Abenteuer – und ich freue mich so darauf, mir später alles erzählen zu lassen.
+      </p>
+      <div class="message-highlight">
+        P.S.: Wenn du nervös bist – klick unbedingt auf den Button unten. 💛
+      </div>
+    </section>
+
+    <button id="btnSurprise" class="btn-primary pulse" type="button">
+      <span class="icon">💛</span>
+      <span>Brauchst du gerade ein bisschen Extra-Liebe?</span>
+    </button>
+
+    <button id="btnFact" class="btn-secondary" type="button">
+      <span>✈️</span>
+      <span>Zeig mir einen zufälligen „Über-den-Wolken“-Spruch</span>
+    </button>
+
+    <section id="surpriseBox" class="surprise hidden" aria-live="polite">
+      <div class="surprise-label">Für genau diesen Moment</div>
+      <p class="surprise-main" id="surpriseText">
+        Auch wenn du gerade hunderte Kilometer von mir entfernt bist, bist du trotzdem mein Lieblingsplatz.  
+        Stell dir vor, meine Hand liegt jetzt ganz ruhig in deiner – so lange, bis du dich wieder sicher fühlst. 🤍
+      </p>
+      <p class="surprise-extra">
+        (Wenn dein Herz ganz kurz schneller schlägt, ist das okay. Meines tut es auch, jedes Mal, wenn ich an dich denke.)
+      </p>
+    </section>
+
+    <section id="factBox" class="surprise hidden" aria-live="polite" style="margin-top: 10px;">
+      <div class="surprise-label">Mini-Spruch über den Wolken</div>
+      <p class="surprise-main" id="factText"></p>
+      <p class="surprise-extra">
+        Tipp: Lies den Spruch, schließ kurz die Augen und stell dir vor, ich flüstere ihn dir ins Ohr.
+      </p>
+    </section>
+
+    <footer>
+      Diese kleine Seite gibt es nur für dich.  
+      Du darfst sie so oft öffnen, wie du möchtest. 💫
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      const surpriseBox = document.getElementById("surpriseBox");
+      const factBox = document.getElementById("factBox");
+      const btnSurprise = document.getElementById("btnSurprise");
+      const btnFact = document.getElementById("btnFact");
+      const factText = document.getElementById("factText");
+
+      const facts = [
+        "Über den Wolken sieht alles kleiner aus – außer das Gefühl, jemanden zu haben, der auf dich wartet.",
+        "Jede Wolke unter dir ist wie eine kleine Erinnerung daran, wie weich meine Umarmungen sind.",
+        "Die Erde wirkt von oben so ruhig – genauso ruhig soll es sich in deinem Herzen anfühlen.",
+        "Es ist völlig egal, wie weit du fliegst: Du bewegst dich immer in meiner Richtung.",
+        "Wenn du gerade aus dem Fenster schaust: Irgendwo da unten sitze ich und denke genau jetzt an dich."
+      ];
+
+      btnSurprise.addEventListener("click", function () {
+        // Box einblenden
+        surpriseBox.classList.remove("hidden");
+        // Puls-Animation nach erstem Klick wegnehmen
+        btnSurprise.classList.remove("pulse");
+        btnSurprise.textContent = "Du kannst mich jederzeit wieder anklicken 💛";
+      });
+
+      btnFact.addEventListener("click", function () {
+        const random = facts[Math.floor(Math.random() * facts.length)];
+        factText.textContent = random;
+        factBox.classList.remove("hidden");
+      });
+    })();
+  </script>
+</body>
+</html>
