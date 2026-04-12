@@ -7,16 +7,19 @@
 
   <style>
     :root{
-      --bg:#0f172a;
-      --card:#ffffff10;
-      --text:#ffffff;
-      --muted:#cbd5e1;
-      --accent:#f472b6;
-      --accent2:#60a5fa;
-      --btn:#ffffff;
-      --btnText:#0f172a;
-      --radius:22px;
-      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --bg: #020617;
+      --bg-glow1: #1f3a8a;
+      --bg-glow2: #7e2556;
+      --card: #020617dd;
+      --border: #e5e7eb1a;
+      --text: #f9fafb;
+      --muted: #cbd5e1;
+      --accent: #f973b2;
+      --accent2: #60a5fa;
+      --btn-bg: #f9fafb;
+      --btn-text: #020617;
+      --radius: 22px;
+      --shadow: 0 20px 60px rgba(0,0,0,.6);
     }
 
     *{
@@ -27,333 +30,354 @@
     body{
       margin:0;
       min-height:100vh;
+      font-family: system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(900px 600px at 15% 0%, var(--bg-glow1) 0%, transparent 60%),
+        radial-gradient(800px 600px at 100% 15%, var(--bg-glow2) 0%, transparent 60%),
+        var(--bg);
+      color:var(--text);
       display:flex;
       justify-content:center;
       align-items:flex-start;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:
-        radial-gradient(900px 600px at 20% 10%, #1f3a8a 0%, transparent 60%),
-        radial-gradient(800px 550px at 90% 30%, #7a2650 0%, transparent 55%),
-        var(--bg);
-      color: var(--text);
+      padding:18px 14px 32px;
       overflow-x:hidden;
       overflow-y:auto;
-      padding: 18px 14px 28px;
     }
 
-    .card{
+    .landing-card{
       width:100%;
       max-width:560px;
-      background: var(--card);
-      border: 1px solid #ffffff1a;
-      backdrop-filter: blur(10px);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px 18px 22px;
-      text-align:center;
+      background:var(--card);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      padding:20px 18px 22px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
       position:relative;
       overflow:hidden;
-      margin-top:14px;
-      margin-bottom:18px;
+      backdrop-filter:blur(12px);
+      margin-top:16px;
+      margin-bottom:20px;
     }
 
-    h1{
-      font-size: 1.7rem;
-      margin: 0 0 8px;
-      letter-spacing: .2px;
+    .landing-card::before{
+      content:"";
+      position:absolute;
+      inset:-30%;
+      background:
+        radial-gradient(circle at 0% 0%, #f9731620 0%, transparent 55%),
+        radial-gradient(circle at 100% 40%, #38bdf820 0%, transparent 55%);
+      opacity:0.5;
+      pointer-events:none;
+      z-index:-1;
     }
 
-    p{
-      margin: 0 0 14px;
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 1rem;
-    }
-
-    .badge{
+    .status-chip{
+      align-self:flex-start;
       display:inline-flex;
       align-items:center;
       gap:8px;
       padding:7px 11px;
       border-radius:999px;
-      border:1px solid #ffffff22;
-      background:#ffffff10;
-      font-size:.85rem;
-      margin-bottom:12px;
+      border:1px solid #e5e7eb33;
+      background:#020617aa;
+      font-size:.84rem;
+      color:var(--muted);
     }
-    .dot{
+    .status-chip__dot{
       width:9px;
       height:9px;
       border-radius:999px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 0 4px rgba(244,114,182,.18);
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow:0 0 0 4px rgba(249,115,178,.22);
     }
 
-    .luggage-stage{
-      width: 100%;
-      height: 140px;
-      margin: 0 0 10px;
-      border-radius: 18px;
-      position: relative;
-      overflow:hidden;
-      border: 1px solid #ffffff1a;
+    .headline{
+      text-align:left;
+    }
+    .headline h1{
+      margin:0 0 4px;
+      font-size:1.7rem;
+      letter-spacing:.02em;
+    }
+    .headline p{
+      margin:0;
+      font-size:.98rem;
+      color:var(--muted);
+      line-height:1.5;
+    }
+
+    /* Stage */
+    .stage{
+      width:100%;
+      height:140px;
+      border-radius:18px;
+      border:1px solid var(--border);
       background:
-        radial-gradient(160px 120px at 20% 30%, #ffffff10 0%, transparent 60%),
-        radial-gradient(220px 160px at 80% 70%, #ffffff10 0%, transparent 65%),
-        linear-gradient(135deg, #0b1228, #0b1b3b);
+        radial-gradient(140px 100px at 20% 30%, #f9fafb10 0%, transparent 60%),
+        radial-gradient(200px 140px at 80% 70%, #f9fafb10 0%, transparent 65%),
+        linear-gradient(135deg,#020617,#020617);
+      position:relative;
+      overflow:hidden;
     }
 
-    .luggage-stage::after{
+    .stage::after{
       content:"";
       position:absolute;
       left:0; right:0; bottom:18px;
       height:2px;
-      background: linear-gradient(90deg, transparent, #ffffff22, transparent);
+      background:linear-gradient(90deg,transparent,#e5e7eb33,transparent);
     }
 
     .plane{
       position:absolute;
-      top: 26px;
-      left: -60px;
-      font-size: 28px;
-      opacity:.95;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
+      top:26px;
+      left:-60px;
+      font-size:28px;
+      filter:drop-shadow(0 10px 18px rgba(0,0,0,.55));
+      animation:planeLoop 7s linear infinite;
       pointer-events:none;
-      animation: planeFlight 8s linear infinite;
     }
 
-    @keyframes planeFlight{
-      0%{
-        transform: translateX(0) translateY(0) rotate(10deg);
-      }
-      25%{
-        transform: translateX(40%) translateY(-6px) rotate(12deg);
-      }
-      50%{
-        transform: translateX(90%) translateY(2px) rotate(9deg);
-      }
-      75%{
-        transform: translateX(140%) translateY(-5px) rotate(11deg);
-      }
-      100%{
-        transform: translateX(190%) translateY(0) rotate(10deg);
-      }
+    @keyframes planeLoop{
+      0%   { transform:translateX(0) translateY(0) rotate(11deg); }
+      25%  { transform:translateX(40%) translateY(-6px) rotate(13deg); }
+      50%  { transform:translateX(90%) translateY(3px) rotate(9deg); }
+      75%  { transform:translateX(140%) translateY(-4px) rotate(11deg); }
+      100% { transform:translateX(190%) translateY(0) rotate(11deg); }
     }
 
     .suitcase{
       position:absolute;
       left:50%;
-      bottom: 18px;
-      transform: translateX(-50%) translateY(-110px) scale(.9);
-      font-size: 40px;
+      bottom:18px;
+      transform:translateX(-50%) translateY(-110px) scale(.9);
+      transform-origin:center;
+      font-size:40px;
       opacity:0;
-      filter: drop-shadow(0 14px 20px rgba(0,0,0,.35));
+      filter:drop-shadow(0 14px 20px rgba(0,0,0,.55));
       pointer-events:none;
     }
-
-    .suitcase.drop{
-      animation: dropSuitcase 1.05s cubic-bezier(.2,.9,.2,1.05) both;
+    .suitcase--drop{
+      animation: suitcaseDrop 1.05s cubic-bezier(.2,.9,.2,1.05) both;
     }
 
-    @keyframes dropSuitcase{
-      0%   { transform: translateX(-50%) translateY(-120px) scale(.9); opacity:0; }
-      70%  { transform: translateX(-50%) translateY(0px) scale(1.05); opacity:1; }
-      85%  { transform: translateX(-50%) translateY(-8px) scale(1.0); }
-      100% { transform: translateX(-50%) translateY(0px) scale(1.0); opacity:1; }
+    @keyframes suitcaseDrop{
+      0%   { transform:translateX(-50%) translateY(-120px) scale(.9); opacity:0; }
+      70%  { transform:translateX(-50%) translateY(0)      scale(1.05); opacity:1; }
+      85%  { transform:translateX(-50%) translateY(-8px)   scale(1); }
+      100% { transform:translateX(-50%) translateY(0)      scale(1); opacity:1; }
     }
 
-    button{
-      padding: 11px 16px;
-      font-size: 0.98rem;
-      margin-top: 10px;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      background: var(--btn);
-      color: var(--btnText);
-      font-weight: 900;
-      transition: transform .08s ease, filter .2s ease, box-shadow .1s ease;
-      box-shadow: 0 8px 20px rgba(15,23,42,.45);
+    .cta{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:6px;
+    }
+
+    .cta button{
       width:100%;
+      padding:11px 16px;
+      border-radius:14px;
+      border:none;
+      background:var(--btn-bg);
+      color:var(--btn-text);
+      font-size:.98rem;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 10px 26px rgba(15,23,42,.55);
+      transition:transform .08s ease, box-shadow .1s ease, filter .1s ease;
     }
-    button:hover{ transform: translateY(-1px); filter: brightness(1.03); }
-    button:active{ transform: translateY(0); box-shadow: 0 4px 12px rgba(15,23,42,.45); }
+    .cta button:hover{ transform:translateY(-1px); filter:brightness(1.03); }
+    .cta button:active{ transform:translateY(0); box-shadow:0 5px 14px rgba(15,23,42,.6); }
 
-    #hidden{
+    .message{
       display:none;
-      margin-top: 16px;
-      font-size: 1rem;
-      color: #fff;
-      animation: fadeIn .45s ease forwards;
+      margin-top:4px;
+      font-size:.98rem;
+      color:var(--muted);
+      line-height:1.6;
+      text-align:left;
+      animation:fadeIn .45s ease forwards;
     }
+    .message strong{
+      color:var(--text);
+    }
+
     @keyframes fadeIn{
-      from{ opacity:0; transform: translateY(6px); }
-      to{ opacity:1; transform: translateY(0); }
+      from{ opacity:0; transform:translateY(6px); }
+      to  { opacity:1; transform:translateY(0); }
     }
 
     .confetti{
-      position: fixed;
-      width: 10px;
-      height: 14px;
-      border-radius: 4px;
-      opacity: .95;
+      position:fixed;
+      width:10px;
+      height:14px;
+      border-radius:4px;
+      opacity:.95;
       pointer-events:none;
-      z-index: 9999;
-      will-change: transform, opacity;
+      z-index:9999;
+      will-change:transform,opacity;
     }
 
     .float-heart{
       position:fixed;
-      font-size: 18px;
+      font-size:18px;
       opacity:.85;
       pointer-events:none;
-      z-index: 9999;
-      will-change: transform, opacity;
+      z-index:9999;
+      will-change:transform,opacity;
     }
 
-    /* etwas größere Schrift & mehr Padding auf sehr kleinen Geräten */
-    @media (max-width: 480px){
-      .card{
-        padding: 18px 14px 20px;
+    @media (max-width:480px){
+      .landing-card{
+        padding:16px 14px 18px;
       }
-      h1{
-        font-size: 1.55rem;
+      .headline h1{
+        font-size:1.55rem;
       }
-      p{
-        font-size: 0.98rem;
+      .headline p,
+      .message{
+        font-size:.95rem;
+      }
+      .stage{
+        height:130px;
       }
     }
   </style>
 </head>
 
 <body>
-  <main class="card">
-    <div class="badge">
-      <span class="dot"></span>
+  <article class="landing-card">
+    <div class="status-chip">
+      <span class="status-chip__dot"></span>
       <span>Du bist sicher gelandet ✨</span>
     </div>
 
-    <h1>Angekommen 🌍</h1>
-    <p>
-      Ich hoffe, du bist gut gelandet. Dein Abenteuer fängt jetzt erst richtig an –
-      und <strong>den wichtigsten Schritt hast du schon geschafft.</strong>
-    </p>
+    <header class="headline">
+      <h1>Angekommen 🌍</h1>
+      <p>
+        Ich hoffe, du bist gut gelandet. Ab jetzt wartet dein kleines Abenteuer – 
+        und <strong>den wichtigsten Schritt hast du schon geschafft.</strong>
+      </p>
+    </header>
 
-    <div class="luggage-stage" aria-hidden="true">
-      <div class="plane">✈️</div>
-      <div class="suitcase" id="suitcase">🧳</div>
-    </div>
+    <section class="stage" aria-hidden="true">
+      <div class="plane" aria-hidden="true">✈️</div>
+      <div class="suitcase" id="suitcase" aria-hidden="true">🧳</div>
+    </section>
 
-    <button id="btn">Ich bin angekommen 💗</button>
+    <section class="cta" aria-label="Bestätige deine Ankunft">
+      <button id="btn-arrived" type="button">Ich bin angekommen 💗</button>
+    </section>
 
-    <p id="hidden">
+    <section class="message" id="arrival-message">
       🫶<br />
       Ich bin so froh, dass du sicher angekommen bist. Pass gut auf dich auf –
       und falls du mal vergisst, wie das geht, dann leih dir einfach eine meiner Ängste,
-      die nur deswegen da sind, weil du mir so wichtig bist.
+      die nur da sind, weil du mir so wichtig bist.
       <br /><br />
       <strong>Ich hab dich lieb.</strong> 🤍
-    </p>
-  </main>
+    </section>
+  </article>
 
   <script>
-    const btn = document.getElementById("btn");
-    const hidden = document.getElementById("hidden");
-    const suitcase = document.getElementById("suitcase");
+    const btnArrived  = document.getElementById("btn-arrived");
+    const message     = document.getElementById("arrival-message");
+    const suitcaseEl  = document.getElementById("suitcase");
 
     let isAnimating = false;
 
-    btn.addEventListener("click", () => {
+    btnArrived.addEventListener("click", () => {
       if (isAnimating) return;
       isAnimating = true;
 
-      if (hidden.style.display !== "block") {
-        hidden.style.display = "block";
-
-        // sanft zum Text scrollen – funktioniert auf Handy gut
-        hidden.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (message.style.display !== "block") {
+        message.style.display = "block";
+        message.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
 
-      // Koffer-Animation neu starten
-      suitcase.classList.remove("drop");
-      void suitcase.offsetWidth;
-      suitcase.classList.add("drop");
+      suitcaseEl.classList.remove("suitcase--drop");
+      void suitcaseEl.offsetWidth;
+      suitcaseEl.classList.add("suitcase--drop");
 
-      // Effekte vom Button ausgehend
-      const rect = btn.getBoundingClientRect();
+      const rect = btnArrived.getBoundingClientRect();
       const originX = rect.left + rect.width / 2;
       const originY = rect.top + rect.height / 2;
 
-      confettiBurst(originX, originY);
-      heartsRise(originX, originY);
+      spawnConfetti(originX, originY);
+      spawnHearts(originX, originY);
 
       setTimeout(() => { isAnimating = false; }, 900);
     });
 
-    function confettiBurst(originX, originY){
-      const colors = ["#f472b6", "#60a5fa", "#fbbf24", "#a78bfa", "#22c55e", "#ffffff"];
-      const amount = 22;
+    function spawnConfetti(originX, originY){
+      const colors = ["#f973b2","#60a5fa","#facc15","#a855f7","#22c55e","#ffffff"];
+      const count  = 22;
 
-      for(let i=0;i<amount;i++){
-        const c = document.createElement("div");
-        c.className = "confetti";
-        c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      for(let i=0;i<count;i++){
+        const el = document.createElement("div");
+        el.className = "confetti";
+        el.style.background = colors[Math.floor(Math.random()*colors.length)];
 
-        const startX = originX + (Math.random()*36 - 18);
+        const startX = originX + (Math.random()*34 - 17);
         const startY = originY + (Math.random()*18 - 9);
-        c.style.left = startX + "px";
-        c.style.top  = startY + "px";
+        el.style.left = startX + "px";
+        el.style.top  = startY + "px";
 
-        const w = 6 + Math.random()*8;
-        const h = 10 + Math.random()*10;
-        c.style.width = w + "px";
-        c.style.height = h + "px";
+        el.style.width  = (6 + Math.random()*8)  + "px";
+        el.style.height = (10 + Math.random()*8) + "px";
 
-        document.body.appendChild(c);
+        document.body.appendChild(el);
 
-        const dx = (Math.random()*240 - 120);
-        const dy = -(150 + Math.random()*180);
+        const dx  = (Math.random()*240 - 120);
+        const dy  = -(150 + Math.random()*180);
         const rot = (Math.random()*540 - 270);
 
-        c.animate([
-          { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
-          { transform: `translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity: 0 }
-        ], {
+        el.animate([
+          { transform:"translate(0,0) rotate(0deg)", opacity:1 },
+          { transform:`translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity:0 }
+        ],{
           duration: 1100 + Math.random()*350,
           easing: "cubic-bezier(.2,.8,.2,1)"
         });
 
-        setTimeout(() => c.remove(), 1700);
+        setTimeout(() => el.remove(), 1700);
       }
     }
 
-    function heartsRise(originX, originY){
-      const emojis = ["💗","💛","💞","✨","🤍"]; 
-      for(let i=0;i<10;i++){
-        const h = document.createElement("div");
-        h.className = "float-heart";
-        h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    function spawnHearts(originX, originY){
+      const emojis = ["💗","💛","💞","✨","🤍"];
+      const count  = 10;
 
-        const x = originX + (Math.random()*70 - 35);
-        const y = originY + (Math.random()*10 - 5);
-        h.style.left = x + "px";
-        h.style.top  = y + "px";
-        h.style.fontSize = (16 + Math.random()*16) + "px";
+      for(let i=0;i<count;i++){
+        const el = document.createElement("div");
+        el.className = "float-heart";
+        el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
 
-        document.body.appendChild(h);
+        const startX = originX + (Math.random()*70 - 35);
+        const startY = originY + (Math.random()*10 - 5);
+        el.style.left = startX + "px";
+        el.style.top  = startY + "px";
+        el.style.fontSize = (16 + Math.random()*16) + "px";
+
+        document.body.appendChild(el);
 
         const dx = (Math.random()*110 - 55);
         const dy = -(110 + Math.random()*110);
 
-        h.animate([
-          { transform: "translate(0,0)", opacity: .9 },
-          { transform: `translate(${dx}px, ${dy}px)`, opacity: 0 }
-        ], {
+        el.animate([
+          { transform:"translate(0,0)", opacity:.9 },
+          { transform:`translate(${dx}px, ${dy}px)`, opacity:0 }
+        ],{
           duration: 1300 + Math.random()*500,
           easing: "ease-out"
         });
 
-        setTimeout(() => h.remove(), 1900);
+        setTimeout(() => el.remove(), 1900);
       }
     }
   </script>
