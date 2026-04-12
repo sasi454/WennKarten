@@ -111,23 +111,28 @@
       background:linear-gradient(90deg,transparent,#e5e7eb33,transparent);
     }
 
-    /* Flugzeug: langsam quer durch die Stage */
+    /* Flugzeug: langsam quer durch die Stage, garantiert sichtbar */
     .plane{
       position:absolute;
       top:26px;
-      left:-20%;
+      left:-60px; /* Start knapp außerhalb links */
       font-size:28px;
       filter:drop-shadow(0 10px 18px rgba(0,0,0,.55));
-      animation:planeAcrossStage 11s linear infinite;
+      animation: planeAcrossStage 11s linear infinite;
       pointer-events:none;
+      z-index:1;
     }
 
     @keyframes planeAcrossStage{
-      0%   { transform:translateX(0) translateY(0) rotate(11deg); }
-      25%  { transform:translateX(35%) translateY(-3px) rotate(12deg); }
-      50%  { transform:translateX(80%) translateY(2px) rotate(9deg); }
-      75%  { transform:translateX(125%) translateY(-3px) rotate(11deg); }
-      100% { transform:translateX(170%) translateY(0) rotate(10deg); }
+      0%{
+        transform: translateX(0) translateY(0) rotate(11deg);
+      }
+      50%{
+        transform: translateX(calc(50% + 60px)) translateY(-3px) rotate(12deg);
+      }
+      100%{
+        transform: translateX(calc(100% + 120px)) translateY(0) rotate(10deg);
+      }
     }
 
     .suitcase{
@@ -278,7 +283,7 @@
 
       // Koffer neu droppen
       suitcaseEl.classList.remove("suitcase--drop");
-      void suitcaseEl.offsetWidth;
+      void suitcaseEl.offsetWidth; // Reflow für Neustart
       suitcaseEl.classList.add("suitcase--drop");
 
       const rect = btnArrived.getBoundingClientRect();
