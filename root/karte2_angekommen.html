@@ -7,357 +7,361 @@
 
   <style>
     :root{
-      --bg:#0f172a;
-      --card:#ffffff10;
-      --text:#ffffff;
-      --muted:#cbd5e1;
-      --accent:#f472b6;      /* romantisches pink */
-      --accent2:#60a5fa;     /* weich-blau */
-      --btn:#ffffff;
-      --btnText:#0f172a;
-      --radius:22px;
-      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --bg: #020617;
+      --bg-glow1: #1f3a8a;
+      --bg-glow2: #7e2556;
+      --card: #020617dd;
+      --border: #e5e7eb1a;
+      --text: #f9fafb;
+      --muted: #cbd5e1;
+      --accent: #f973b2;
+      --accent2: #60a5fa;
+      --btn-bg: #f9fafb;
+      --btn-text: #020617;
+      --radius: 22px;
+      --shadow: 0 20px 60px rgba(0,0,0,.6);
     }
 
-    *{ box-sizing:border-box; }
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
     body{
       margin:0;
       min-height:100vh;
+      font-family: system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(900px 600px at 15% 0%, var(--bg-glow1) 0%, transparent 60%),
+        radial-gradient(800px 600px at 100% 15%, var(--bg-glow2) 0%, transparent 60%),
+        var(--bg);
+      color:var(--text);
       display:flex;
       justify-content:center;
-      align-items:center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:
-        radial-gradient(1000px 700px at 20% 10%, #1f3a8a 0%, transparent 60%),
-        radial-gradient(900px 600px at 90% 30%, #7a2650 0%, transparent 55%),
-        var(--bg);
-      color: var(--text);
-      overflow:hidden;
-      padding: 18px;
+      align-items:flex-start;
+      padding:18px 14px 32px;
+      overflow-x:hidden;
+      overflow-y:auto;
     }
 
-    .card{
-      width:min(560px, 100%);
-      background: var(--card);
-      border: 1px solid #ffffff1a;
-      backdrop-filter: blur(10px);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 24px 20px;
-      text-align:center;
+    .landing-card{
+      width:100%;
+      max-width:560px;
+      background:var(--card);
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      padding:20px 18px 22px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
       position:relative;
       overflow:hidden;
+      backdrop-filter:blur(12px);
+      margin-top:16px;
+      margin-bottom:20px;
     }
 
-    h1{
-      font-size: 2rem;
-      margin: 0 0 8px;
-      letter-spacing: .2px;
-    }
-
-    p{
-      margin: 0 0 14px;
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 1.05rem;
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid #ffffff22;
-      background:#ffffff10;
-      font-size:.92rem;
-      margin-bottom:12px;
-    }
-    .dot{
-      width:10px;
-      height:10px;
-      border-radius:999px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 0 4px rgba(244,114,182,.18);
-    }
-
-    /* --- Bildbereich (optional) --- */
-    .photo{
-      width:100%;
-      height: 180px;
-      border-radius: 18px;
-      overflow:hidden;
-      border: 1px solid #ffffff1a;
-      margin: 10px 0 12px;
-      background:
-        radial-gradient(160px 120px at 25% 35%, #ffffff14 0%, transparent 60%),
-        radial-gradient(220px 160px at 75% 65%, #ffffff12 0%, transparent 65%),
-        linear-gradient(135deg, #0b1228, #0b1b3b);
-      position:relative;
-    }
-    .photo img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      opacity:.92;
-    }
-    .photo .hint{
+    .landing-card::before{
+      content:"";
       position:absolute;
-      inset:auto 12px 12px 12px;
-      font-size:.9rem;
-      color:#ffffffcc;
-      background:#00000030;
-      border:1px solid #ffffff22;
-      border-radius: 14px;
-      padding:8px 10px;
-      backdrop-filter: blur(6px);
+      inset:-30%;
+      background:
+        radial-gradient(circle at 0% 0%, #f9731620 0%, transparent 55%),
+        radial-gradient(circle at 100% 40%, #38bdf820 0%, transparent 55%);
+      opacity:0.5;
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    .headline{
       text-align:left;
     }
-
-    /* --- Koffer Drop (Option A) --- */
-    .luggage-stage{
-      width: 100%;
-      height: 140px;
-      margin: 0 0 6px;
-      border-radius: 18px;
-      position: relative;
-      overflow:hidden;
-      border: 1px solid #ffffff1a;
-      background:
-        radial-gradient(160px 120px at 20% 30%, #ffffff10 0%, transparent 60%),
-        radial-gradient(220px 160px at 80% 70%, #ffffff10 0%, transparent 65%),
-        linear-gradient(135deg, #0b1228, #0b1b3b);
+    .headline h1{
+      margin:0 0 4px;
+      font-size:1.7rem;
+      letter-spacing:.02em;
+    }
+    .headline p{
+      margin:0;
+      font-size:.98rem;
+      color:var(--muted);
+      line-height:1.5;
     }
 
-    /* Bodenlinie */
-    .luggage-stage::after{
+    /* Stage – Flugzeug + Koffer im selben Bereich */
+    .stage{
+      width:100%;
+      height:140px;
+      border-radius:18px;
+      border:1px solid var(--border);
+      background:
+        radial-gradient(140px 100px at 20% 30%, #f9fafb10 0%, transparent 60%),
+        radial-gradient(200px 140px at 80% 70%, #f9fafb10 0%, transparent 65%),
+        linear-gradient(135deg,#020617,#020617);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .stage::after{
       content:"";
       position:absolute;
       left:0; right:0; bottom:18px;
       height:2px;
-      background: linear-gradient(90deg, transparent, #ffffff22, transparent);
+      background:linear-gradient(90deg,transparent,#e5e7eb33,transparent);
     }
 
+    /* Flugzeug: langsam quer durch die Stage, garantiert sichtbar */
     .plane{
       position:absolute;
-      top: 18px;
-      left:-120px;
-      font-size: 30px;
-      opacity:.95;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
+      top:26px;
+      left:-60px; /* Start knapp außerhalb links */
+      font-size:28px;
+      filter:drop-shadow(0 10px 18px rgba(0,0,0,.55));
+      animation: planeAcrossStage 11s linear infinite;
       pointer-events:none;
-      /* Kurve fliegen */
-      offset-path: path("M -120 80 C 120 10, 240 120, 360 70 S 620 40, 860 80");
-      offset-distance: 0%;
-      offset-rotate: auto 18deg;
-      animation: flyCurve 7.8s linear infinite;
-    }
-    @keyframes flyCurve{
-      from { offset-distance: 0%; }
-      to   { offset-distance: 100%; }
+      z-index:1;
     }
 
-    /* Fallback falls offset-path nicht unterstützt */
-    @supports not (offset-path: path("M 0 0 L 1 1")){
-      .plane{
-        top: 18px; left:-140px;
-        offset-path:none;
-        offset-rotate:0deg;
-        animation: flyFallback 8s linear infinite;
+    @keyframes planeAcrossStage{
+      0%{
+        transform: translateX(0) translateY(0) rotate(11deg);
       }
-      @keyframes flyFallback{
-        0%{ transform: translateX(-140px) translateY(0) rotate(8deg); }
-        50%{ transform: translateX(50vw) translateY(10px) rotate(10deg); }
-        100%{ transform: translateX(calc(100vw + 260px)) translateY(0) rotate(9deg); }
+      50%{
+        transform: translateX(calc(50% + 60px)) translateY(-3px) rotate(12deg);
+      }
+      100%{
+        transform: translateX(calc(100% + 120px)) translateY(0) rotate(10deg);
       }
     }
 
     .suitcase{
       position:absolute;
       left:50%;
-      bottom: 18px;
-      transform: translateX(-50%) translateY(-110px) scale(.9);
-      font-size: 44px;
+      bottom:18px;
+      transform:translateX(-50%) translateY(-110px) scale(.9);
+      transform-origin:center;
+      font-size:40px;
       opacity:0;
-      filter: drop-shadow(0 14px 20px rgba(0,0,0,.35));
+      filter:drop-shadow(0 14px 20px rgba(0,0,0,.55));
       pointer-events:none;
     }
-
-    .suitcase.drop{
-      animation: dropSuitcase 1.05s cubic-bezier(.2,.9,.2,1.05) both;
+    .suitcase--drop{
+      animation: suitcaseDrop 1.05s cubic-bezier(.2,.9,.2,1.05) both;
     }
 
-    @keyframes dropSuitcase{
-      0%   { transform: translateX(-50%) translateY(-120px) scale(.9); opacity:0; }
-      70%  { transform: translateX(-50%) translateY(0px) scale(1.05); opacity:1; }
-      85%  { transform: translateX(-50%) translateY(-10px) scale(1.0); }
-      100% { transform: translateX(-50%) translateY(0px) scale(1.0); opacity:1; }
+    @keyframes suitcaseDrop{
+      0%   { transform:translateX(-50%) translateY(-120px) scale(.9); opacity:0; }
+      70%  { transform:translateX(-50%) translateY(0)      scale(1.05); opacity:1; }
+      85%  { transform:translateX(-50%) translateY(-8px)   scale(1); }
+      100% { transform:translateX(-50%) translateY(0)      scale(1); opacity:1; }
     }
 
-    /* Button */
-    button{
-      padding: 12px 18px;
-      font-size: 16px;
-      margin-top: 12px;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      background: var(--btn);
-      color: var(--btnText);
-      font-weight: 900;
-      transition: transform .08s ease, filter .2s ease;
+    .cta{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:6px;
     }
-    button:hover{ transform: translateY(-1px); filter: brightness(1.05); }
-    button:active{ transform: translateY(0px); }
 
-    /* Hidden Message */
-    #hidden{
+    .cta button{
+      width:100%;
+      padding:11px 16px;
+      border-radius:14px;
+      border:none;
+      background:var(--btn-bg);
+      color:var(--btn-text);
+      font-size:.98rem;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 10px 26px rgba(15,23,42,.55);
+      transition:transform .08s ease, box-shadow .1s ease, filter .1s ease;
+    }
+    .cta button:hover{ transform:translateY(-1px); filter:brightness(1.03); }
+    .cta button:active{ transform:translateY(0); box-shadow:0 5px 14px rgba(15,23,42,.6); }
+
+    .message{
       display:none;
-      margin-top: 14px;
-      font-size: 1.06rem;
-      color: #fff;
-      animation: fadeIn .45s ease forwards;
+      margin-top:4px;
+      font-size:.98rem;
+      color:var(--muted);
+      line-height:1.6;
+      text-align:left;
+      animation:fadeIn .45s ease forwards;
     }
+    .message strong{
+      color:var(--text);
+    }
+
     @keyframes fadeIn{
-      from{ opacity:0; transform: translateY(6px); }
-      to{ opacity:1; transform: translateY(0); }
+      from{ opacity:0; transform:translateY(6px); }
+      to  { opacity:1; transform:translateY(0); }
     }
 
-    /* Konfetti */
     .confetti{
-      position: fixed;
-      width: 10px;
-      height: 14px;
-      border-radius: 4px;
-      opacity: .95;
+      position:fixed;
+      width:10px;
+      height:14px;
+      border-radius:4px;
+      opacity:.95;
       pointer-events:none;
-      z-index: 9999;
-      will-change: transform, opacity;
+      z-index:9999;
+      will-change:transform,opacity;
     }
 
-    /* kleine Herzen, die sanft aufsteigen */
     .float-heart{
       position:fixed;
-      font-size: 18px;
+      font-size:18px;
       opacity:.85;
       pointer-events:none;
-      z-index: 9999;
-      will-change: transform, opacity;
+      z-index:9999;
+      will-change:transform,opacity;
+    }
+
+    @media (max-width:480px){
+      .landing-card{
+        padding:16px 14px 18px;
+      }
+      .headline h1{
+        font-size:1.55rem;
+      }
+      .headline p,
+      .message{
+        font-size:.95rem;
+      }
+      .stage{
+        height:130px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <main class="card">
-    <div class="badge"><span class="dot"></span></div>
+  <article class="landing-card">
+    <header class="headline">
+      <h1>Angekommen 🌍</h1>
+      <p>
+        Ich hoffe, du bist gut gelandet. Ab jetzt beginnt dein kleines Abenteuer –
+        und den wichtigsten Schritt hast du schon geschafft.
+      </p>
+    </header>
 
-    <h1>Angekommen 🌍</h1>
-    <p>
-      Ich hoffe, du bist gut gelandet. Dein Abenteuer wird bestimmt ganz toll und 
-      <strong> den ersten Schritt hast du schon geschafft.</strong>
-    </p>
+    <section class="stage" aria-hidden="true">
+      <div class="plane" aria-hidden="true">✈️</div>
+      <div class="suitcase" id="suitcase" aria-hidden="true">🧳</div>
+    </section>
 
-    <!-- Option A: Koffer landet + kleine Deko -->
-    <div class="luggage-stage" aria-hidden="true">
-      <div class="plane">✈️</div>
-      <div class="suitcase" id="suitcase">🧳</div>
-    </div>
+    <section class="cta" aria-label="Bestätige deine Ankunft">
+      <button id="btn-arrived" type="button">Ich bin angekommen 💗</button>
+    </section>
 
-    <button id="btn">Ich bin angekommen 💗</button>
-
-    <p id="hidden">
+    <section class="message" id="arrival-message">
       🫶<br />
-      Ich bin so froh, dass du sicher angekommen bist. Pass auf dich auf. 
-      Falls du mal nicht weißt wie das geht, dann nimm dir eine meiner Ängste zu Herzen.
+      Ich bin so froh, dass du sicher angekommen bist. Pass gut auf dich auf –
+      und falls du mal vergisst, wie das geht, dann leih dir einfach eine meiner Ängste,
+      die nur da sind, weil du mir so wichtig bist.
       <br /><br />
       <strong>Ich hab dich lieb.</strong> 🤍
-    </p>
-  </main>
+    </section>
+  </article>
 
   <script>
-    const btn = document.getElementById("btn");
-    const hidden = document.getElementById("hidden");
-    const suitcase = document.getElementById("suitcase");
+    const btnArrived  = document.getElementById("btn-arrived");
+    const message     = document.getElementById("arrival-message");
+    const suitcaseEl  = document.getElementById("suitcase");
 
-    btn.addEventListener("click", () => {
-      hidden.style.display = "block";
+    let isAnimating = false;
 
-      // Koffer-Animation neu starten
-      suitcase.classList.remove("drop");
-      void suitcase.offsetWidth;
-      suitcase.classList.add("drop");
+    btnArrived.addEventListener("click", () => {
+      if (isAnimating) return;
+      isAnimating = true;
 
-      // Konfetti + Herzen
-      confettiBurst();
-      heartsRise();
+      if (message.style.display !== "block") {
+        message.style.display = "block";
+        message.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      // Koffer neu droppen
+      suitcaseEl.classList.remove("suitcase--drop");
+      void suitcaseEl.offsetWidth; // Reflow für Neustart
+      suitcaseEl.classList.add("suitcase--drop");
+
+      const rect = btnArrived.getBoundingClientRect();
+      const originX = rect.left + rect.width / 2;
+      const originY = rect.top + rect.height / 2;
+
+      spawnConfetti(originX, originY);
+      spawnHearts(originX, originY);
+
+      setTimeout(() => { isAnimating = false; }, 900);
     });
 
-    function confettiBurst(){
-      const colors = ["#f472b6", "#60a5fa", "#fbbf24", "#a78bfa", "#22c55e", "#ffffff"];
-      const amount = 26;
+    function spawnConfetti(originX, originY){
+      const colors = ["#f973b2","#60a5fa","#facc15","#a855f7","#22c55e","#ffffff"];
+      const count  = 22;
 
-      for(let i=0;i<amount;i++){
-        const c = document.createElement("div");
-        c.className = "confetti";
-        c.style.background = colors[Math.floor(Math.random()*colors.length)];
+      for(let i=0;i<count;i++){
+        const el = document.createElement("div");
+        el.className = "confetti";
+        el.style.background = colors[Math.floor(Math.random()*colors.length)];
 
-        const startX = window.innerWidth * 0.5 + (Math.random()*140 - 70);
-        const startY = window.innerHeight * 0.58 + (Math.random()*60 - 30);
-        c.style.left = startX + "px";
-        c.style.top  = startY + "px";
+        const startX = originX + (Math.random()*34 - 17);
+        const startY = originY + (Math.random()*18 - 9);
+        el.style.left = startX + "px";
+        el.style.top  = startY + "px";
 
-        const w = 6 + Math.random()*8;
-        const h = 10 + Math.random()*10;
-        c.style.width = w + "px";
-        c.style.height = h + "px";
+        el.style.width  = (6 + Math.random()*8)  + "px";
+        el.style.height = (10 + Math.random()*8) + "px";
 
-        document.body.appendChild(c);
+        document.body.appendChild(el);
 
-        const dx = (Math.random()*520 - 260);
-        const dy = -(160 + Math.random()*260);
-        const rot = (Math.random()*720 - 360);
+        const dx  = (Math.random()*240 - 120);
+        const dy  = -(150 + Math.random()*180);
+        const rot = (Math.random()*540 - 270);
 
-        c.animate([
-          { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
-          { transform: `translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity: 0 }
-        ], {
-          duration: 1200 + Math.random()*550,
-          easing: "cubic-bezier(.2,.8,.2,1)"
+        const anim = el.animate([
+          { transform:"translate(0,0) rotate(0deg)", opacity:1 },
+          { transform:`translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity:0 }
+        ],{
+          duration: 1100 + Math.random()*350,
+          easing: "cubic-bezier(.2,.8,.2,1)",
+          fill: "forwards"
         });
 
-        setTimeout(() => c.remove(), 1850);
+        anim.onfinish = () => el.remove();
       }
     }
 
-    function heartsRise(){
-      const emojis = ["💗","💛","💞","✨","🤍"]; 
-      for(let i=0;i<10;i++){
-        const h = document.createElement("div");
-        h.className = "float-heart";
-        h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    function spawnHearts(originX, originY){
+      const emojis = ["💗","💛","💞","✨","🤍"];
+      const count  = 10;
 
-        const x = window.innerWidth * 0.5 + (Math.random()*220 - 110);
-        const y = window.innerHeight * 0.72 + (Math.random()*40 - 20);
-        h.style.left = x + "px";
-        h.style.top  = y + "px";
-        h.style.fontSize = (14 + Math.random()*18) + "px";
+      for(let i=0;i<count;i++){
+        const el = document.createElement("div");
+        el.className = "float-heart";
+        el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
 
-        document.body.appendChild(h);
+        const startX = originX + (Math.random()*70 - 35);
+        const startY = originY + (Math.random()*10 - 5);
+        el.style.left = startX + "px";
+        el.style.top  = startY + "px";
+        el.style.fontSize = (16 + Math.random()*16) + "px";
 
-        const dx = (Math.random()*160 - 80);
-        const dy = -(140 + Math.random()*160);
+        document.body.appendChild(el);
 
-        h.animate([
-          { transform: "translate(0,0)", opacity: .9 },
-          { transform: `translate(${dx}px, ${dy}px)`, opacity: 0 }
-        ], {
-          duration: 1400 + Math.random()*500,
-          easing: "ease-out"
+        const dx = (Math.random()*110 - 55);
+        const dy = -(110 + Math.random()*110);
+
+        const anim = el.animate([
+          { transform:"translate(0,0)", opacity:.9 },
+          { transform:`translate(${dx}px, ${dy}px)`, opacity:0 }
+        ],{
+          duration: 1300 + Math.random()*500,
+          easing: "ease-out",
+          fill: "forwards"
         });
 
-        setTimeout(() => h.remove(), 2000);
+        anim.onfinish = () => el.remove();
       }
     }
   </script>
