@@ -140,30 +140,33 @@
 
   <script>
     const message = document.getElementById("message");
-    let messageShown = false;
+    let shootingStarCount = 0;       // zählt, wie oft getippt wurde
+    const REVEAL_AT = 3;             // nach wie vielen Sternschnuppen die Nachricht erscheint
 
     createStars(140);
 
-    // Klick auf den Hintergrund (Body) zeigt Nachricht + Sternschnuppe
     document.body.addEventListener("click", (event) => {
-      // Klicks auf Container ignorieren, wenn du willst, dass nur „Himmel“ reagiert:
+      // Optional: Klicks auf Text ignorieren, wenn du willst:
       // if (event.target.closest(".container")) return;
 
-      if (!messageShown) {
+      shootingStarCount++;
+      spawnShootingStar(event.clientX, event.clientY);
+
+      if (shootingStarCount === REVEAL_AT) {
         message.style.display = "block";
         message.classList.add("message-visible");
-        messageShown = true;
       }
-
-      spawnShootingStar(event.clientX, event.clientY);
     });
 
     function createStars(count){
+      const h = document.documentElement.clientHeight;
+      const w = document.documentElement.clientWidth;
+
       for (let i = 0; i < count; i++) {
         const star = document.createElement("div");
         star.className = "star";
-        star.style.top = Math.random() * window.innerHeight + "px";
-        star.style.left = Math.random() * window.innerWidth + "px";
+        star.style.top = Math.random() * h + "px";
+        star.style.left = Math.random() * w + "px";
         star.style.animationDuration = (1 + Math.random()*2) + "s";
         document.body.appendChild(star);
       }
@@ -181,8 +184,8 @@
       star.style.left = (originX + offsetX) + "px";
 
       // Zufällige Richtung (Winkel) und Länge
-      const angle = 40 + Math.random()*20;  // 40–60 Grad
-      const distance = 220 + Math.random()*120; // Länge der Flugbahn
+      const angle = 40 + Math.random()*20;          // 40–60 Grad
+      const distance = 220 + Math.random()*120;     // Länge der Flugbahn
 
       const rad = angle * Math.PI / 180;
       const dx = Math.cos(rad) * distance;
