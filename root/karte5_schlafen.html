@@ -3,81 +3,247 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sterne für dich</title>
+  <title>Sterne für dich ✨</title>
   <style>
+    :root{
+      --bg-top:#1d2b64;
+      --bg-bottom:#0b1020;
+      --box-bg:rgba(0,0,0,.25);
+      --box-border:rgba(255,255,255,.12);
+      --text:#f9fafb;
+      --muted:#cbd5e1;
+    }
+
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body{
-      margin:0; height:100vh; overflow:hidden;
-      background: radial-gradient(circle at 50% 30%, #1d2b64, #0b1020 70%);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      color:#fff;
+      margin:0;
+      min-height:100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: radial-gradient(circle at 50% 30%, var(--bg-top), var(--bg-bottom) 70%);
+      position:relative;
+      overflow-x:hidden;
+      overflow-y:auto;
     }
+
+    canvas{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      display:block;
+      z-index:0;
+    }
+
     .overlay{
-      position:absolute; inset:0;
-      display:grid; place-items:center;
-      pointer-events:none;
+      position:relative;
+      z-index:1;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
       text-align:center;
-      padding:24px;
+      padding:24px 16px;
     }
+
     .box{
       width:min(560px, 92vw);
-      background: rgba(0,0,0,.25);
-      border: 1px solid rgba(255,255,255,.12);
+      background: var(--box-bg);
+      border: 1px solid var(--box-border);
       border-radius: 24px;
       padding: 18px 16px;
       backdrop-filter: blur(8px);
+      opacity:0;
+      transform: translateY(8px);
+      animation: boxFadeIn 0.9s ease forwards 0.2s;
     }
-    h1{ margin:0; font-size:1.35rem; }
-    p{ margin:.65rem 0 0; line-height:1.55; opacity:.92; }
-    canvas{ display:block; width:100%; height:100%; }
+
+    h1{
+      margin:0;
+      font-size:1.4rem;
+    }
+
+    p{
+      margin:.65rem 0 0;
+      line-height:1.55;
+      color:var(--muted);
+    }
+
+    @keyframes boxFadeIn{
+      from{ opacity:0; transform:translateY(8px); }
+      to{ opacity:1; transform:translateY(0); }
+    }
+
+    @media (max-width:480px){
+      h1{ font-size:1.25rem; }
+      .box{ padding:16px 14px; }
+    }
   </style>
 </head>
 <body>
   <canvas id="c"></canvas>
+
   <div class="overlay">
     <div class="box">
-      <h1>Wenn du nicht schlafen kannst…</h1>
-      <p>Atme langsam ein… und aus… 🌙<br>
-      Ich schicke dir gerade Ruhe, Sterne und eine Umarmung.</p>
+      <h1>Wenn dein Kopf zu laut ist…</h1>
+      <p>
+        Leg dich hin, schließ für einen Moment die Augen. 🌙<br>
+        Stell dir vor, jeder Stern da oben nimmt dir einen Gedanken ab –  
+        bis nur noch der übrig bleibt, dass ich gerade an dich denke  
+        und dich in Gedanken ganz fest halte. ✨
+      </p>
     </div>
   </div>
 
   <script>
     const canvas = document.getElementById("c");
     const ctx = canvas.getContext("2d");
-    let w, h, stars;
 
-    function resize(){
-      w = canvas.width = window.innerWidth * devicePixelRatio;
-      h = canvas.height = window.innerHeight * devicePixelRatio;
-      stars = Array.from({length: 180}, () => ({
-        x: Math.random()*w,
-        y: Math.random()*h,
-        r: (Math.random()*1.2 + 0.2) * devicePixelRatio,
-        a: Math.random()*0.8 + 0.2,
-        s: Math.random()*0.25 + 0.05
+    const MAX_DPR       = 2;
+    const STAR_DENSITY  = 0.00018;   // Sterne pro Pixel²
+    const SHOOT_INTERVAL_MIN = 7000; // 7s
+    const SHOOT_INTERVAL_MAX = 15000;// 15s
+
+    let w = 0, h = 0, dpr = 1;
+    let stars = [];
+    let resizeScheduled = false;
+
+    function createStars(count){
+      stars = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: (Math.random() * 1.2 + 0.2) * dpr,
+        alpha: Math.random() * 0.8 + 0.2,
+        targetAlpha: Math.random() * 0.8 + 0.2,
+        twinkleSpeed: 0.01 + Math.random() * 0.02,
+        fallSpeed: (0.05 + Math.random() * 0.25) * dpr
       }));
     }
-    window.addEventListener("resize", resize);
+
+    function resize(){
+      const _dpr  = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+      const width = window.innerWidth;
+      const height= window.innerHeight;
+
+      dpr = _dpr;
+      w   = canvas.width  = width  * dpr;
+      h   = canvas.height = height * dpr;
+
+      const starCount = Math.round(w * h * STAR_DENSITY);
+      createStars(starCount);
+    }
+
+    window.addEventListener("resize", () => {
+      if (!resizeScheduled) {
+        resizeScheduled = true;
+        requestAnimationFrame(() => {
+          resize();
+          resizeScheduled = false;
+        });
+      }
+    });
+
     resize();
 
-    function draw(){
-      ctx.clearRect(0,0,w,h);
-      for(const st of stars){
-        st.a += (Math.random()-0.5)*0.03;
-        st.a = Math.max(0.15, Math.min(1, st.a));
-        ctx.globalAlpha = st.a;
+    function drawStars(){
+      ctx.clearRect(0, 0, w, h);
+
+      for (const st of stars) {
+        // Twinkle-Logik
+        if (Math.abs(st.alpha - st.targetAlpha) < 0.02) {
+          st.targetAlpha = Math.random() * 0.8 + 0.2;
+        } else {
+          st.alpha += (st.targetAlpha - st.alpha) * st.twinkleSpeed;
+        }
+
+        const a = Math.max(0.15, Math.min(1, st.alpha));
+        ctx.globalAlpha = a;
         ctx.beginPath();
-        ctx.arc(st.x, st.y, st.r, 0, Math.PI*2);
+        ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
         ctx.fillStyle = "#ffffff";
         ctx.fill();
 
-        st.y += st.s * devicePixelRatio;
-        if(st.y > h){ st.y = -10; st.x = Math.random()*w; }
+        // sanft nach unten treiben
+        st.y += st.fallSpeed;
+        if (st.y - st.r > h) {
+          st.y = -10 * dpr;
+          st.x = Math.random() * w;
+        }
       }
+
       ctx.globalAlpha = 1;
-      requestAnimationFrame(draw);
     }
-    draw();
+
+    // Sternschnuppe zeichnen
+    function drawShootingStar(star){
+      const { x, y, length, progress, angle } = star;
+      const rad = angle * Math.PI / 180;
+
+      const tailX = x - Math.cos(rad) * length * progress;
+      const tailY = y - Math.sin(rad) * length * progress;
+
+      const grad = ctx.createLinearGradient(x, y, tailX, tailY);
+      grad.addColorStop(0, `rgba(255,255,255,${1 - progress})`);
+      grad.addColorStop(1, "rgba(255,255,255,0)");
+
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 2 * dpr;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(tailX, tailY);
+      ctx.stroke();
+    }
+
+    let shootingStars = [];
+
+    function spawnShootingStar(){
+      const startX = Math.random() * w * 0.6 + w * 0.1; // irgendwo im oberen Bereich
+      const startY = Math.random() * h * 0.3 + h * 0.05;
+      const angle  = 30 + Math.random() * 30;          // 30–60 Grad
+      const length = (220 + Math.random() * 140) * dpr;
+
+      shootingStars.push({
+        x: startX,
+        y: startY,
+        length,
+        angle,
+        speed: 0.008 + Math.random() * 0.004, // wie schnell progress steigt
+        progress: 0
+      });
+    }
+
+    function scheduleNextShootingStar(){
+      const delay = SHOOT_INTERVAL_MIN + Math.random() * (SHOOT_INTERVAL_MAX - SHOOT_INTERVAL_MIN);
+      setTimeout(() => {
+        spawnShootingStar();
+        scheduleNextShootingStar();
+      }, delay);
+    }
+
+    scheduleNextShootingStar();
+
+    function animate(){
+      drawStars();
+
+      // Sternschnuppen updaten/zeichnen
+      shootingStars = shootingStars.filter(st => {
+        st.progress += st.speed;
+        if (st.progress >= 1.0) return false;
+        // Position entlang der Bahn verschieben
+        const rad = st.angle * Math.PI / 180;
+        st.x += Math.cos(rad) * st.speed * st.length;
+        st.y += Math.sin(rad) * st.speed * st.length;
+        drawShootingStar(st);
+        return true;
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
   </script>
 </body>
 </html>
