@@ -108,18 +108,6 @@
       text-align: center;
     }
 
-    .ps-tag{
-      display:block;
-      margin: 0 auto;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid #e5e7eb;
-      font-size: .8rem;
-      color:#334155;
-      background: #ffffff;
-      text-align:center;
-    }
-
     .divider{
       height:1px;
       background: linear-gradient(to right, #94a3b833, #64748b40, #ffffff00);
@@ -165,28 +153,11 @@
     .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
     .btn:active{ transform: translateY(0px); }
 
-    .btn-secondary{
-      background: transparent;
-      border: 1px dashed #0f172a55;
-      color: var(--muted);
-      font-weight:600;
-    }
-
     #hidden{
       display:none;
       margin-top: 16px;
       font-size: .98rem;
       color: #0f172a;
-      animation: fadeIn .45s ease forwards;
-    }
-
-    #quoteBox{
-      display:none;
-      margin-top: 10px;
-      font-size: .9rem;
-      color: #334155;
-      border-left: 3px solid #0f172a33;
-      padding-left: 10px;
       animation: fadeIn .45s ease forwards;
     }
 
@@ -229,15 +200,6 @@
           Egal wie du dich fühlst: In Gedanken sitze ich neben dir und halte deine Hand. ✨
       </p>
 
-      <!-- eingerahmter P.S. Text -->
-      <p class="ps-tag">
-        P.S.: Wenn du nervös bist – klick ruhig auf die Buttons.
-      </p>
-
-      <!-- Wolkenspruch-Button + Spruch direkt darunter -->
-      <button class="btn btn-secondary" onclick="showQuote()">Über-den-Wolken ✈️</button>
-      <div id="quoteBox"></div>
-
       <div class="divider"></div>
 
       <section class="text-block">
@@ -248,7 +210,7 @@
 
       <div class="heart">❤️</div>
 
-      <!-- Liebesbotschaft-Button weiter unten -->
+      <!-- Liebesbotschaft-Button -->
       <button class="btn" onclick="showMessage()">Mach mich auf 💌</button>
 
       <p id="hidden">
@@ -270,7 +232,7 @@
       // smooth scroll zu diesem Text
       el.scrollIntoView({ behavior: "smooth", block: "start" });
 
-      // Konfetti/Herz-Funken, leicht nach unten verschoben und breiter verteilt
+      // Konfetti/Herz-Funken
       const card = document.querySelector('.card');
       const rect = card.getBoundingClientRect();
       const baseY = rect.bottom - rect.height * 0.25 + window.scrollY;
@@ -300,23 +262,6 @@
 
         setTimeout(() => s.remove(), 1300);
       }
-    }
-
-    function showQuote(){
-      const box = document.getElementById("quoteBox");
-      const quotes = [
-        "Über den Wolken sieht alles kleiner aus – außer das Gefühl, jemanden zu haben, der auf dich wartet.",
-        "Jede Wolke unter dir ist wie eine kleine Erinnerung daran, dass ich dich in Gedanken umarme.",
-        "Es ist egal, wie weit du fliegst – die wichtigste Landung ist am Ende wieder bei mir.",
-        "Wenn du nach draußen schaust: Irgendwo da unten sitze ich und denke gerade an dich.",
-        "Die Welt wirkt von oben ruhiger – und genauso ruhig darf es sich in deinem Herzen anfühlen."
-      ];
-      const random = quotes[Math.floor(Math.random()*quotes.length)];
-      box.textContent = "„" + random + "“";
-      box.style.display = "block";
-
-      // smooth scroll zum Spruch (falls auf kleineren Displays nötig)
-      box.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   </script>
 </body>
