@@ -3,14 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Wenn du mich vermisst 🌙</title>
-
+  <title>Kuss 😘</title>
   <style>
     :root{
-      --bg-top: #1e293b;
-      --bg-bottom: #020617;
-      --text: #e5e7eb;
-      --muted: #cbd5e1;
+      --bg:#0f172a;
+      --card:#ffffff10;
+      --text:#ffffff;
+      --muted:#cbd5e1;
+      --btn:#ffffff;
+      --btnText:#0f172a;
+      --radius:22px;
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --accent:#fb7185;
+      --accent2:#a78bfa;
     }
 
     *{
@@ -18,192 +23,279 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    body {
+    body{
       margin:0;
       min-height:100vh;
-      background: radial-gradient(circle at 50% 30%, var(--bg-top), var(--bg-bottom));
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 700px at 20% 10%, #26307a 0%, transparent 60%),
+        radial-gradient(900px 600px at 90% 30%, #7a2650 0%, transparent 55%),
+        var(--bg);
       overflow-x:hidden;
       overflow-y:auto;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      color:var(--text);
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      padding:18px 14px 26px;
+    }
+
+    main.card{
+      width:min(560px, 100%);
+      background:var(--card);
+      border:1px solid #ffffff1a;
+      backdrop-filter: blur(10px);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:24px 20px;
       text-align:center;
-      padding:16px;
       position:relative;
+      overflow:hidden;
+      z-index:1;
     }
 
-    .container {
-      position:relative;
-      z-index:2;
-      padding:20px 18px;
-      max-width:480px;
-    }
-
-    h1 {
+    h1{
       font-size:2rem;
-      margin-bottom:10px;
+      margin:0 0 8px;
+      letter-spacing:.2px;
     }
 
-    p {
+    p{
+      margin:0 0 14px;
       color:var(--muted);
       line-height:1.5;
-      margin:0 0 8px;
+      font-size:1.05rem;
     }
 
-    .hint {
-      font-size:0.9rem;
-      margin-top:10px;
-      opacity:0.7;
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid #ffffff22;
+      background:#ffffff10;
+      font-size:.92rem;
+      margin-bottom:12px;
     }
 
-    #message {
-      margin-top:20px;
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      box-shadow:0 0 0 4px rgba(244,114,182,.18);
+    }
+
+    button{
+      padding:12px 18px;
+      font-size:16px;
+      margin-top:12px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      background:var(--btn);
+      color:var(--btnText);
+      font-weight:900;
+      transition:transform .08s ease, filter .2s ease;
+      box-shadow:0 10px 26px rgba(15,23,42,.6);
+    }
+
+    button:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.05);
+    }
+
+    button:active{
+      transform:translateY(0px);
+      box-shadow:0 6px 16px rgba(15,23,42,.7);
+    }
+
+    .hidden{
       display:none;
-      opacity:0;
-      transform:translateY(10px);
     }
 
-    .message-visible{
-      animation: fadeIn 0.9s ease forwards;
+    .fade-in{
+      animation:fadeIn .45s ease forwards;
     }
 
-    @keyframes fadeIn {
-      from {opacity:0; transform:translateY(10px);}
-      to {opacity:1; transform:translateY(0);}
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(6px);}
+      to{opacity:1;transform:translateY(0);}
     }
 
-    /* Sterne */
-    .star {
-      position:absolute;
-      width:2px;
-      height:2px;
-      background:white;
-      opacity:0.8;
-      animation: twinkle 2s infinite alternate;
-      border-radius:50%;
+    .kiss{
+      font-size:64px;
+      filter:drop-shadow(0 14px 22px rgba(0,0,0,.3));
+      animation:kissFloat 2.6s ease-in-out infinite;
     }
 
-    @keyframes twinkle {
-      from {opacity:0.2;}
-      to {opacity:1;}
+    @keyframes kissFloat{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-8px)}
     }
 
-    /* Sternschnuppe */
-    .shooting-star {
-      position:absolute;
-      width:2px;
-      height:80px;
-      background: linear-gradient(white, transparent);
-      opacity:0;
-      transform-origin: top left;
+    .kissmark{
+      display:none;
+      margin-top:10px;
+      font-size:42px;
+    }
+
+    .kissmark.show{
+      display:block;
+      animation:pop .5s ease forwards;
+    }
+
+    @keyframes pop{
+      from{opacity:0;transform:scale(.6)}
+      to{opacity:1;transform:scale(1)}
+    }
+
+    .float-emoji{
+      position:fixed;
+      opacity:.95;
       pointer-events:none;
+      z-index:9999;
+      transition: transform 1.3s ease, opacity 1.3s ease;
+      will-change: transform, opacity;
     }
 
-    @keyframes shoot {
-      0% {
-        opacity:1;
-        transform: translate(0,0) rotate(var(--angle));
-      }
-      100% {
-        opacity:0;
-        transform: translate(var(--dx), var(--dy)) rotate(var(--angle));
-      }
+    .heartfly{
+      position:fixed;
+      font-size:20px;
+      opacity:.9;
+      pointer-events:none;
+      z-index:9999;
+      will-change: transform, opacity;
     }
 
     @media (max-width:480px){
+      main.card{
+        padding:20px 16px;
+      }
       h1{
         font-size:1.7rem;
       }
-      .container{
-        padding:18px 12px;
+      p{
+        font-size:1rem;
       }
     }
   </style>
 </head>
-
 <body>
-
-  <div class="container">
-    <h1>Wenn du mich vermisst 🌙</h1>
-    <p>Schau kurz in den Himmel…</p>
-    <p class="hint">Tipp irgendwo in den Himmel ✨</p>
-
-    <div id="message">
-      <p>
-        Egal wo du bist… wir schauen gerade in den gleichen Himmel 🌌<br><br>
-        Und irgendwo da oben ist ein kleiner Gedanke von mir bei dir 💗
-      </p>
+  <main class="card">
+    <div class="badge">
+      <span class="dot"></span>
+      <span>Öffne mich, wenn du einen Kuss brauchst</span>
     </div>
-  </div>
+
+    <h1>Ein Kuss für dich 😘</h1>
+    <p>Ganz vorsichtig – so einer, der sagt: <em>Ich bin bei dir.</em></p>
+
+    <div class="kiss">😘</div>
+
+    <button id="btn">Kuss abholen</button>
+
+    <div id="mark" class="kissmark">💋</div>
+    <p id="hidden" class="hidden">Und noch einen – nur um sicherzugehen. 💗</p>
+  </main>
 
   <script>
-    const message = document.getElementById("message");
-    let shootingStarCount = 0;       // zählt, wie oft getippt wurde
-    const REVEAL_AT = 3;             // nach wie vielen Sternschnuppen die Nachricht erscheint
+    const btn    = document.getElementById('btn');
+    const hidden = document.getElementById('hidden');
+    const mark   = document.getElementById('mark');
 
-    createStars(140);
+    let isRunning = false;
 
-    document.body.addEventListener("click", (event) => {
-      // Optional: Klicks auf Text ignorieren, wenn du willst:
-      // if (event.target.closest(".container")) return;
+    function sparkles({
+      amount = 12,
+      emojis = ["💛","💗","💞","✨","🤍"],
+      x,
+      y
+    } = {}) {
+      const startX = x ?? window.innerWidth / 2;
+      const startY = y ?? window.innerHeight * 0.58;
 
-      shootingStarCount++;
-      spawnShootingStar(event.clientX, event.clientY);
+      for (let i = 0; i < amount; i++) {
+        const s = document.createElement('span');
+        s.className = 'float-emoji';
+        s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
 
-      if (shootingStarCount === REVEAL_AT) {
-        message.style.display = "block";
-        message.classList.add("message-visible");
+        const size = 14 + Math.random() * 16;
+        s.style.fontSize = size + 'px';
+        s.style.left = startX + 'px';
+        s.style.top  = startY + 'px';
+
+        document.body.appendChild(s);
+
+        requestAnimationFrame(() => {
+          const dx = (Math.random() * 180 - 90);
+          const dy = -(90 + Math.random() * 140);
+          s.style.transform = `translate(${dx}px, ${dy}px)`;
+          s.style.opacity = '0';
+        });
+
+        setTimeout(() => s.remove(), 1500);
       }
+    }
+
+    function flyHearts(x, y){
+      const emojis = ['💗','💞','💛','✨'];
+      for (let i = 0; i < 12; i++) {
+        const h = document.createElement('div');
+        h.className = 'heartfly';
+        h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+        const startX = x + (Math.random() * 240 - 120);
+        const startY = y + (Math.random() * 60 - 30);
+        h.style.left = startX + 'px';
+        h.style.top  = startY + 'px';
+
+        document.body.appendChild(h);
+
+        const dx = (Math.random() * 220 - 110);
+        const dy = -(180 + Math.random() * 180);
+
+        h.animate(
+          [
+            { transform:'translate(0,0)', opacity:.95 },
+            { transform:`translate(${dx}px, ${dy}px)`, opacity:0 }
+          ],
+          {
+            duration: 1500 + Math.random() * 400,
+            easing: 'ease-out',
+            fill: 'forwards'
+          }
+        ).onfinish = () => h.remove();
+      }
+    }
+
+    btn.addEventListener('click', () => {
+      if (isRunning) return;
+      isRunning = true;
+
+      // Position für Effekte am Button ausrichten
+      const rect = btn.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      // Kussmarke animiert anzeigen (immer wieder „poppen“)
+      mark.classList.remove('show');
+      void mark.offsetWidth; // Reflow, um Animation neu zu starten
+      mark.classList.add('show');
+
+      // Text zeigen (nur einmal animiert)
+      if (hidden.classList.contains('hidden')) {
+        hidden.classList.remove('hidden');
+        hidden.classList.add('fade-in');
+      }
+
+      // Effekte
+      sparkles({ amount:14, emojis:['💋','💗','💞','✨'], x:centerX, y:centerY });
+      flyHearts(centerX, centerY);
+
+      setTimeout(() => { isRunning = false; }, 900);
     });
-
-    function createStars(count){
-      const h = document.documentElement.clientHeight;
-      const w = document.documentElement.clientWidth;
-
-      for (let i = 0; i < count; i++) {
-        const star = document.createElement("div");
-        star.className = "star";
-        star.style.top = Math.random() * h + "px";
-        star.style.left = Math.random() * w + "px";
-        star.style.animationDuration = (1 + Math.random()*2) + "s";
-        document.body.appendChild(star);
-      }
-    }
-
-    function spawnShootingStar(originX, originY){
-      const star = document.createElement("div");
-      star.className = "shooting-star";
-
-      // Startposition in der Nähe des Klicks
-      const offsetX = (Math.random()*80 - 40);
-      const offsetY = (Math.random()*40 - 20);
-
-      star.style.top = (originY + offsetY) + "px";
-      star.style.left = (originX + offsetX) + "px";
-
-      // Zufällige Richtung (Winkel) und Länge
-      const angle = 40 + Math.random()*20;          // 40–60 Grad
-      const distance = 220 + Math.random()*120;     // Länge der Flugbahn
-
-      const rad = angle * Math.PI / 180;
-      const dx = Math.cos(rad) * distance;
-      const dy = Math.sin(rad) * distance;
-
-      star.style.setProperty("--angle", angle + "deg");
-      star.style.setProperty("--dx", dx + "px");
-      star.style.setProperty("--dy", dy + "px");
-
-      document.body.appendChild(star);
-
-      star.style.animation = "shoot 1.1s ease-out forwards";
-
-      star.addEventListener("animationend", () => {
-        star.remove();
-      });
-    }
   </script>
-
 </body>
 </html>
