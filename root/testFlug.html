@@ -67,14 +67,6 @@
       font-size:1.05rem;
     }
 
-    .dot{
-      width:10px;
-      height:10px;
-      border-radius:999px;
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      box-shadow:0 0 0 4px rgba(248,191,36,.18);
-    }
-
     button{
       padding:12px 18px;
       font-size:16px;
@@ -99,7 +91,9 @@
       box-shadow:0 6px 16px rgba(15,23,42,.7);
     }
 
-    .hidden{display:none;}
+    .hidden{
+      display:none;
+    }
 
     .fade-in{
       animation:fadeIn .45s ease forwards;
@@ -170,31 +164,27 @@
 </head>
 <body>
   <main class="card">
-    <span class="dot"></span>
     <h1>Ein kleines Lachen für dich 😂</h1>
-    <p>
+
+    <p class="intro">
       Für den Moment, in dem alles ernst ist und du kurz vergessen hast,
       wie sich richtiges Lachen anfühlt.
     </p>
-    <p>
+    <p class="intro">
       Atme einmal tief ein, locker die Schultern…  
       und dann stell dir vor, wie wir zusammen über irgendetwas völlig Albernes lachen.
     </p>
 
     <div class="emoji">😂</div>
 
-    <button id="btn">Lachknopf drücken</button>
+    <button id="btn">Bring mich zum Lachen</button>
 
     <p id="hidden" class="hidden">
       Stell dir vor, ich stupse dich an und sage:
       <strong>„Komm, ein bisschen albern sein ist jetzt offiziell erlaubt.“</strong> 😄
     </p>
 
-    <div id="joke" class="joke">
-      Mini‑Witz:<br />
-      Warum musste der Laptop kichern?<br />
-      <strong>Weil jemand mit ihm ein „witziges Update“ gemacht hat.</strong> 🤭
-    </div>
+    <div id="joke" class="joke"></div>
   </main>
 
   <script>
@@ -244,22 +234,43 @@
 
     const btn    = document.getElementById('btn');
     const hidden = document.getElementById('hidden');
-    const joke   = document.getElementById('joke');
+    const jokeEl = document.getElementById('joke');
+    const introParas = document.querySelectorAll('.intro');
 
+    // Zwei Witze, die abwechselnd angezeigt werden
+    const jokes = [
+      `Mini‑Witz:<br />
+       Warum musste der Laptop kichern?<br />
+       <strong>Weil jemand ihm ein richtig „lustiges Update“ verpasst hat.</strong> 🤭`,
+      `Mini‑Witz:<br />
+       Was sagt ein Buch, wenn es fertig gelesen ist?<br />
+       <strong>„Endlich mal jemand, der mich bis zum Ende durchgezogen hat!“</strong> 😅`
+    ];
+
+    let jokeIndex = 0;
     let isRunning = false;
+    let introHidden = false;
 
     btn.addEventListener('click', () => {
       if (isRunning) return;
       isRunning = true;
 
-      // Button-Position als Startpunkt für die Effekte
+      // Intro-Text ab dem ersten Klick ausblenden
+      if (!introHidden) {
+        introHidden = true;
+        introParas.forEach(p => p.classList.add('hidden'));
+        hidden.classList.add('hidden'); // den kleinen Zusatztext auch ausblenden
+      }
+
+      // Witz wechseln
+      jokeEl.innerHTML = jokes[jokeIndex];
+      jokeIndex = (jokeIndex + 1) % jokes.length;
+      jokeEl.classList.add('show');
+
+      // Effekte vom Button ausgehend
       const rect = btn.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-
-      hidden.classList.remove('hidden');
-      hidden.classList.add('fade-in');
-      joke.classList.add('show');
 
       sparkles({
         amount: 18,
