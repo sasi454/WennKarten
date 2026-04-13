@@ -5,134 +5,354 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Heimweh 🫶</title>
   <style>
+    :root{
+      --bgTop:#fdf2ff;
+      --bgMid:#e0f2fe;
+      --bgBottom:#fee2e2;
+      --card:#ffffffdd;
+      --cardBorder:#e5e7eb;
+      --text:#0f172a;
+      --muted:#4b5563;
+      --btn:#0f172a;
+      --btnText:#f9fafb;
+      --radius:22px;
+      --shadow: 0 22px 60px rgba(148,163,184,.6);
+      --accent:#fb7185;
+      --accent2:#fbbf24;
+    }
 
-:root{
-  --bg:#0f172a;
-  --card:#ffffff10;
-  --text:#ffffff;
-  --muted:#cbd5e1;
-  --btn:#ffffff;
-  --btnText:#0f172a;
-  --radius:22px;
-  --shadow: 0 18px 50px rgba(0,0,0,.35);
-  --accent:#f472b6;
-  --accent2:#60a5fa;
-}
-*{box-sizing:border-box;}
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(1000px 700px at 20% 10%, #26307a 0%, transparent 60%),
-    radial-gradient(900px 600px at 90% 30%, #7a2650 0%, transparent 55%),
-    var(--bg);
-  overflow:hidden;
-  padding:18px;
-}
-main.card{
-  width:min(560px, 100%);
-  background:var(--card);
-  border:1px solid #ffffff1a;
-  backdrop-filter: blur(10px);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  padding:24px 20px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-  z-index:1;
-}
-h1{font-size:2rem;margin:0 0 8px;letter-spacing:.2px;}
-p{margin:0 0 14px;color:var(--muted);line-height:1.5;font-size:1.05rem;}
-.badge{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:8px 12px;border-radius:999px;
-  border:1px solid #ffffff22;background:#ffffff10;
-  font-size:.92rem;margin-bottom:12px;
-}
-.dot{width:10px;height:10px;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent2));
-  box-shadow:0 0 0 4px rgba(244,114,182,.18);
-}
-button{
-  padding:12px 18px;font-size:16px;margin-top:12px;
-  border:none;border-radius:14px;cursor:pointer;
-  background:var(--btn);color:var(--btnText);font-weight:900;
-  transition:transform .08s ease, filter .2s ease;
-}
-button:hover{transform:translateY(-1px);filter:brightness(1.05);}
-button:active{transform:translateY(0px);}
-.hidden{display:none;}
-.fade-in{animation:fadeIn .45s ease forwards;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-.float-emoji{
-  position:fixed;left:50vw;top:60vh;transform:translate(-50%,-50%);
-  opacity:.95;pointer-events:none;z-index:9999;
-  transition: transform 1.2s ease, opacity 1.2s ease;
-  will-change: transform, opacity;
-}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, #bfdbfe 0, transparent 55%),
+        radial-gradient(circle at 85% 10%, #fecaca 0, transparent 55%),
+        linear-gradient(to bottom, var(--bgTop), var(--bgMid) 55%, var(--bgBottom));
+      overflow-x:hidden;
+      overflow-y:auto;
+      padding:18px 14px 26px;
+      position:relative;
+    }
 
-:root{--accent:#fb7185;--accent2:#fbbf24;}
-.warm{font-size:58px;animation:warm 2.6s ease-in-out infinite;filter:drop-shadow(0 14px 24px rgba(0,0,0,.35));}
-@keyframes warm{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.paper{position:fixed;left:-120px;top:30vh;font-size:30px;opacity:.9;pointer-events:none;
-  offset-path: path("M -140 260 C 160 120, 360 420, 660 260 S 1060 180, 1380 280");
-  offset-distance:0%; offset-rotate:auto 18deg;animation: paperFly 9.5s linear infinite;filter:drop-shadow(0 10px 18px rgba(0,0,0,.25));}
-@keyframes paperFly{from{offset-distance:0%}to{offset-distance:100%}}
-@supports not (offset-path: path("M 0 0 L 1 1")){
-  .paper{left:-140px;offset-path:none;offset-rotate:0deg;animation: paperFallback 10s linear infinite;}
-  @keyframes paperFallback{0%{transform:translateX(-140px) translateY(0) rotate(10deg)}50%{transform:translateX(50vw) translateY(-10px) rotate(6deg)}100%{transform:translateX(calc(100vw + 260px)) translateY(6px) rotate(9deg)}}
-}
+    /* Pastell-Glows */
+    .glow{
+      position:fixed;
+      border-radius:999px;
+      filter:blur(55px);
+      opacity:.65;
+      pointer-events:none;
+      z-index:0;
+    }
 
+    .glow.g1{
+      width:260px;height:260px;
+      background:#fecaca;
+      top:60%;left:-40px;
+    }
+    .glow.g2{
+      width:260px;height:260px;
+      background:#bfdbfe;
+      top:8%;right:-60px;
+    }
+
+    /* Dezente "Staub/Sternchen" */
+    .stars{
+      position:fixed;
+      inset:0;
+      background-image:
+        radial-gradient(circle at 12% 25%, rgba(255,255,255,.7) 0, transparent 2px),
+        radial-gradient(circle at 65% 15%, rgba(255,255,255,.7) 0, transparent 2px),
+        radial-gradient(circle at 80% 45%, rgba(255,255,255,.45) 0, transparent 1.6px),
+        radial-gradient(circle at 28% 70%, rgba(255,255,255,.4) 0, transparent 1.8px),
+        radial-gradient(circle at 72% 82%, rgba(255,255,255,.55) 0, transparent 2px);
+      opacity:.35;
+      pointer-events:none;
+      z-index:0;
+      mix-blend-mode:screen;
+    }
+
+    main.card{
+      width:min(560px, 100%);
+      background:var(--card);
+      border:1px solid var(--cardBorder);
+      backdrop-filter: blur(18px);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:24px 20px 22px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+      z-index:1;
+    }
+
+    /* Fenster-Rand mit leichtem Farbverlauf */
+    main.card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius:inherit;
+      padding:1px;
+      background:linear-gradient(135deg, #fde68a90, #fb718590, #38bdf890);
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite:xor;
+      mask-composite:exclude;
+      opacity:.5;
+      pointer-events:none;
+    }
+
+    /* Mirror-/Fenster-Reflexion */
+    main.card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      background:
+        linear-gradient(120deg,
+          rgba(255,255,255,.0) 0%,
+          rgba(255,255,255,.55) 12%,
+          rgba(255,255,255,.15) 26%,
+          rgba(255,255,255,0) 45%),
+        linear-gradient(130deg,
+          rgba(255,255,255,.0) 55%,
+          rgba(255,255,255,.18) 75%,
+          rgba(255,255,255,0) 100%);
+      opacity:.7;
+      mix-blend-mode:screen;
+      pointer-events:none;
+    }
+
+    h1{
+      font-size:2rem;
+      margin:0 0 10px;
+      letter-spacing:.2px;
+      position:relative;
+      z-index:1;
+    }
+
+    p{
+      margin:0 0 14px;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:1.05rem;
+      position:relative;
+      z-index:1;
+    }
+
+    button{
+      padding:12px 18px;
+      font-size:16px;
+      margin-top:14px;
+      border:none;
+      border-radius:999px;
+      cursor:pointer;
+      background:var(--btn);
+      color:var(--btnText);
+      font-weight:900;
+      transition:transform .08s ease, filter .2s ease, box-shadow .1s ease;
+      box-shadow:0 10px 26px rgba(15,23,42,.25);
+      position:relative;
+      z-index:1;
+    }
+
+    button:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.04);
+    }
+
+    button:active{
+      transform:translateY(0px) scale(.98);
+      box-shadow:0 6px 16px rgba(15,23,42,.35);
+    }
+
+    .hidden{display:none;}
+
+    .fade-in{
+      animation:fadeIn .45s ease forwards;
+    }
+
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(6px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    .warm{
+      font-size:46px;
+      animation:warm 2.6s ease-in-out infinite;
+      filter:drop-shadow(0 12px 20px rgba(148,163,184,.55));
+      margin-top:6px;
+      margin-bottom:8px;
+      position:relative;
+      z-index:1;
+    }
+
+    @keyframes warm{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-6px)}
+    }
+
+    .paper{
+      position:fixed;
+      left:-120px;
+      top:32vh;
+      font-size:30px;
+      opacity:.85;
+      pointer-events:none;
+      offset-path: path("M -140 260 C 160 120, 360 420, 660 260 S 1060 180, 1380 280");
+      offset-distance:0%;
+      offset-rotate:auto 18deg;
+      animation: paperFly 9.5s linear infinite;
+      filter:drop-shadow(0 10px 18px rgba(148,163,184,.6));
+      z-index:0;
+    }
+
+    @keyframes paperFly{
+      from{offset-distance:0%}
+      to{offset-distance:100%}
+    }
+
+    @supports not (offset-path: path("M 0 0 L 1 1")){
+      .paper{
+        left:-140px;
+        offset-path:none;
+        offset-rotate:0deg;
+        animation: paperFallback 10s linear infinite;
+      }
+      @keyframes paperFallback{
+        0%{transform:translateX(-140px) translateY(0) rotate(10deg)}
+        50%{transform:translateX(50vw) translateY(-10px) rotate(6deg)}
+        100%{transform:translateX(calc(100vw + 260px)) translateY(6px) rotate(9deg)}
+      }
+    }
+
+    .float-emoji{
+      position:fixed;
+      opacity:.95;
+      pointer-events:none;
+      z-index:9999;
+      transition: transform 1.2s ease, opacity 1.2s ease;
+      will-change: transform, opacity;
+    }
+
+    @media (max-width:480px){
+      main.card{
+        padding:20px 16px 18px;
+      }
+      h1{
+        font-size:1.7rem;
+      }
+      p{
+        font-size:1rem;
+      }
+    }
   </style>
 </head>
 <body>
-
+  <div class="stars" aria-hidden="true"></div>
+  <div class="glow g1" aria-hidden="true"></div>
+  <div class="glow g2" aria-hidden="true"></div>
   <div class="paper" aria-hidden="true">🛩️💛</div>
+
   <main class="card">
-    <div class="badge"><span class="dot"></span> Öffne mich, wenn du Heimweh hast</div>
-    <h1>Ich schick dir ein Stück Zuhause 🫶</h1>
-    <p>Heimweh heißt nur, dass du lieben kannst. Und das ist was Gutes.</p>
+    <h1>Ein kleines Zuhause nur für dich 🫶</h1>
+
+    <p>
+      Auch wenn du gerade weit weg bist:
+      In meinem Kopf und in meinem Herzen bist du immer direkt neben mir.
+    </p>
+    <p>
+      Hier zu Hause warten so viele auf dich – deine Familie und Aster.
+      Und irgendwo dazwischen bin ich, die heimlich die Minuten zählt,
+      bis wir uns wiedersehen und du mir erzählen kannst, wie dein Tag war. 💛
+    </p>
+
     <div class="warm">🏠🤍</div>
-    <button id="btn">Lies das</button>
-    <p id="hidden" class="hidden">Wenn es schwer ist: Leg eine Hand auf die Brust. Genau da bin ich in Gedanken. 💛<br /><strong>Du bist mutig.</strong> Und wir haben uns.</p>
+
+    <button id="btn">Drück mich</button>
+
+    <p id="hidden" class="hidden">
+      Wenn das Heimweh doll wird: Mach kurz die Augen zu und atme tief ein.
+      Stell dir vor, wie ich neben dir sitze, ich deine Hand nehme
+      und Aster sich zwischen uns drängt. 🐶💛<br/><br/>
+      Du hast deine Familie, Aster – und mich.
+      Drei Herzen, die sich so sehr auf dich freuen und auf dich warten.
+      Die dich mehr lieben, als du dir vorstellen kannst. ✨<br/><br/>
+      <strong>
+        Egal, wo du gerade bist: Du bist geliebt und niemals allein. 🤍
+      </strong>
+    </p>
   </main>
 
   <script>
+    function sparkles({
+      amount = 12,
+      emojis = ["🏠","🤍","💛","✨","🐶"],
+      x,
+      y
+    } = {}) {
+      const startX = x ?? window.innerWidth / 2;
+      const startY = y ?? window.innerHeight * 0.58;
 
-function sparkles({amount=12, emojis=["💛","💗","💞","✨","🤍"], x=window.innerWidth/2, y=window.innerHeight*0.58}={}){
-  for(let i=0;i<amount;i++){
-    const s=document.createElement('span');
-    s.className='float-emoji';
-    s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-    const size = 14 + Math.random()*16;
-    s.style.fontSize = size+'px';
-    s.style.left = x+'px';
-    s.style.top  = y+'px';
-    document.body.appendChild(s);
-    requestAnimationFrame(()=>{
-      const dx = (Math.random()*180-90);
-      const dy = -(90+Math.random()*140);
-      s.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
-      s.style.opacity='0';
+      for (let i = 0; i < amount; i++) {
+        const s = document.createElement('span');
+        s.className = 'float-emoji';
+        s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+        const size = 14 + Math.random() * 16;
+        s.style.fontSize = size + 'px';
+        s.style.left = startX + 'px';
+        s.style.top  = startY + 'px';
+
+        document.body.appendChild(s);
+
+        requestAnimationFrame(() => {
+          const dx = (Math.random() * 180 - 90);
+          const dy = -(90 + Math.random() * 140);
+          s.style.transform = `translate(${dx}px, ${dy}px)`;
+          s.style.opacity = '0';
+        });
+
+        setTimeout(() => s.remove(), 1400);
+      }
+    }
+
+    const btn    = document.getElementById('btn');
+    const hidden = document.getElementById('hidden');
+    let isRunning = false;
+
+    btn.addEventListener('click', () => {
+      if (isRunning) return;
+      isRunning = true;
+
+      if (hidden.classList.contains('hidden')) {
+        hidden.classList.remove('hidden');
+        hidden.classList.add('fade-in');
+      }
+
+      const rect = btn.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      sparkles({
+        amount:14,
+        emojis:['🏠','🤍','💛','✨','🐶'],
+        x:centerX,
+        y:centerY
+      });
+
+      setTimeout(() => { isRunning = false; }, 800);
     });
-    setTimeout(()=>s.remove(), 1300);
-  }
-}
-
-const btn=document.getElementById('btn');
-const hidden=document.getElementById('hidden');
-btn.addEventListener('click', ()=>{
-  hidden.classList.remove('hidden');
-  hidden.classList.add('fade-in');
-  sparkles({amount:14, emojis:['🏠','🤍','💛','✨']});
-});
-
   </script>
 </body>
 </html>
