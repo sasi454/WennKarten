@@ -147,6 +147,14 @@
       animation:fadeIn .45s ease forwards;
     }
 
+    .joke-ps{
+      margin-top:8px;
+      font-size:0.88rem;
+      color:#e5e7ebcc;
+      opacity:0;
+      animation:fadeIn .6s ease forwards .25s;
+    }
+
     @media (max-width:480px){
       main.card{
         padding:20px 16px;
@@ -229,16 +237,16 @@
     const jokeEl     = document.getElementById('joke');
     const introParas = document.querySelectorAll('.intro');
 
-    // Drei Witze, die rotieren
     const jokes = [
-      `Warum musste der Laptop kichern?<br />
-       <strong>Weil jemand ihm ein richtig lustiges Update verpasst hat.</strong> 🤭`,
+      `Du jeden Morgen: „Ich fühl mich so alt.“<br/>
+       Ich: „Du bist noch jung – aber wenn du morgens aufstehst, knackt mehr als nur der Boden.“ 😂`,
 
-      `Was sagt ein Buch, wenn es fertig gelesen ist?<br />
-       <strong>„Endlich mal jemand, der mich bis zum Ende durchgezogen hat!“</strong> 😅`,
+      `Warum können Kühe so schlecht tanzen?<br/>
+       <strong>Weil sie immer aus dem Takt „muh’n“.</strong> 🐄🕺`,
 
-      `Warum war der Kalender so beliebt?<br />
-       <strong>Weil er so viele „verabredete Tage“ hatte.</strong> 😄`
+      `Im Manöver ruft der Ausbilder: „Stellen Sie sich vor, der Feind steht vor Ihnen! Was tun Sie?“<br/>
+       Sagt der Rekrut: <strong>„Melden, dass die Übung zu realistisch geworden ist, Herr Ausbilder!“</strong> 😄
+       <div class="joke-ps">PS: Ja, ich weiß nicht, ob er gut ist – aber ich fand ihn witzig. 🙈</div>`
     ];
 
     let jokeIndex = 0;
@@ -249,18 +257,15 @@
       if (isRunning) return;
       isRunning = true;
 
-      // Intro-Text ab dem ersten Klick ausblenden
       if (!introHidden) {
         introHidden = true;
         introParas.forEach(p => p.classList.add('hidden'));
       }
 
-      // Witz setzen und rotieren
       jokeEl.innerHTML = jokes[jokeIndex];
       jokeIndex = (jokeIndex + 1) % jokes.length;
       jokeEl.classList.add('show');
 
-      // Effekte vom Button ausgehend
       const rect = btn.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
