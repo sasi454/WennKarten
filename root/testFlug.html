@@ -153,8 +153,8 @@
       ""
     ];
 
-    const SPEED = 42;      // Basis: ms pro Zeichen
-    const PAUSE_END = 400; // Pause, bevor Cursor verschwindet
+    const SPEED = 42;      // konstante Tippgeschwindigkeit
+    const PAUSE_END = 400; // kleine Pause, bevor Cursor verschwindet
 
     const target = document.getElementById("text");
     const cursor = document.getElementById("cursor");
@@ -178,38 +178,10 @@
       step();
     }
 
-    function computeDelay(prevChar, currentChar){
-      let delay = SPEED;
-
-      // Extra-Pause nach "Hey du ❤️" (erste Zeile)
-      // -> Wenn wir die erste Zeile fertig geschrieben haben,
-      //    kommt ein Zeilenumbruch nach dem Herz.
-      if (currentChar === "\n" && target.textContent.trim() === "Hey du ❤️") {
-        return SPEED * 10; // spürbare Pause
-      }
-
-      // Zeilenumbrüche (Leerzeilen) -> etwas größere Pause
-      if (currentChar === "\n") {
-        delay = SPEED * 6;
-      }
-
-      // Nach Satzende (., !, ?) kurze Pause
-      if (prevChar === "." || prevChar === "!" || prevChar === "?") {
-        delay = SPEED * 3;
-      }
-
-      return delay;
-    }
-
     function step(){
-      const prevChar = fullText.charAt(idx - 1);
-      const currentChar = fullText.charAt(idx);
-
       target.textContent = fullText.slice(0, idx++);
-
       if (idx <= fullText.length){
-        const delay = computeDelay(prevChar, currentChar);
-        typingTimeout = setTimeout(step, delay);
+        typingTimeout = setTimeout(step, SPEED);
       } else {
         setTimeout(() => cursor.classList.add("hidden"), PAUSE_END);
       }
