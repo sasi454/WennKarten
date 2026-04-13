@@ -60,11 +60,15 @@
       display:flex;
       align-items:flex-start;
       gap:8px;
-      transition:background .15s ease, transform .08s ease;
+      transition:background .15s ease, transform .08s ease, box-shadow .12s ease;
     }
 
     button span.icon{
       font-size:1.4rem;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:1.6em;
     }
 
     button span.label{
@@ -82,6 +86,11 @@
       background: rgba(255,255,255,.24);
     }
 
+    .grid button.active{
+      box-shadow:0 0 0 1px rgba(248,250,252,.7);
+      background: rgba(255,255,255,.22);
+    }
+
     .out{
       margin-top:16px;
       line-height:1.55;
@@ -91,6 +100,17 @@
       border: 1px solid rgba(255,255,255,.12);
       min-height: 4.5em;
       font-size:1rem;
+    }
+
+    /* Würfel-Roll-Animation */
+    .dice-roll{
+      animation:diceRoll .6s ease;
+    }
+
+    @keyframes diceRoll{
+      0%{ transform:rotate(0deg) scale(1); }
+      40%{ transform:rotate(200deg) scale(1.2); }
+      100%{ transform:rotate(360deg) scale(1); }
     }
 
     @media (max-width:480px){
@@ -116,38 +136,23 @@
     <div class="tag">Tippe auf eins — ich hab was für dich 💛</div>
 
     <div class="grid">
-      <button type="button" data-k="lachen">
-        <span class="icon">😂</span>
-        <span class="label">Ich will lachen</span>
-      </button>
-
-      <button type="button" data-k="ruhe">
-        <span class="icon">🌙</span>
-        <span class="label">Ich brauche Ruhe</span>
-      </button>
-
-      <button type="button" data-k="mut">
-        <span class="icon">🔥</span>
-        <span class="label">Ich brauche Mut</span>
-      </button>
-
       <button type="button" data-k="stress">
         <span class="icon">😵</span>
         <span class="label">Ich bin gestresst</span>
       </button>
 
-      <button type="button" data-k="kuss">
-        <span class="icon">😘</span>
-        <span class="label">Ich will einen Kuss</span>
+      <button type="button" data-k="naehe">
+        <span class="icon">🤗</span>
+        <span class="label">Ich brauche Nähe</span>
       </button>
 
-      <button type="button" data-k="heim">
-        <span class="icon">🏠</span>
-        <span class="label">Ich hab Heimweh</span>
+      <button type="button" data-k="auftrag">
+        <span class="icon">📝</span>
+        <span class="label">Kleiner Auftrag</span>
       </button>
 
       <button type="button" data-k="random">
-        <span class="icon">🎲</span>
+        <span class="icon dice-icon">🎲</span>
         <span class="label">Überrasch mich</span>
       </button>
     </div>
@@ -161,33 +166,28 @@
     const out = document.getElementById("out");
 
     const content = {
-      lachen: [
-        "Kurzer Witz: Ich wollte dir was Süßes schicken… aber du bist schon weg. 😄",
-        "Denk an den Moment, als wir … (hier eure Insider-Sache einsetzen) 😂"
-      ],
-      ruhe: [
-        "Atme 4 Sekunden ein, halte 4, atme 6 aus. Wiederhole 5×. Ich atme in Gedanken mit dir. 🌙",
-        "Leg das Handy kurz weg, schließ die Augen und stell dir vor, ich streich dir langsam über den Rücken."
-      ],
-      mut: [
-        "Du kannst das. Du bist stärker, als du dich gerade fühlst. Und ich glaub an dich. 🔥",
-        "Such dir 1 kleine Sache aus, die du heute schaffst. Danach kurz innehalten und stolz auf dich sein. Wirklich."
-      ],
       stress: [
-        "Okay, Stress-Modus: Stopp für einen Moment. 3 tiefe Atemzüge. Bei jedem Ausatmen lässt du ein kleines bisschen Spannung los. Ich bin in Gedanken neben dir. 🤍",
-        "Schreib dir kurz 3 Dinge auf: 1️⃣ Was muss jetzt wirklich sein? 2️⃣ Was kann warten? 3️⃣ Was kann vielleicht ganz weg? Danach: einmal strecken, Schultern lockern, weiter in deinem Tempo. 💛"
+        "Okay, Stress-Modus: Stopp für einen Moment. 3 tiefe Atemzüge. Bei jedem Ausatmen lässt du ein bisschen Spannung los. Ich bin in Gedanken neben dir. 🤍",
+        "Schreib dir kurz 3 Dinge auf:"
+          "1. Was muss jetzt wirklich sein? "
+          "2. Was kann warten? "
+          "3. Was kann vielleicht ganz weg? "
+        "Danach: einmal strecken, Schultern lockern, weiter in deinem Tempo. 💛"
       ],
-      kuss: [
-        "*muah* 😘 Noch einer? *muah* 😘 (Ich geb dir den Rest, wenn du wieder da bist.)",
-        "Ich heb dir einen Extra-Kuss fürs Wiedersehen auf. Und ich verspreche: Der wird richtig gut. ❤️"
+      naehe: [
+        "Stell dir vor, wir liegen zusammen auf dem Sofa. Decke, am kuschekn, Aster irgendwo dazwischen. Ich lehne meinen Kopf an deine Schulter und atme mit dir. 🤍",
+        "Leg das Handy kurz weg, schließ die Augen und stell dir vor, ich streich dir langsam über den Rücken.",
+        "Augen zu: Du kommst nach Hause, ich umarm dich so lange, bis du merkst, wie dein Körper langsam loslässt. Ich bin hier, auch wenn du gerade weit weg bist. 🤗"
       ],
-      heim: [
-        "Heimweh heißt nur, dass du irgendwo geliebt wirst. Und genau da warten wir auf dich. 🏠",
-        "Wenn du zurück bist, machen wir: ___ (Date-Idee). Deal? Ich freu mich jetzt schon drauf."
+      auftrag: [
+        "Kleiner Auftrag: Such dir in deiner Nähe eine Sache, die schön ist (Himmel, Haus, Baum, irgendwas) und schick mir später ein Foto davon. Ich will durch deine Augen bei dir sein.💛",
+        "Schreib mir heute eine Nachricht mit etwas, das gut oder sogar schön war. Nur einen Satz. Den Rest holen wir nach, wenn du wieder da bist. ✨"
       ],
       random: [
         "Überraschung: Du bist mein Lieblingsmensch. Immer.",
-        "Ich bin stolz auf dich. (Ja, wirklich. Mehr, als du wahrscheinlich denkst.)"
+        "Ich bin stolz auf dich. (Ja, wirklich. Mehr, als du denkst.)",
+        "Wenn du zurück bist, gehen wir in die Therme. Deal? Ich freu mich jetzt schon drauf. 💛",
+        "Atme 4 Sekunden ein, halte 4, atme 6 aus. Wiederhole 5×. Ich atme in Gedanken mit dir. 🌙"
       ]
     };
 
@@ -195,11 +195,28 @@
       return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    document.querySelectorAll(".grid button").forEach(btn => {
+    const buttons = document.querySelectorAll(".grid button");
+
+    buttons.forEach(btn => {
       btn.addEventListener("click", () => {
         const k = btn.dataset.k;
         const options = content[k];
         if (!options) return;
+
+        // aktiven Button hervorheben
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        // Würfel-Animation nur bei "random"
+        if (k === "random") {
+          const icon = btn.querySelector(".dice-icon");
+          if (icon) {
+            icon.classList.remove("dice-roll");
+            void icon.offsetWidth; // Reflow
+            icon.classList.add("dice-roll");
+          }
+        }
+
         out.textContent = pick(options);
       });
     });
