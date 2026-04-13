@@ -130,24 +130,30 @@
       <span id="text"></span><span id="cursor" class="cursor"></span>
     </div>
     <div class="actions">
-      <button id="restart">Nochmal anhören 🔁</button>
-      <button id="skip">Direkt alles lesen ⏩</button>
+      <button id="restart">Nochmal abspielen</button>
     </div>
   </div>
 
   <script>
     const lines = [
       "Hey du ❤️",
-      "Du machst das richtig gut.",
-      "Egal, wie anstrengend es gerade ist:",
-      "Ich glaube an dich. Immer.",
+      "Du bist ein Kämpfer.",
+      "Du schaffst alles, was du dir vornimmst – das weiß ich.",
       "",
-      "Und wenn du zweifelst:",
-      "Denk an uns. Denk an zuhause.",
-      "Ich bin da. Mehr, als du gerade denkst. 🫶"
+      "Aber ich möchte dir auch sagen:",
+      "Es gibt Tage, die grau sind,",
+      "an denen sich alles schwer und anstrengend anfühlt.",
+      "",
+      "Genau dann musst du dich an die kleinsten schönen Momente halten.",
+      "An einen Schmetterling, der vorbeifliegt.",
+      "An einen Sonnenstrahl im Gesicht.",
+      "An eine hübsche Blume am Weg.",
+      "",
+      "Diese kleinen Dinge sind Erinnerungen daran,",
+      "dass es immer noch Licht gibt – und dass du da durchkommst. 🫶"
     ];
 
-    const SPEED = 28;   // ms pro Zeichen
+    const SPEED = 42;      // ms pro Zeichen (langsamer als vorher)
     const PAUSE_END = 400; // kleine Pause am Ende
 
     const target = document.getElementById("text");
@@ -184,21 +190,8 @@
       }
     }
 
-    function finishTyping(){
-      clearTypingTimeout();
-      target.textContent = fullText;
-      isTyping = false;
-      cursor.classList.add("hidden");
-    }
-
     document.getElementById("restart").addEventListener("click", () => {
       startTyping();
-    });
-
-    document.getElementById("skip").addEventListener("click", () => {
-      if (isTyping){
-        finishTyping();
-      }
     });
 
     // automatisch beim Laden starten
