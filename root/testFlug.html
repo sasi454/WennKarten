@@ -136,7 +136,7 @@
 
   <script>
     const lines = [
-      "  Hey du ❤️",
+      "Hey du ❤️",
       "Es gibt schwere Tage, an denen alles grau ist,",
       "an denen sich alles schwer und anstrengend anfühlt.",
       "",
@@ -144,6 +144,7 @@
       "An einen Schmetterling, der vorbeifliegt.",
       "An einen Sonnenstrahl im Gesicht.",
       "An eine hübsche Blume am Weg.",
+      "",
       "Diese kleinen Dinge sind Erinnerungen daran,",
       "dass es immer noch Licht gibt – und dass du da durchkommst. 🫶",
       "",
@@ -152,8 +153,8 @@
       ""
     ];
 
-    const SPEED = 42;      // ms pro Zeichen
-    const PAUSE_END = 400; // kleine Pause am Ende
+    const SPEED = 42;      // Basis: ms pro Zeichen
+    const PAUSE_END = 400; // Pause, bevor Cursor verschwindet
 
     const target = document.getElementById("text");
     const cursor = document.getElementById("cursor");
@@ -161,7 +162,6 @@
 
     let idx = 0;
     let typingTimeout = null;
-    let isTyping = false;
 
     function clearTypingTimeout(){
       if (typingTimeout){
@@ -172,19 +172,45 @@
 
     function startTyping(){
       clearTypingTimeout();
-      isTyping = true;
       idx = 0;
       target.textContent = "";
       cursor.classList.remove("hidden");
       step();
     }
 
+    function computeDelay(prevChar, currentChar){
+      let delay = SPEED;
+
+      // Extra-Pause nach "Hey du ❤️" (erste Zeile)
+      // -> Wenn wir die erste Zeile fertig geschrieben haben,
+      //    kommt ein Zeilenumbruch nach dem Herz.
+      if (currentChar === "\n" && target.textContent.trim() === "Hey du ❤️") {
+        return SPEED * 10; // spürbare Pause
+      }
+
+      // Zeilenumbrüche (Leerzeilen) -> etwas größere Pause
+      if (currentChar === "\n") {
+        delay = SPEED * 6;
+      }
+
+      // Nach Satzende (., !, ?) kurze Pause
+      if (prevChar === "." || prevChar === "!" || prevChar === "?") {
+        delay = SPEED * 3;
+      }
+
+      return delay;
+    }
+
     function step(){
+      const prevChar = fullText.charAt(idx - 1);
+      const currentChar = fullText.charAt(idx);
+
       target.textContent = fullText.slice(0, idx++);
+
       if (idx <= fullText.length){
-        typingTimeout = setTimeout(step, SPEED);
+        const delay = computeDelay(prevChar, currentChar);
+        typingTimeout = setTimeout(step, delay);
       } else {
-        isTyping = false;
         setTimeout(() => cursor.classList.add("hidden"), PAUSE_END);
       }
     }
