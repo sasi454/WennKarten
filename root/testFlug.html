@@ -91,9 +91,7 @@
       box-shadow:0 6px 16px rgba(15,23,42,.7);
     }
 
-    .hidden{
-      display:none;
-    }
+    .hidden{display:none;}
 
     .fade-in{
       animation:fadeIn .45s ease forwards;
@@ -179,11 +177,6 @@
 
     <button id="btn">Bring mich zum Lachen</button>
 
-    <p id="hidden" class="hidden">
-      Stell dir vor, ich stupse dich an und sage:
-      <strong>„Komm, ein bisschen albern sein ist jetzt offiziell erlaubt.“</strong> 😄
-    </p>
-
     <div id="joke" class="joke"></div>
   </main>
 
@@ -232,19 +225,20 @@
       document.body.appendChild(b);
     }
 
-    const btn    = document.getElementById('btn');
-    const hidden = document.getElementById('hidden');
-    const jokeEl = document.getElementById('joke');
+    const btn        = document.getElementById('btn');
+    const jokeEl     = document.getElementById('joke');
     const introParas = document.querySelectorAll('.intro');
 
-    // Zwei Witze, die abwechselnd angezeigt werden
+    // Drei Witze, die rotieren
     const jokes = [
-      `Mini‑Witz:<br />
-       Warum musste der Laptop kichern?<br />
-       <strong>Weil jemand ihm ein richtig „lustiges Update“ verpasst hat.</strong> 🤭`,
-      `Mini‑Witz:<br />
-       Was sagt ein Buch, wenn es fertig gelesen ist?<br />
-       <strong>„Endlich mal jemand, der mich bis zum Ende durchgezogen hat!“</strong> 😅`
+      `Warum musste der Laptop kichern?<br />
+       <strong>Weil jemand ihm ein richtig lustiges Update verpasst hat.</strong> 🤭`,
+
+      `Was sagt ein Buch, wenn es fertig gelesen ist?<br />
+       <strong>„Endlich mal jemand, der mich bis zum Ende durchgezogen hat!“</strong> 😅`,
+
+      `Warum war der Kalender so beliebt?<br />
+       <strong>Weil er so viele „verabredete Tage“ hatte.</strong> 😄`
     ];
 
     let jokeIndex = 0;
@@ -259,10 +253,9 @@
       if (!introHidden) {
         introHidden = true;
         introParas.forEach(p => p.classList.add('hidden'));
-        hidden.classList.add('hidden'); // den kleinen Zusatztext auch ausblenden
       }
 
-      // Witz wechseln
+      // Witz setzen und rotieren
       jokeEl.innerHTML = jokes[jokeIndex];
       jokeIndex = (jokeIndex + 1) % jokes.length;
       jokeEl.classList.add('show');
