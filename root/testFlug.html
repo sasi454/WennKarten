@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Lachen 😂</title>
+  <title>Heimweh 🫶</title>
   <style>
     :root{
       --bg:#0f172a;
@@ -14,8 +14,8 @@
       --btnText:#0f172a;
       --radius:22px;
       --shadow: 0 18px 50px rgba(0,0,0,.35);
-      --accent:#fbbf24;
-      --accent2:#60a5fa;
+      --accent:#fb7185;
+      --accent2:#fbbf24;
     }
 
     *{
@@ -102,15 +102,51 @@
       to{opacity:1;transform:translateY(0);}
     }
 
-    .emoji{
-      font-size:62px;
-      animation:bounce 1.3s ease-in-out infinite;
+    .warm{
+      font-size:58px;
+      animation:warm 2.6s ease-in-out infinite;
       filter:drop-shadow(0 14px 24px rgba(0,0,0,.35));
+      margin-top:4px;
+      margin-bottom:4px;
     }
 
-    @keyframes bounce{
+    @keyframes warm{
       0%,100%{transform:translateY(0)}
-      50%{transform:translateY(-10px)}
+      50%{transform:translateY(-8px)}
+    }
+
+    .paper{
+      position:fixed;
+      left:-120px;
+      top:30vh;
+      font-size:30px;
+      opacity:.9;
+      pointer-events:none;
+      offset-path: path("M -140 260 C 160 120, 360 420, 660 260 S 1060 180, 1380 280");
+      offset-distance:0%;
+      offset-rotate:auto 18deg;
+      animation: paperFly 9.5s linear infinite;
+      filter:drop-shadow(0 10px 18px rgba(0,0,0,.25));
+      z-index:0;
+    }
+
+    @keyframes paperFly{
+      from{offset-distance:0%}
+      to{offset-distance:100%}
+    }
+
+    @supports not (offset-path: path("M 0 0 L 1 1")){
+      .paper{
+        left:-140px;
+        offset-path:none;
+        offset-rotate:0deg;
+        animation: paperFallback 10s linear infinite;
+      }
+      @keyframes paperFallback{
+        0%{transform:translateX(-140px) translateY(0) rotate(10deg)}
+        50%{transform:translateX(50vw) translateY(-10px) rotate(6deg)}
+        100%{transform:translateX(calc(100vw + 260px)) translateY(6px) rotate(9deg)}
+      }
     }
 
     .float-emoji{
@@ -120,39 +156,6 @@
       z-index:9999;
       transition: transform 1.2s ease, opacity 1.2s ease;
       will-change: transform, opacity;
-    }
-
-    .bubble{
-      position:fixed;
-      font-size:18px;
-      opacity:.18;
-      pointer-events:none;
-      animation:float 10s linear infinite;
-      z-index:0;
-    }
-
-    @keyframes float{
-      from{transform:translateY(12vh);}
-      to{transform:translateY(-120vh);}
-    }
-
-    .joke{
-      display:none;
-      margin-top:10px;
-      color:#fff;
-    }
-
-    .joke.show{
-      display:block;
-      animation:fadeIn .45s ease forwards;
-    }
-
-    .joke-ps{
-      margin-top:8px;
-      font-size:0.88rem;
-      color:#e5e7ebcc;
-      opacity:0;
-      animation:fadeIn .6s ease forwards .25s;
     }
 
     @media (max-width:480px){
@@ -169,29 +172,35 @@
   </style>
 </head>
 <body>
+  <div class="paper" aria-hidden="true">🛩️💛</div>
+
   <main class="card">
-    <h1>Ein kleines Lachen für dich 😂</h1>
+    <h1>Ich schick dir ein Stück Zuhause 🫶</h1>
 
-    <p class="intro">
-      Für den Moment, in dem alles ernst ist und du kurz vergessen hast,
-      wie sich richtiges Lachen anfühlt.
+    <p>
+      Wenn du Heimweh hast, heißt das nur, dass dein Herz weiß,
+      wo es sich zuhause fühlt. Und das ist etwas Wunderschönes.
     </p>
-    <p class="intro">
-      Atme einmal tief ein, locker die Schultern…  
-      und dann stell dir vor, wie wir zusammen über irgendetwas völlig Albernes lachen.
+    <p>
+      Auch wenn wir gerade weit auseinander sind:
+      In meinem Kopf und in meinem Herzen bist du immer genau hier bei mir.
     </p>
 
-    <div class="emoji">😂</div>
+    <div class="warm">🏠🤍</div>
 
-    <button id="btn">Bring mich zum Lachen</button>
+    <button id="btn">Drück mich, wenn du mich vermisst</button>
 
-    <div id="joke" class="joke"></div>
+    <p id="hidden" class="hidden">
+      Wenn es schwer ist: Leg eine Hand auf deine Brust.
+      Genau da bin ich in Gedanken – ganz nah bei dir. 💛<br/><br/>
+      <strong>Du bist mutig. Und wir haben uns.</strong>
+    </p>
   </main>
 
   <script>
     function sparkles({
       amount = 12,
-      emojis = ["💛","💗","💞","✨","🤍"],
+      emojis = ["🏠","🤍","💛","✨"],
       x,
       y
     } = {}) {
@@ -221,60 +230,28 @@
       }
     }
 
-    // Hintergrund-Bubbles
-    for (let i = 0; i < 14; i++) {
-      const b = document.createElement('div');
-      b.className = 'bubble';
-      b.textContent = ['✨','💛','💞','😂'][Math.floor(Math.random()*4)];
-      b.style.left = Math.random() * 100 + '%';
-      b.style.top = (60 + Math.random() * 60) + '%';
-      b.style.animationDuration = (8 + Math.random() * 8) + 's';
-      b.style.fontSize = (14 + Math.random() * 16) + 'px';
-      document.body.appendChild(b);
-    }
-
-    const btn        = document.getElementById('btn');
-    const jokeEl     = document.getElementById('joke');
-    const introParas = document.querySelectorAll('.intro');
-
-    const jokes = [
-      `Du jeden Morgen: „Ich fühl mich so alt.“<br/>
-       Ich: „Du bist noch jung – aber wenn du morgens aufstehst, knackt mehr als nur der Boden.“ 😂`,
-
-      `Warum können Kühe so schlecht tanzen?<br/>
-       <strong>Weil sie immer aus dem Takt „muh’n“.</strong> 🐄🕺`,
-
-      `Im Manöver ruft der Ausbilder: „Stellen Sie sich vor, der Feind steht vor Ihnen! Was tun Sie?“<br/>
-       Sagt der Rekrut: <strong>„Melden, dass die Übung zu realistisch geworden ist, Herr Ausbilder!“</strong> 😄
-       <div class="joke-ps">PS: Ja, ich weiß nicht, ob er gut ist – aber ich fand ihn witzig. 🙈</div>`
-    ];
-
-    let jokeIndex = 0;
+    const btn    = document.getElementById('btn');
+    const hidden = document.getElementById('hidden');
     let isRunning = false;
-    let introHidden = false;
 
     btn.addEventListener('click', () => {
       if (isRunning) return;
       isRunning = true;
 
-      if (!introHidden) {
-        introHidden = true;
-        introParas.forEach(p => p.classList.add('hidden'));
+      if (hidden.classList.contains('hidden')) {
+        hidden.classList.remove('hidden');
+        hidden.classList.add('fade-in');
       }
-
-      jokeEl.innerHTML = jokes[jokeIndex];
-      jokeIndex = (jokeIndex + 1) % jokes.length;
-      jokeEl.classList.add('show');
 
       const rect = btn.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
 
       sparkles({
-        amount: 18,
-        emojis: ['😂','✨','💛','💗'],
-        x: centerX,
-        y: centerY
+        amount:14,
+        emojis:['🏠','🤍','💛','✨'],
+        x:centerX,
+        y:centerY
       });
 
       setTimeout(() => { isRunning = false; }, 800);
