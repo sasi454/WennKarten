@@ -3,15 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sterne für dich ✨</title>
+  <title>Du schaffst das</title>
   <style>
     :root{
-      --bg-top:#1d2b64;
-      --bg-bottom:#0b1020;
-      --box-bg:rgba(0,0,0,.25);
-      --box-border:rgba(255,255,255,.12);
+      --bg1:#0b1320;
+      --bg2:#1c2541;
+      --card-bg:rgba(255,255,255,.06);
+      --card-border:rgba(255,255,255,.12);
       --text:#f9fafb;
-      --muted:#cbd5e1;
+      --muted:#e5e7eb;
+      --accent:#38bdf8;
     }
 
     *{
@@ -22,228 +23,186 @@
     body{
       margin:0;
       min-height:100vh;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background: radial-gradient(circle at 50% 30%, var(--bg-top), var(--bg-bottom) 70%);
-      position:relative;
-      overflow-x:hidden;
-      overflow-y:auto;
-    }
-
-    canvas{
-      position:fixed;
-      inset:0;
-      width:100%;
-      height:100%;
-      display:block;
-      z-index:0;
-    }
-
-    .overlay{
-      position:relative;
-      z-index:1;
-      min-height:100vh;
       display:grid;
       place-items:center;
-      text-align:center;
-      padding:24px 16px;
+      padding:18px 14px;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
     }
 
-    .box{
-      width:min(560px, 92vw);
-      background: var(--box-bg);
-      border: 1px solid var(--box-border);
+    .wrap{
+      width:min(680px, 100%);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-radius: 24px;
-      padding: 18px 16px;
-      backdrop-filter: blur(8px);
-      opacity:0;
-      transform: translateY(8px);
-      animation: boxFadeIn 0.9s ease forwards 0.2s;
+      padding: 22px 18px;
+      box-shadow: 0 14px 44px rgba(0,0,0,.35);
     }
 
     h1{
-      margin:0;
-      font-size:1.4rem;
+      margin:0 0 10px;
+      font-size:1.45rem;
     }
 
-    p{
-      margin:.65rem 0 0;
+    .typing{
+      font-size:1.08rem;
       line-height:1.55;
+      min-height: 5.4em;
+      white-space: pre-wrap;
       color:var(--muted);
     }
 
-    @keyframes boxFadeIn{
-      from{ opacity:0; transform:translateY(8px); }
-      to{ opacity:1; transform:translateY(0); }
+    .cursor{
+      display:inline-block;
+      width:10px;
+      margin-left:3px;
+      background:#fff;
+      height:1.1em;
+      transform: translateY(2px);
+      animation: blink .9s infinite;
+    }
+
+    .cursor.hidden{
+      opacity:0;
+      animation:none;
+    }
+
+    @keyframes blink{
+      50% { opacity:0; }
+    }
+
+    .actions{
+      margin-top:14px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border:0;
+      border-radius:14px;
+      padding:10px 14px;
+      background: rgba(255,255,255,.12);
+      color:#fff;
+      cursor:pointer;
+      font: inherit;
+      font-size:0.95rem;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      transition: background .15s ease, transform .08s ease, box-shadow .15s ease;
+    }
+
+    button:hover{
+      background: rgba(255,255,255,.2);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(0,0,0,.4);
+    }
+
+    button:active{
+      transform: translateY(0);
+      box-shadow: 0 4px 12px rgba(0,0,0,.5);
+    }
+
+    button:focus-visible{
+      outline:2px solid var(--accent);
+      outline-offset:3px;
     }
 
     @media (max-width:480px){
-      h1{ font-size:1.25rem; }
-      .box{ padding:16px 14px; }
+      .wrap{
+        padding:20px 14px;
+      }
+      h1{
+        font-size:1.3rem;
+      }
+      .typing{
+        font-size:1rem;
+      }
     }
   </style>
 </head>
 <body>
-  <canvas id="c"></canvas>
-
-  <div class="overlay">
-    <div class="box">
-      <h1>Wenn dein Kopf zu laut ist…</h1>
-      <p>
-        Leg dich hin, schließ für einen Moment die Augen. 🌙<br>
-        Stell dir vor, jeder Stern da oben nimmt dir einen Gedanken ab –  
-        bis nur noch der übrig bleibt, dass ich gerade an dich denke  
-        und dich in Gedanken ganz fest halte. ✨
-      </p>
+  <div class="wrap">
+    <h1>Wenn du Motivation brauchst…</h1>
+    <div class="typing">
+      <span id="text"></span><span id="cursor" class="cursor"></span>
+    </div>
+    <div class="actions">
+      <button id="restart">Nochmal anhören 🔁</button>
+      <button id="skip">Direkt alles lesen ⏩</button>
     </div>
   </div>
 
   <script>
-    const canvas = document.getElementById("c");
-    const ctx = canvas.getContext("2d");
+    const lines = [
+      "Hey du ❤️",
+      "Du machst das richtig gut.",
+      "Egal, wie anstrengend es gerade ist:",
+      "Ich glaube an dich. Immer.",
+      "",
+      "Und wenn du zweifelst:",
+      "Denk an uns. Denk an zuhause.",
+      "Ich bin da. Mehr, als du gerade denkst. 🫶"
+    ];
 
-    const MAX_DPR       = 2;
-    const STAR_DENSITY  = 0.00018;   // Sterne pro Pixel²
-    const SHOOT_INTERVAL_MIN = 7000; // 7s
-    const SHOOT_INTERVAL_MAX = 15000;// 15s
+    const SPEED = 28;   // ms pro Zeichen
+    const PAUSE_END = 400; // kleine Pause am Ende
 
-    let w = 0, h = 0, dpr = 1;
-    let stars = [];
-    let resizeScheduled = false;
+    const target = document.getElementById("text");
+    const cursor = document.getElementById("cursor");
+    const fullText = lines.join("\n");
 
-    function createStars(count){
-      stars = Array.from({ length: count }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r: (Math.random() * 1.2 + 0.2) * dpr,
-        alpha: Math.random() * 0.8 + 0.2,
-        targetAlpha: Math.random() * 0.8 + 0.2,
-        twinkleSpeed: 0.01 + Math.random() * 0.02,
-        fallSpeed: (0.05 + Math.random() * 0.25) * dpr
-      }));
+    let idx = 0;
+    let typingTimeout = null;
+    let isTyping = false;
+
+    function clearTypingTimeout(){
+      if (typingTimeout){
+        clearTimeout(typingTimeout);
+        typingTimeout = null;
+      }
     }
 
-    function resize(){
-      const _dpr  = Math.min(window.devicePixelRatio || 1, MAX_DPR);
-      const width = window.innerWidth;
-      const height= window.innerHeight;
-
-      dpr = _dpr;
-      w   = canvas.width  = width  * dpr;
-      h   = canvas.height = height * dpr;
-
-      const starCount = Math.round(w * h * STAR_DENSITY);
-      createStars(starCount);
+    function startTyping(){
+      clearTypingTimeout();
+      isTyping = true;
+      idx = 0;
+      target.textContent = "";
+      cursor.classList.remove("hidden");
+      step();
     }
 
-    window.addEventListener("resize", () => {
-      if (!resizeScheduled) {
-        resizeScheduled = true;
-        requestAnimationFrame(() => {
-          resize();
-          resizeScheduled = false;
-        });
+    function step(){
+      target.textContent = fullText.slice(0, idx++);
+      if (idx <= fullText.length){
+        typingTimeout = setTimeout(step, SPEED);
+      } else {
+        isTyping = false;
+        setTimeout(() => cursor.classList.add("hidden"), PAUSE_END);
+      }
+    }
+
+    function finishTyping(){
+      clearTypingTimeout();
+      target.textContent = fullText;
+      isTyping = false;
+      cursor.classList.add("hidden");
+    }
+
+    document.getElementById("restart").addEventListener("click", () => {
+      startTyping();
+    });
+
+    document.getElementById("skip").addEventListener("click", () => {
+      if (isTyping){
+        finishTyping();
       }
     });
 
-    resize();
-
-    function drawStars(){
-      ctx.clearRect(0, 0, w, h);
-
-      for (const st of stars) {
-        // Twinkle-Logik
-        if (Math.abs(st.alpha - st.targetAlpha) < 0.02) {
-          st.targetAlpha = Math.random() * 0.8 + 0.2;
-        } else {
-          st.alpha += (st.targetAlpha - st.alpha) * st.twinkleSpeed;
-        }
-
-        const a = Math.max(0.15, Math.min(1, st.alpha));
-        ctx.globalAlpha = a;
-        ctx.beginPath();
-        ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
-        ctx.fillStyle = "#ffffff";
-        ctx.fill();
-
-        // sanft nach unten treiben
-        st.y += st.fallSpeed;
-        if (st.y - st.r > h) {
-          st.y = -10 * dpr;
-          st.x = Math.random() * w;
-        }
-      }
-
-      ctx.globalAlpha = 1;
-    }
-
-    // Sternschnuppe zeichnen
-    function drawShootingStar(star){
-      const { x, y, length, progress, angle } = star;
-      const rad = angle * Math.PI / 180;
-
-      const tailX = x - Math.cos(rad) * length * progress;
-      const tailY = y - Math.sin(rad) * length * progress;
-
-      const grad = ctx.createLinearGradient(x, y, tailX, tailY);
-      grad.addColorStop(0, `rgba(255,255,255,${1 - progress})`);
-      grad.addColorStop(1, "rgba(255,255,255,0)");
-
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = 2 * dpr;
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(tailX, tailY);
-      ctx.stroke();
-    }
-
-    let shootingStars = [];
-
-    function spawnShootingStar(){
-      const startX = Math.random() * w * 0.6 + w * 0.1; // irgendwo im oberen Bereich
-      const startY = Math.random() * h * 0.3 + h * 0.05;
-      const angle  = 30 + Math.random() * 30;          // 30–60 Grad
-      const length = (220 + Math.random() * 140) * dpr;
-
-      shootingStars.push({
-        x: startX,
-        y: startY,
-        length,
-        angle,
-        speed: 0.008 + Math.random() * 0.004, // wie schnell progress steigt
-        progress: 0
-      });
-    }
-
-    function scheduleNextShootingStar(){
-      const delay = SHOOT_INTERVAL_MIN + Math.random() * (SHOOT_INTERVAL_MAX - SHOOT_INTERVAL_MIN);
-      setTimeout(() => {
-        spawnShootingStar();
-        scheduleNextShootingStar();
-      }, delay);
-    }
-
-    scheduleNextShootingStar();
-
-    function animate(){
-      drawStars();
-
-      // Sternschnuppen updaten/zeichnen
-      shootingStars = shootingStars.filter(st => {
-        st.progress += st.speed;
-        if (st.progress >= 1.0) return false;
-        // Position entlang der Bahn verschieben
-        const rad = st.angle * Math.PI / 180;
-        st.x += Math.cos(rad) * st.speed * st.length;
-        st.y += Math.sin(rad) * st.speed * st.length;
-        drawShootingStar(st);
-        return true;
-      });
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
+    // automatisch beim Laden starten
+    startTyping();
   </script>
 </body>
 </html>
