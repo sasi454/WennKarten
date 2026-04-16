@@ -1,10 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Was brauchst du gerade?</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lachen 😂</title>
   <style>
+    :root{
+      --bg:#0f172a;
+      --card:#ffffff10;
+      --text:#ffffff;
+      --muted:#cbd5e1;
+      --btn:#ffffff;
+      --btnText:#0f172a;
+      --radius:22px;
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --accent:#fbbf24;
+      --accent2:#60a5fa;
+    }
+
     *{
       box-sizing:border-box;
       -webkit-tap-highlight-color: transparent;
@@ -13,208 +26,289 @@
     body{
       margin:0;
       min-height:100vh;
-      display:grid;
-      place-items:center;
-      padding:16px;
-      background: radial-gradient(circle at 30% 20%, #2a2a72, #0b0b12 70%);
+      display:flex;
+      justify-content:center;
+      align-items:center;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:#fff;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 700px at 20% 10%, #26307a 0%, transparent 60%),
+        radial-gradient(900px 600px at 90% 30%, #7a2650 0%, transparent 55%),
+        var(--bg);
+      overflow-x:hidden;
+      overflow-y:auto;
+      padding:18px 14px 26px;
     }
 
-    .card{
-      width:min(720px, 100%);
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:24px;
-      padding:18px 16px 20px;
-      box-shadow: 0 14px 44px rgba(0,0,0,.35);
+    main.card{
+      width:min(560px, 100%);
+      background:var(--card);
+      border:1px solid #ffffff1a;
+      backdrop-filter: blur(10px);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:24px 20px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+      z-index:1;
     }
 
     h1{
+      font-size:2rem;
       margin:0 0 8px;
-      font-size:1.5rem;
+      letter-spacing:.2px;
     }
 
-    .tag{
-      opacity:.8;
-      font-size:.95rem;
-    }
-
-    .grid{
-      display:grid;
-      gap:10px;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      margin-top:14px;
+    p{
+      margin:0 0 14px;
+      color:var(--muted);
+      line-height:1.5;
+      font-size:1.05rem;
     }
 
     button{
-      border:0;
-      border-radius:18px;
-      padding:14px 12px;
-      background: rgba(255,255,255,.12);
-      color:#fff;
+      padding:12px 18px;
+      font-size:16px;
+      margin-top:12px;
+      border:none;
+      border-radius:14px;
       cursor:pointer;
-      text-align:left;
-      font: inherit;
-      line-height:1.3;
-      display:flex;
-      align-items:flex-start;
-      gap:8px;
-      transition:background .15s ease, transform .08s ease, box-shadow .12s ease;
-    }
-
-    button span.icon{
-      font-size:1.4rem;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      width:1.6em;
-    }
-
-    button span.label{
-      flex:1;
-      font-size:.98rem;
+      background:var(--btn);
+      color:var(--btnText);
+      font-weight:900;
+      transition:transform .08s ease, filter .2s ease, box-shadow .1s ease;
+      box-shadow:0 10px 26px rgba(15,23,42,.6);
     }
 
     button:hover{
-      background: rgba(255,255,255,.18);
       transform:translateY(-1px);
+      filter:brightness(1.05);
     }
 
     button:active{
-      transform:translateY(0);
-      background: rgba(255,255,255,.24);
+      transform:translateY(0px);
+      box-shadow:0 6px 16px rgba(15,23,42,.7);
     }
 
-    .grid button.active{
-      box-shadow:0 0 0 1px rgba(248,250,252,.7);
-      background: rgba(255,255,255,.22);
+    .hidden{display:none;}
+
+    .fade-in{
+      animation:fadeIn .45s ease forwards;
     }
 
-    .out{
-      margin-top:16px;
-      line-height:1.55;
-      padding:12px 12px 14px;
-      border-radius:16px;
-      background: rgba(0,0,0,.3);
-      border: 1px solid rgba(255,255,255,.12);
-      min-height: 4.5em;
-      font-size:1rem;
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(6px);}
+      to{opacity:1;transform:translateY(0);}
     }
 
-    /* Würfel-Roll-Animation */
-    .dice-roll{
-      animation:diceRoll .6s ease;
+    .emoji{
+      font-size:62px;
+      animation:bounce 1.3s ease-in-out infinite;
+      filter:drop-shadow(0 14px 24px rgba(0,0,0,.35));
     }
 
-    @keyframes diceRoll{
-      0%{ transform:rotate(0deg) scale(1); }
-      40%{ transform:rotate(200deg) scale(1.2); }
-      100%{ transform:rotate(360deg) scale(1); }
+    @keyframes bounce{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-10px)}
+    }
+
+    .float-emoji{
+      position:fixed;
+      opacity:.95;
+      pointer-events:none;
+      z-index:9999;
+      transition: transform 1.2s ease, opacity 1.2s ease;
+      will-change: transform, opacity;
+    }
+
+    .bubble{
+      position:fixed;
+      font-size:18px;
+      opacity:.18;
+      pointer-events:none;
+      animation:float 10s linear infinite;
+      z-index:0;
+    }
+
+    @keyframes float{
+      from{transform:translateY(12vh);}
+      to{transform:translateY(-120vh);}
+    }
+
+    .joke{
+      display:none;
+      margin-top:10px;
+      color:#fff;
+    }
+
+    .joke.show{
+      display:block;
+      animation:fadeIn .45s ease forwards;
+    }
+
+    .joke-ps{
+      margin-top:8px;
+      font-size:0.88rem;
+      color:#e5e7ebcc;
+      opacity:0;
+      animation:fadeIn .6s ease forwards .25s;
     }
 
     @media (max-width:480px){
-      .card{
-        border-radius:18px;
-        padding:16px 12px 18px;
+      main.card{
+        padding:20px 16px;
       }
       h1{
-        font-size:1.3rem;
+        font-size:1.7rem;
       }
-      button{
-        padding:12px 10px;
-      }
-      .out{
-        font-size:.97rem;
+      p{
+        font-size:1rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Was brauchst du gerade?</h1>
-    <div class="tag">Tippe auf eins — ich hab was für dich 💛</div>
+  <main class="card">
+    <h1>Ein kleines Lachen für dich 😂</h1>
 
-    <div class="grid">
-      <button type="button" data-k="stress">
-        <span class="icon">😵</span>
-        <span class="label">Ich bin gestresst</span>
-      </button>
+    <p class="intro">
+      Für den Moment, in dem alles ernst ist und du kurz vergessen hast,
+      wie sich richtiges Lachen anfühlt.
+    </p>
+    <p class="intro">
+      Atme einmal tief ein, locker die Schultern…  
+      und dann stell dir vor, wie wir zusammen über irgendetwas völlig Albernes lachen.
+    </p>
 
-      <button type="button" data-k="naehe">
-        <span class="icon">🤗</span>
-        <span class="label">Ich brauche Nähe</span>
-      </button>
+    <div class="emoji">😂</div>
 
-      <button type="button" data-k="auftrag">
-        <span class="icon">📝</span>
-        <span class="label">Kleiner Auftrag</span>
-      </button>
+    <button id="btn">Bring mich zum Lachen</button>
 
-      <button type="button" data-k="random">
-        <span class="icon dice-icon">🎲</span>
-        <span class="label">Überrasch mich</span>
-      </button>
-    </div>
-
-    <div class="out" id="out" aria-live="polite">
-      Wähle eine Stimmung — ich bin da.
-    </div>
-  </div>
+    <div id="joke" class="joke"></div>
+  </main>
 
   <script>
-    const out = document.getElementById("out");
+    function sparkles({
+      amount = 12,
+      emojis = ["💛","💗","💞","✨","🤍"],
+      x,
+      y
+    } = {}) {
+      const startX = x ?? window.innerWidth / 2;
+      const startY = y ?? window.innerHeight * 0.58;
 
-    const content = {
-      stress: [
-        "Okay, Stress-Modus: Stopp für einen Moment. 3 tiefe Atemzüge. Bei jedem Ausatmen lässt du ein bisschen Spannung los. Ich bin in Gedanken neben dir. 🤍",
-        "Schreib dir kurz 3 Dinge auf: 1️⃣ Was muss jetzt wirklich sein? 2️⃣ Was kann warten? 3️⃣ Was kann vielleicht ganz weg? Danach: einmal strecken, Schultern lockern, weiter in deinem Tempo. 💛"
-      ],
-      naehe: [
-        "Stell dir vor, wir liegen zusammen auf dem Sofa. Decke, leise Musik, Aster irgendwo dazwischen. Ich lehne meinen Kopf an deine Schulter und atme mit dir. 🤍",
-        "Leg das Handy kurz weg, schließ die Augen und stell dir vor, ich streich dir langsam über den Rücken.",
-        "Augen zu: Du kommst nach Hause, ich umarm dich so lange, bis du merkst, wie dein Körper langsam loslässt. Ich bin hier, auch wenn du gerade weit weg bist. 🤗"
-      ],
-      auftrag: [
-        "Kleiner Auftrag: Such dir in deiner Nähe eine Sache, die schön ist (Himmel, Haus, Baum, irgendwas) und schick mir später ein Foto davon. Ich will durch deine Augen bei dir sein. 📝💛",
-        "Schreib mir heute 1 Nachricht mit etwas, das ganz okay oder sogar schön war. Nur einen Satz. Den Rest holen wir nach, wenn du wieder da bist. ✨"
-      ],
-      random: [
-        "Überraschung: Du bist mein Lieblingsmensch. Immer.",
-        "Ich bin stolz auf dich. (Ja, wirklich. Mehr, als du wahrscheinlich denkst.)",
-        "Wenn du zurück bist, machen wir: ___ (Date-Idee). Deal? Ich freu mich jetzt schon drauf. 💛",
-        "Atme 4 Sekunden ein, halte 4, atme 6 aus. Wiederhole 5×. Ich atme in Gedanken mit dir. 🌙"
-      ]
-    };
+      for (let i = 0; i < amount; i++) {
+        const s = document.createElement('span');
+        s.className = 'float-emoji';
+        s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
 
-    function pick(arr){
-      return arr[Math.floor(Math.random() * arr.length)];
+        const size = 14 + Math.random() * 16;
+        s.style.fontSize = size + 'px';
+        s.style.left = startX + 'px';
+        s.style.top  = startY + 'px';
+
+        document.body.appendChild(s);
+
+        requestAnimationFrame(() => {
+          const dx = (Math.random() * 180 - 90);
+          const dy = -(90 + Math.random() * 140);
+          s.style.transform = `translate(${dx}px, ${dy}px)`;
+          s.style.opacity = '0';
+        });
+
+        setTimeout(() => s.remove(), 1400);
+      }
     }
 
-    const buttons = document.querySelectorAll(".grid button");
+    // Hintergrund-Bubbles
+    for (let i = 0; i < 14; i++) {
+      const b = document.createElement('div');
+      b.className = 'bubble';
+      b.textContent = ['✨','💛','💞','😂'][Math.floor(Math.random()*4)];
+      b.style.left = Math.random() * 100 + '%';
+      b.style.top = (60 + Math.random() * 60) + '%';
+      b.style.animationDuration = (8 + Math.random() * 8) + 's';
+      b.style.fontSize = (14 + Math.random() * 16) + 'px';
+      document.body.appendChild(b);
+    }
 
-    buttons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const k = btn.dataset.k;
-        const options = content[k];
-        if (!options) return;
+    const btn        = document.getElementById('btn');
+    const jokeEl     = document.getElementById('joke');
+    const introParas = document.querySelectorAll('.intro');
 
-        // aktiven Button hervorheben
-        buttons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
+    const jokes = [
+      {
+        type: 'simple',
+        html: `Du jeden Morgen: „Ich fühl mich so alt.“<br/>
+               Ich: „Du bist noch jung – aber wenn du morgens aufstehst, knackt mehr als nur der Boden.“ 😂`
+      },
+      {
+        type: 'pfirsich', // Egoist-/Pfirsich-Witz mit verzögerter Auflösung
+      },
+      {
+        type: 'simple',
+        html: `Im Manöver ruft der Ausbilder: „Stellen Sie sich vor, der Feind steht vor Ihnen! Was tun Sie?“<br/>
+               Sagt der Rekrut: <strong>„Melden, dass die Übung zu realistisch geworden ist, Herr Ausbilder!“</strong> 😄
+               <div class="joke-ps">PS: Ja, ich weiß nicht, ob er gut ist – aber ich fand ihn witzig. 🙈</div>`
+      }
+    ];
 
-        // Würfel-Animation nur bei "random"
-        if (k === "random") {
-          const icon = btn.querySelector(".dice-icon");
-          if (icon) {
-            icon.classList.remove("dice-roll");
-            void icon.offsetWidth; // Reflow
-            icon.classList.add("dice-roll");
-          }
-        }
+    let jokeIndex = 0;
+    let isRunning = false;
+    let introHidden = false;
+    let pfirsichTimeout = null;
 
-        out.textContent = pick(options);
+    btn.addEventListener('click', () => {
+      if (isRunning) return;
+      isRunning = true;
+
+      if (!introHidden) {
+        introHidden = true;
+        introParas.forEach(p => p.classList.add('hidden'));
+      }
+
+      // ggf. alten Timeout abbrechen
+      if (pfirsichTimeout) {
+        clearTimeout(pfirsichTimeout);
+        pfirsichTimeout = null;
+      }
+
+      const current = jokes[jokeIndex];
+
+      jokeEl.classList.remove('show'); // für erneute Animation
+      // Reflow, damit fade-in neu startet
+      void jokeEl.offsetWidth;
+
+      if (current.type === 'simple') {
+        jokeEl.innerHTML = current.html;
+        jokeEl.classList.add('show');
+      } else if (current.type === 'pfirsich') {
+        // zuerst nur die Frage
+        jokeEl.innerHTML = `Für wen kauft ein Egoist Obst?`;
+        jokeEl.classList.add('show');
+
+        // nach kurzer Zeit die Auflösung anhängen
+        pfirsichTimeout = setTimeout(() => {
+          jokeEl.innerHTML += `<br/><strong>Pfir-sich</strong> 🍑`;
+          pfirsichTimeout = null;
+        }, 900); // Zeit kannst du bei Bedarf anpassen
+      }
+
+      jokeIndex = (jokeIndex + 1) % jokes.length;
+
+      const rect = btn.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      sparkles({
+        amount: 18,
+        emojis: ['😂','✨','💛','💗'],
+        x: centerX,
+        y: centerY
       });
+
+      setTimeout(() => { isRunning = false; }, 800);
     });
   </script>
 </body>
