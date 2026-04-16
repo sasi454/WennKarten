@@ -238,20 +238,26 @@
     const introParas = document.querySelectorAll('.intro');
 
     const jokes = [
-      `Du jeden Morgen: „Ich fühl mich so alt.“<br/>
-       Ich: „Du bist noch jung – aber wenn du morgens aufstehst, knackt mehr als nur der Boden.“ 😂`,
-
-      `Für wen kauft ein Egoist Obst? <br/>
-       <strong> Pfir-sich </strong> 🍑 `,
-
-      `Im Manöver ruft der Ausbilder: „Stellen Sie sich vor, der Feind steht vor Ihnen! Was tun Sie?“<br/>
-       Sagt der Rekrut: <strong>„Melden, dass die Übung zu realistisch geworden ist, Herr Ausbilder!“</strong> 😄
-       <div class="joke-ps">PS: Ja, ich weiß nicht, ob er gut ist – aber ich fand ihn witzig. 🙈</div>`
+      {
+        type: 'simple',
+        html: `Du jeden Morgen: „Ich fühl mich so alt.“<br/>
+               Ich: „Du bist noch jung – aber wenn du morgens aufstehst, knackt mehr als nur der Boden.“ 😂`
+      },
+      {
+        type: 'pfirsich', // Egoist-/Pfirsich-Witz mit verzögerter Auflösung
+      },
+      {
+        type: 'simple',
+        html: `Im Manöver ruft der Ausbilder: „Stellen Sie sich vor, der Feind steht vor Ihnen! Was tun Sie?“<br/>
+               Sagt der Rekrut: <strong>„Melden, dass die Übung zu realistisch geworden ist, Herr Ausbilder!“</strong> 😄
+               <div class="joke-ps">PS: Ja, ich weiß nicht, ob er gut ist – aber ich fand ihn witzig. 🙈</div>`
+      }
     ];
 
     let jokeIndex = 0;
     let isRunning = false;
     let introHidden = false;
+    let pfirsichTimeout = null;
 
     btn.addEventListener('click', () => {
       if (isRunning) return;
@@ -262,9 +268,36 @@
         introParas.forEach(p => p.classList.add('hidden'));
       }
 
-      jokeEl.innerHTML = jokes[jokeIndex];
+      // ggf. alten Timeout abbrechen
+      if (pfirsichTimeout) {
+        clearTimeout(pfirsichTimeout);
+        pfirsichTimeout = null;
+      }
+
+      const current = jokes[jokeIndex];
+
+      jokeEl.classList.remove('show'); 
+      void jokeEl.offsetWidth; // Reflow für erneute Animation
+
+      if (current.type === 'simple') {
+        jokeEl.innerHTML = current.html;
+        jokeEl.classList.add('show');
+      } else if (current.type === 'pfirsich') {
+        // zuerst nur die Frage
+        jokeEl.innerHTML = `Für wen kauft ein Egoist Obst?`;
+        jokeEl.classList.add('show');
+
+        // nach kurzer Zeit die Auflösung als "rein-slidende" joke-ps anhängen
+        pfirsichTimeout = setTimeout(() => {
+          const answer = document.createElement('div');
+          answer.className = 'joke-ps';
+          answer.innerHTML = `<strong>Pfir-sich</strong> 🍑`;
+          jokeEl.appendChild(answer);
+          pfirsichTimeout = null;
+        }, 900); // Delay anpassbar
+      }
+
       jokeIndex = (jokeIndex + 1) % jokes.length;
-      jokeEl.classList.add('show');
 
       const rect = btn.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
