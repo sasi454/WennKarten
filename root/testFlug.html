@@ -276,9 +276,8 @@
 
       const current = jokes[jokeIndex];
 
-      jokeEl.classList.remove('show'); // für erneute Animation
-      // Reflow, damit fade-in neu startet
-      void jokeEl.offsetWidth;
+      jokeEl.classList.remove('show'); 
+      void jokeEl.offsetWidth; // Reflow für erneute Animation
 
       if (current.type === 'simple') {
         jokeEl.innerHTML = current.html;
@@ -288,11 +287,14 @@
         jokeEl.innerHTML = `Für wen kauft ein Egoist Obst?`;
         jokeEl.classList.add('show');
 
-        // nach kurzer Zeit die Auflösung anhängen
+        // nach kurzer Zeit die Auflösung als "rein-slidende" joke-ps anhängen
         pfirsichTimeout = setTimeout(() => {
-          jokeEl.innerHTML += `<br/><strong>Pfir-sich</strong> 🍑`;
+          const answer = document.createElement('div');
+          answer.className = 'joke-ps';
+          answer.innerHTML = `<strong>Pfir-sich</strong> 🍑`;
+          jokeEl.appendChild(answer);
           pfirsichTimeout = null;
-        }, 900); // Zeit kannst du bei Bedarf anpassen
+        }, 900); // Delay anpassbar
       }
 
       jokeIndex = (jokeIndex + 1) % jokes.length;
